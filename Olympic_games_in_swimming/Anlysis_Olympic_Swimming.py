@@ -120,12 +120,16 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
     final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'GER']
     final_table_fastest_results_6_rows['Best results by the team (In seconds)'] = final_table_fastest_results_6_rows['Best results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_fastest_results_6_rows['Year'] = final_table_fastest_results_6_rows['Year'].apply(lambda x:int(x))
+    res_1 = final_table_fastest_results_6_rows.reset_index()
 
     final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Worst results by the team (In seconds)'}, inplace=True)
     final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'GER']
     final_table_slowest_results_6_rows['Worst results by the team (In seconds)'] = final_table_slowest_results_6_rows['Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_slowest_results_6_rows['Year'] = final_table_slowest_results_6_rows['Year'].apply(lambda x:int(x))
+    res_2 = final_table_slowest_results_6_rows.reset_index()
     #merged_df_one_line_after_the_other
+
+    df_output = pd.concat([res_1, res_2]).sort_index(kind='merge')
     print('*')
     return 5
 
