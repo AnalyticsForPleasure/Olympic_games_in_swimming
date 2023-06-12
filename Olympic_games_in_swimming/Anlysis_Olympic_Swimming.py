@@ -2,6 +2,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from textwrap import wrap
 #plt.style.use(['unhcrpyplotstyle','dotplot'])
+import dataframe_image as dfi
+import numpy as np
+
+# **************************************************************************************************************
+# Function  name: relevant_columns_highlighter
+# input: adding styles to our dataframe
+# return value:
+# ****************************************************************************************************************
+def relevant_columns_highlighter(x):
+    my_style = "color: #1E90FF;" \
+               "font-weight: bold;"
+    return [my_style] * len(x)
 
 # **************************************************************************************************************
 # Function  name: convert_time_to_seconds ( Examples  '1:59.06' -> 119.06 , '00:01:53.410000' -> 113.41 )
@@ -52,6 +64,10 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
 
     final_clean_table = final_clean_table.loc[(final_clean_table["Distance (in meters)"] == '200m') & (final_clean_table['Gender'] == 'Men')]
 
+
+    starting_point_percentage_list = []
+    ending_point_percentage_list = []
+
     final_table_fastest_results =  pd.DataFrame({ 'Team':[],
                                                   'Stroke':[],
                                                   'Location': [],
@@ -73,8 +89,8 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
 
     grouping_by_team = final_clean_table.groupby('Team')
     for team_names, df_team in grouping_by_team:
-        print(team_names)
-        print(df_team)
+        #print(team_names)
+        #print(df_team)
 
         list_of_strokes = df_team['Stroke'].unique()  # kinds of strokes:
         for name_stroke in list_of_strokes:
@@ -101,10 +117,20 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
             # Getting to the precentage values of the slowest & fastest swimmer in each teams :
 
             starting_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - worst_score_achieved_by_the_team)
-            starting_point_percentage_for_the_team = "{:.2f}%".format(starting_point_for_the_team)
+            starting_point_percentage_for_the_team = "{:.2f}".format(starting_point_for_the_team)
+
+            starting_point_percentage = starting_point_percentage_for_the_team
+            starting_point_percentage_list.append(starting_point_percentage)
+            # working on the data before passing it to the Area chart
+
 
             ending_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - best_score_achieved_by_the_team)
-            ending_point_percentage_for_the_team = "{:.2f}%".format(ending_point_for_the_team)
+            ending_point_percentage_for_the_team = "{:.2f}".format(ending_point_for_the_team)
+
+            ending_point_percentage = starting_point_percentage_for_the_team
+            ending_point_percentage_list.append(ending_point_percentage)
+
+
 
             total_improvement_by_the_team = (ending_point_for_the_team - starting_point_for_the_team)
             total_improvement_by_the_team = "{:.2f}%".format(total_improvement_by_the_team)
@@ -117,22 +143,41 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
             # Table of slowest results:
             final_table_slowest_results = pd.concat([final_table_slowest_results, line_values_for_worst], axis=0)
             print('*')
+        list_starting_percentage = starting_point_percentage_list
+        list_ending_percentage = ending_point_percentage_list
 
-    final_table_fastest_results.rename(columns={final_table_fastest_results.columns[5]: 'Best and Worst results by the team (In seconds)'}, inplace=True) # 'Best results by the team (In seconds)'
-    final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'GER']
-    final_table_fastest_results_6_rows['Best and Worst results by the team (In seconds)'] = final_table_fastest_results_6_rows['Best and Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
-    final_table_fastest_results_6_rows['Year'] = final_table_fastest_results_6_rows['Year'].apply(lambda x:int(x))
-    res_1 = final_table_fastest_results_6_rows.reset_index()
+        print('*')
+    final_table_fastest_results.rename(columns={final_table_fastest_results.columns[5]: 'Best results by the team (In seconds)'}, inplace=True) # 'Best results by the team (In seconds)'
+    #final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'USA']
+    final_table_fastest_results['Best results by the team (In seconds)'] = final_table_fastest_results['Best results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
+    final_table_fastest_results['Year'] = final_table_fastest_results['Year'].apply(lambda x:int(x))
+    final_table_fastest_results_6_rows = final_table_fastest_results.reset_index()
+
+    # Adding_columns_for_the pre - plot :
+    final_table_fastest_results['order'] = np.arange(final_table_fastest_results.shape[0])
+    final_table_fastest_results['status'] = 'Best result by the team (In seconds)'
+    final_table_fastest_results['percent'] = list_ending_percentage  # TODO :don't understand why it's no the same numer of rows : 145 rows VS 149 rows
+
+    #final_table_fastest_results_6_rows = final_table_fastest_results_6_rows.drop(2,axis=0,inplace=True)
+
+    print('*')
+    #styled_formating_df = res_1.style.apply(func=relevant_columns_highlighter, subset=['Best results by the team (In seconds)']).hide_index()
+    #dfi.export(res_1, '../output_images_olympic/fastest_time_table.png')
+    # dfi.export(final_table_fastest_results_6_rows, filename='output_images_olympic/fastest_time_table.png')
 
     final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Best and Worst results by the team (In seconds)'}, inplace=True) # 'Worst results by the team (In seconds)'
-    final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'GER']
+    final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'USA']
     final_table_slowest_results_6_rows['Best and Worst results by the team (In seconds)'] = final_table_slowest_results_6_rows['Best and Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_slowest_results_6_rows['Year'] = final_table_slowest_results_6_rows['Year'].apply(lambda x:int(x))
     res_2 = final_table_slowest_results_6_rows.reset_index()
 
+    # Adding_columns_for_the pre - plot :
+    final_table_fastest_results_6_rows['order'] = np.arange(final_table_fastest_results_6_rows.shape[0])
+    final_table_fastest_results_6_rows['status'] = 'Worst result by the team (In seconds)'
 
-    df_output = pd.concat([res_1, res_2]).sort_index(kind='merge')
-    print('*')
+
+    # df_output = pd.concat([res_1, res_2]).sort_index(kind='merge')
+    # print('*')
     return 5
 
 
