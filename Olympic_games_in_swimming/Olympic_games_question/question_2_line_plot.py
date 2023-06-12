@@ -69,9 +69,37 @@ def creating_advance_line_chart(table_input):
     second_string = 'Summer Games 1964 - Tokyo'
     third_string = 'Summer Games 2016 - Rio'
 
+
+
     ax.text(1927.2, 17.5, first_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
     ax.text(1963.2, 31, second_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
     ax.text(2015.5, 16.5, third_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
+
+    t_2016 = ("From 1964 to 2016, Olympic swimming witnessed \n"
+         "extraordinary performances and the emergence of\n" 
+         "legendary swimmers. Don Schollander's dominance in\n"
+         "1964 Mark Spitz's record-breaking seven gold medals\n" 
+         "in 1972, and Michael Phelps' unprecedented 23 gold\n"
+         "medals stand as highlights. Ian Thorpe, Pieter van den\n"
+         "Hoogenband, and Stephanie Rice showcased their skills\n"
+         "during this period. \n")
+
+    t_1964 = ("From 1928 to 1964, the Olympic swimming events\n"
+              "witnessed the rise of exceptional swimmers and\n"
+              "memorable moments. Johnny Weissmuller's three\n"
+              "gold medals in 1928 set a precedent, while Kusuo\n"
+              "Kitamura became the youngest male swimming\n"
+              "champion in 1936. Dawn Fraser made her mark in 1948,\n"
+              "winning multiple gold medals and setting world\n"
+              "records.\n"
+              "In 1964, Fraser made history as the first woman\n"
+              "to win the same individual event at three\n"
+              "consecutive Olympics\n")
+
+
+    #adding text inside the plot
+    ax.text(1930, 31, t_1964 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
+    ax.text(1980, 15, t_2016 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
 
 
 
