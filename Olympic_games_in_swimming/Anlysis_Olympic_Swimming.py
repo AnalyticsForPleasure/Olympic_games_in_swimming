@@ -100,12 +100,14 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
             # normalization_scale = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event))
             # Getting to the precentage values of the slowest & fastest swimmer in each teams :
 
-            starting_point_percentage_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - worst_score_achieved_by_the_team)
-            ending_point_percentage_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - best_score_achieved_by_the_team)
+            starting_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - worst_score_achieved_by_the_team)
+            starting_point_percentage_for_the_team = "{:.2f}%".format(starting_point_for_the_team)
 
-            total_improvement_by_the_team = (ending_point_percentage_for_the_team - starting_point_percentage_for_the_team)
+            ending_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - best_score_achieved_by_the_team)
+            ending_point_percentage_for_the_team = "{:.2f}%".format(ending_point_for_the_team)
 
-
+            total_improvement_by_the_team = (ending_point_for_the_team - starting_point_for_the_team)
+            total_improvement_by_the_team = "{:.2f}%".format(total_improvement_by_the_team)
             print('*')
 
             merged_df_one_line_after_the_other = pd.concat([line_values_for_best, line_values_for_worst], ignore_index=True)
@@ -116,18 +118,18 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
             final_table_slowest_results = pd.concat([final_table_slowest_results, line_values_for_worst], axis=0)
             print('*')
 
-    final_table_fastest_results.rename(columns={final_table_fastest_results.columns[5]: 'Best results by the team (In seconds)'}, inplace=True)
+    final_table_fastest_results.rename(columns={final_table_fastest_results.columns[5]: 'Best and Worst results by the team (In seconds)'}, inplace=True) # 'Best results by the team (In seconds)'
     final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'GER']
-    final_table_fastest_results_6_rows['Best results by the team (In seconds)'] = final_table_fastest_results_6_rows['Best results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
+    final_table_fastest_results_6_rows['Best and Worst results by the team (In seconds)'] = final_table_fastest_results_6_rows['Best and Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_fastest_results_6_rows['Year'] = final_table_fastest_results_6_rows['Year'].apply(lambda x:int(x))
     res_1 = final_table_fastest_results_6_rows.reset_index()
 
-    final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Worst results by the team (In seconds)'}, inplace=True)
+    final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Best and Worst results by the team (In seconds)'}, inplace=True) # 'Worst results by the team (In seconds)'
     final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'GER']
-    final_table_slowest_results_6_rows['Worst results by the team (In seconds)'] = final_table_slowest_results_6_rows['Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
+    final_table_slowest_results_6_rows['Best and Worst results by the team (In seconds)'] = final_table_slowest_results_6_rows['Best and Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_slowest_results_6_rows['Year'] = final_table_slowest_results_6_rows['Year'].apply(lambda x:int(x))
     res_2 = final_table_slowest_results_6_rows.reset_index()
-    #merged_df_one_line_after_the_other
+
 
     df_output = pd.concat([res_1, res_2]).sort_index(kind='merge')
     print('*')
