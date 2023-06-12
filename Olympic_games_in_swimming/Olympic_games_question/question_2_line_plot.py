@@ -67,15 +67,11 @@ def creating_advance_line_chart(table_input):
     # plt.annotate(multiple_entrepreneur[i], (-0.05 + i, multiple_entrepreneur[i] + j))
     first_string = 'Summer Games 1928 - Amsterdam'
     second_string = 'Summer Games 1964 - Tokyo'
-    second_string = 'Summer Games 2016 - Rio'
+    third_string = 'Summer Games 2016 - Rio'
 
     ax.text(1927.2, 17.5, first_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
     ax.text(1963.2, 31, second_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
-    ax.text(2015.5, 16.5, second_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
-
-
-
-
+    ax.text(2015.5, 16.5, third_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
 
 
 
@@ -89,7 +85,7 @@ def creating_advance_line_chart(table_input):
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
     print('*')
 
     result = preparing_the_data_for_the_line_plot(df)

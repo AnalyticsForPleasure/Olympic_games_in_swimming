@@ -48,12 +48,12 @@ if __name__ == '__main__':
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
 
-    # Retrieving the data after 3 constraints:
+    # Retrieving the 2 data for male & female separately - after 3 constraints:
     final_table_male = final_clean_table.loc[(final_clean_table["Relay?"] == 1) & (final_clean_table['Gender'] == 'Men') & (final_clean_table['Distance (in meters)'] == '4x100')]
     final_table_female = final_clean_table.loc[(final_clean_table["Relay?"] == 1) & (final_clean_table['Gender'] == 'Women') & (final_clean_table['Distance (in meters)'] == '4x100')]
     print('*')
 
     final_table_female_sorted= final_table_female['Year'].unique().tolist()
-    np.sort(final_table_female_sorted, axis=-1, kind=None, order=None)
+    #np.sort(final_table_female_sorted, axis=-1, kind=None, order=None)
 
     #for olympic_year in final_table_female_sorted

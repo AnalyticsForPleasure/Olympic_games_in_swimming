@@ -226,7 +226,7 @@ def dot_plot_for_the_slowest_and_lastest_athletics():
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
     print('*')
 
     column_headers = list(df.columns.values)  # -> ['Location', 'Year', 'Distance (in meters)', 'Stroke', 'Relay?', 'Gender', 'Team', 'Athlete', 'Results', 'Rank']
