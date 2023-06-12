@@ -46,7 +46,7 @@ def creating_advance_line_chart(table_input):
     x_values =list(table_input.loc[:,'Year taken the Olympic Game'])   # 'x_values' line represents X- axis values
     y_values =  list(table_input.loc[:,'Counter Countries'])  #'y_values' line represents y- axis values
 
-    plt.style.use('seaborn') # this time we add this labrary
+    plt.style.use('ggplot') # this time we add this labrary
     plt.plot(x_values,
              y_values,
              color = 'dodgerblue',
@@ -58,12 +58,25 @@ def creating_advance_line_chart(table_input):
              label = 'Alice',
              markeredgecolor='black')
     # adding rectangle
-    plt.axvspan(1927,1929,color='lightgray', ymin = 0  ,ymax =0.45 ,alpha=0.2 )
-    plt.axvspan(1963,1965,color='lightgray' , ymin = 1  ,ymax =0.25, alpha=0.2 )
-    plt.axvspan(2019,2021,color='lightgray' , ymin = 0.0  ,ymax =0.95 , alpha=0.2 )
+    plt.axvspan(1927,1929,color='lightgray')#, ymin = 0  ,ymax =0.45 ,alpha=0.2 )
+    plt.axvspan(1963,1965,color='lightgray') #, ymin = 1  ,ymax =0.25, alpha=0.2 )
+    plt.axvspan(2015,2017,color='lightgray' )#, ymin = 0.0  ,ymax =0.95 , alpha=0.2 )
+
+    # i = 1.0
+    # j = 0.25
+    # plt.annotate(multiple_entrepreneur[i], (-0.05 + i, multiple_entrepreneur[i] + j))
+    first_string = 'Summer Games 1928 - Amsterdam'
+    second_string = 'Summer Games 1964 - Tokyo'
+    second_string = 'Summer Games 2016 - Rio'
+
+    ax.text(1927.2, 17.5, first_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
+    ax.text(1963.2, 31, second_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
+    ax.text(2015.5, 16.5, second_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
 
 
-    #rectangles = {'skinny' : mpatch.Rectangle((2,2), 8, 2)}
+
+
+
 
 
     plt.title('The distribution of medals won over the years by different teams' ,fontsize=26, weight='bold',fontname='Franklin Gothic Medium Cond')
