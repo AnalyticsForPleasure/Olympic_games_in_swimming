@@ -20,20 +20,30 @@ def prepering_the_data_for_vertical_subplots(df):
         (final_clean_table["Relay?"] == 1) & (final_clean_table['Gender'] == 'Women') & (
                 final_clean_table['Distance (in meters)'] == '4x100')]
     print('*')
-    final_table_female_sorted = final_table_female['Year'].unique().tolist()
-    sorted_years_list = sorted(final_table_female_sorted, reverse=False)
-    print('*')
-    for olympic_year in sorted_years_list:
-        # mini_df_men = final_table_male[final_table_male['Year'] == olympic_year] # men started only in 1960
-        mini_df_women = final_table_female[final_table_female['Year'] == olympic_year]
-        first_3_places = [1, 2, 3]
-        final_women_table = mini_df_women[mini_df_women['Rank'].isin(first_3_places)]
-        final_women_table = final_women_table.reset_index()
 
-        gold_annotation = final_women_table.loc[1, 'Team']
-        silver_annotation = final_women_table.loc[2, 'Team']
-        bronze_annotation = final_women_table.loc[3, 'Team']
-        print('*')
+    style_of_swimming = ['Medley','Freestyle']
+    # I have added the list of years hard coded because - we are willing to present the two kinds of stroke : 'Medley' & 'Freestyle'
+    years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
+
+    for olympic_year in years_list :
+        for style in style_of_swimming:
+            print(style) # TODO: need to continue from here
+            # getting only the 10 elements in a list
+            mini_df_men = final_table_male[final_table_male['Year'] == olympic_year] # men started only in 1960
+            mini_df_women = final_table_female[final_table_female['Year'] == olympic_year]
+            first_3_places = [1, 2, 3]
+
+
+            final_men_table = mini_df_men[mini_df_men['Rank'].isin(first_3_places)]
+            final_women_table = mini_df_women[mini_df_women['Rank'].isin(first_3_places)]
+
+            final_men_table = final_men_table.reset_index()
+            final_women_table = final_women_table.reset_index()
+
+            gold_annotation = final_women_table.loc[1, 'Team']
+            silver_annotation = final_women_table.loc[2, 'Team']
+            bronze_annotation = final_women_table.loc[3, 'Team']
+            print('*')
 
 
 # **************************************************************************************************************
