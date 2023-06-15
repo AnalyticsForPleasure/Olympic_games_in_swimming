@@ -12,16 +12,23 @@ def prepering_the_data_for_vertical_subplots(df):
     # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
-    # Retrieving the 2 data for male & female separately - after 3 constraints:
 
+    my_df = pd.DataFrame({'Team': [],
+                          'Year': [],
+                          'Stroke': [],
+                          'Gender': [],
+                          'Rank': [],
+                          'Time_results': [], })
 
     # Dealing with the "Result" column - Define a lambda function to convert the time format
     convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
 
-    # Apply the lambda function to the 'Time' column
+    # Apply the lambda function to the 'Time_results' column
     final_clean_table['Time_results'] = final_clean_table['Results'].apply(convert_time)
 
     gender_type = ['Men','Women']
+
+    # Retrieving the data after  3 constraints:
     for gender in gender_type :
         final_table_by_gender = final_clean_table.loc[(final_clean_table["Relay?"] == 1) &
                                                       (final_clean_table['Gender'] == gender) &
@@ -44,23 +51,32 @@ def prepering_the_data_for_vertical_subplots(df):
                 first_3_places = [1, 2, 3]
 
 
-            final_medals_table = mini_df_gender_year_style[mini_df_gender_year_style['Rank'].isin(first_3_places)]
-            print('*')
+                final_medals_table = mini_df_gender_year_style[mini_df_gender_year_style['Rank'].isin(first_3_places)]
+                print('*')
 
+            # relevent fields for the table
+            relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
+            final_medals_table = final_medals_table.loc[:,relevent_fields]
+            print('*')
+            my_df = pd.concat([my_df, final_medals_table], axis=0)
+            print('*')
             # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
-            final_medals_table = final_medals_table.reset_index()
-            gold_annotation = final_medals_table.loc[1, 'Team']
-            time_gold_result = final_medals_table.loc[1, 'Time_results']
+            # final_medals_table = final_medals_table.reset_index()
+            # final_medals_table
+            # gold_annotation = final_medals_table.loc[1, 'Team']
+            # time_gold_result = final_medals_table.loc[1, 'Time_results']
+            #
+            # silver_annotation = final_medals_table.loc[2, 'Team']
+            # time_silver_result = final_medals_table.loc[2, 'Time_results']
+            #
+            # bronze_annotation = final_medals_table.loc[3, 'Team']
+            # time_bronze_result = final_medals_table.loc[3, 'Time_results']
 
-            silver_annotation = final_medals_table.loc[2, 'Team']
-            time_silver_result = final_medals_table.loc[2, 'Time_results']
+        print('*')
 
-            bronze_annotation = final_medals_table.loc[3, 'Team']
-            time_bronze_result = final_medals_table.loc[3, 'Time_results']
 
-            print('*')
 
-    return  final_medals_table
+    return  my_df
 
 # **************************************************************************************************************
 # Function  name: creating_advance_line_chart
