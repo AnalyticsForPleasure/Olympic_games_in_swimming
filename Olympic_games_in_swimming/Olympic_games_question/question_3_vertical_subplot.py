@@ -13,45 +13,54 @@ def prepering_the_data_for_vertical_subplots(df):
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
     # Retrieving the 2 data for male & female separately - after 3 constraints:
-    final_table_male = final_clean_table.loc[
-        (final_clean_table["Relay?"] == 1) & (final_clean_table['Gender'] == 'Men') & (
-                final_clean_table['Distance (in meters)'] == '4x100')]
-    final_table_female = final_clean_table.loc[
-        (final_clean_table["Relay?"] == 1) & (final_clean_table['Gender'] == 'Women') & (
-                final_clean_table['Distance (in meters)'] == '4x100')]
-    print('*')
-
-    style_of_swimming = ['Medley','Freestyle']
-    # I have added the list of years hard coded because - we are willing to present the two kinds of stroke : 'Medley' & 'Freestyle'
-    years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
-
-    for olympic_year in years_list :
-        for style in style_of_swimming:
-            print(style) # TODO: need to continue from here
-            # getting only the 10 elements in a list
-            mini_df_men = final_table_male[final_table_male['Year'] == olympic_year] # men started only in 1960
-            mini_df_women = final_table_female[final_table_female['Year'] == olympic_year]
-            first_3_places = [1, 2, 3]
 
 
-            final_men_table = mini_df_men[mini_df_men['Rank'].isin(first_3_places)]
-            final_women_table = mini_df_women[mini_df_women['Rank'].isin(first_3_places)]
+    # Dealing with the "Result" column - Define a lambda function to convert the time format
+    convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
 
-            final_men_table = final_men_table.reset_index()
-            final_women_table = final_women_table.reset_index()
+    # Apply the lambda function to the 'Time' column
+    final_clean_table['Time_results'] = final_clean_table['Results'].apply(convert_time)
 
-            gold_annotation = final_women_table.loc[1, 'Team']
-            silver_annotation = final_women_table.loc[2, 'Team']
-            bronze_annotation = final_women_table.loc[3, 'Team']
+    gender_type = ['Men','Women']
+    for gender in gender_type :
+        final_table_by_gender = final_clean_table.loc[(final_clean_table["Relay?"] == 1) &
+                                                      (final_clean_table['Gender'] == gender) &
+                                                      (final_clean_table['Distance (in meters)'] == '4x100')]
+        print('*')
+
+        # I have added the list of years hard coded because - we are willing to present the two kinds of stroke : 'Medley' & 'Freestyle'
+        years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
+        for olympic_year in years_list :
+
+            mini_df_gender_year = final_table_by_gender[final_table_by_gender['Year'] == olympic_year] # men started only in 1960
             print('*')
 
+            styles_of_swimming = ['Medley','Freestyle']
+            for swimming_style in styles_of_swimming:
+
+                mini_df_gender_year_style = mini_df_gender_year[mini_df_gender_year['Stroke'] == swimming_style ]
+                print(mini_df_gender_year_style)
+
+                first_3_places = [1, 2, 3]
+
+
+            final_medals_table = mini_df_gender_year_style[mini_df_gender_year_style['Rank'].isin(first_3_places)]
+            print('*')
+            #final_medals_table = final_medals_table.reset_index()
+
+            # gold_annotation = final_medals_table.loc[1, 'Team']
+            # ilver_annotation = final_medals_table.loc[2, 'Team']
+            # bronze_annotation = final_medals_table.loc[3, 'Team']
+            print('*')
+
+    return  final_medals_table
 
 # **************************************************************************************************************
 # Function  name: creating_advance_line_chart
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-def plotting_subplot_for_freestyle_vs_medley_relay():
+# def plotting_subplot_for_freestyle_vs_medley_relay():
     plt.figure(figsize=[14, 10])
     fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
     # plt.style.use('ggplot')
@@ -82,7 +91,9 @@ if __name__ == '__main__':
     df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
 
     prepering_the_data_for_vertical_subplots(df)
-    # plotting_subplot_for_freestyle_vs_medley_relay()
+    #plotting_subplot_for_freestyle_vs_medley_relay()
     print('*')
+
+
 
 
