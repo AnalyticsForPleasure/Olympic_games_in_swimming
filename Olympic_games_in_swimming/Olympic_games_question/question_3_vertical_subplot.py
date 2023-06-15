@@ -46,11 +46,18 @@ def prepering_the_data_for_vertical_subplots(df):
 
             final_medals_table = mini_df_gender_year_style[mini_df_gender_year_style['Rank'].isin(first_3_places)]
             print('*')
-            #final_medals_table = final_medals_table.reset_index()
 
-            # gold_annotation = final_medals_table.loc[1, 'Team']
-            # ilver_annotation = final_medals_table.loc[2, 'Team']
-            # bronze_annotation = final_medals_table.loc[3, 'Team']
+            # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
+            final_medals_table = final_medals_table.reset_index()
+            gold_annotation = final_medals_table.loc[1, 'Team']
+            time_gold_result = final_medals_table.loc[1, 'Time_results']
+
+            silver_annotation = final_medals_table.loc[2, 'Team']
+            time_silver_result = final_medals_table.loc[2, 'Time_results']
+
+            bronze_annotation = final_medals_table.loc[3, 'Team']
+            time_bronze_result = final_medals_table.loc[3, 'Time_results']
+
             print('*')
 
     return  final_medals_table
