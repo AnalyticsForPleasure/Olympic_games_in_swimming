@@ -44,6 +44,8 @@ def prepering_the_data_for_vertical_subplots(df):
 
             styles_of_swimming = ['Medley','Freestyle']
             for swimming_style in styles_of_swimming:
+                print(swimming_style)
+                print('*')
 
                 mini_df_gender_year_style = mini_df_gender_year[mini_df_gender_year['Stroke'] == swimming_style ]
                 print(mini_df_gender_year_style)
@@ -54,12 +56,13 @@ def prepering_the_data_for_vertical_subplots(df):
                 final_medals_table = mini_df_gender_year_style[mini_df_gender_year_style['Rank'].isin(first_3_places)]
                 print('*')
 
-            # relevent fields for the table
-            relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
-            final_medals_table = final_medals_table.loc[:,relevent_fields]
-            print('*')
-            my_df = pd.concat([my_df, final_medals_table], axis=0)
-            print('*')
+                # relevent fields for the table
+                relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
+                final_medals_table = final_medals_table.loc[:,relevent_fields]
+                print('*')
+                my_df = pd.concat([my_df, final_medals_table], axis=0)
+                print('*')
+
             # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
             # final_medals_table = final_medals_table.reset_index()
             # final_medals_table
@@ -71,10 +74,10 @@ def prepering_the_data_for_vertical_subplots(df):
             #
             # bronze_annotation = final_medals_table.loc[3, 'Team']
             # time_bronze_result = final_medals_table.loc[3, 'Time_results']
+    my_df['Rank'] = my_df['Rank'].apply(lambda x:int(x))
+    my_df['Year'] = my_df['Year'].apply(lambda x:int(x))
 
-        print('*')
-
-
+    print('*')
 
     return  my_df
 
@@ -83,7 +86,9 @@ def prepering_the_data_for_vertical_subplots(df):
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-# def plotting_subplot_for_freestyle_vs_medley_relay():
+def plotting_subplot_for_freestyle_vs_medley_relay(final_table):
+    final_table
+    print('*')
     plt.figure(figsize=[14, 10])
     fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
     # plt.style.use('ggplot')
@@ -113,10 +118,16 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', 5000)
     df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
 
-    prepering_the_data_for_vertical_subplots(df)
-    #plotting_subplot_for_freestyle_vs_medley_relay()
+    res= prepering_the_data_for_vertical_subplots(df)
+
+
+    plotting_subplot_for_freestyle_vs_medley_relay(res)
     print('*')
 
+    groups_by_year = res.groupby('Year')
+    for Year, mini_df_Year in groups_by_year:
+        res= prepering_the_data_for_vertical_subplots(df)
 
-
+        plotting_subplot_for_freestyle_vs_medley_relay(res)
+        print('*')
 
