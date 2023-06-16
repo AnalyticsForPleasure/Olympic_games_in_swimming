@@ -80,20 +80,25 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             team_bronze_annotation = mini_df_style.loc[2, 'Team']
             time_bronze_result = mini_df_style.loc[2, 'Time_results']
 
-        print('*')
-        plt.figure(figsize=[14, 10])
-        fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
-        # plt.style.use('ggplot')
-        # for index in range(1,4,1):
-        all_4_axis[0].set_title('Men', fontsize=14, fontname='Franklin Gothic Medium Cond')
-        all_4_axis[1].set_title('Women', fontsize=14, fontname='Franklin Gothic Medium Cond')
-        all_4_axis[2].set_title('Men', fontsize=14, fontname='Franklin Gothic Medium Cond')
-        all_4_axis[3].set_title('Women', fontsize=14, fontname='Franklin Gothic Medium Cond')
 
-        all_4_axis[0].barh(['cornflowerblue', 'Silver', 'steelblue'], [40, 20, 15], color=['cornflowerblue', 'Silver', 'steelblue'])  # width
-        all_4_axis[1].barh(['cornflowerblue', 'Silver', 'steelblue'], [18, 27, 16], color=['cornflowerblue', 'Silver', 'steelblue'])
-        all_4_axis[2].barh(['cornflowerblue', 'Silver', 'steelblue'], [29, 16, 12], color=['cornflowerblue', 'Silver', 'steelblue'])
-        all_4_axis[3].barh(['cornflowerblue', 'Silver', 'steelblue'], [21, 23, 12], color=['cornflowerblue', 'Silver', 'steelblue'])
+            subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
+            print('*')
+            plt.figure(figsize=[14, 10])
+            fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
+            #plt.style.use('ggplot')
+
+            for index,plot_name in zip(np.arange(0,4,1),subplot_names):
+                all_4_axis[0].set_title('Men - Medley', fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
+                all_4_axis[1].set_title('Women - Medley', fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
+                all_4_axis[2].set_title('Men - Freestyle', fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
+                all_4_axis[3].set_title('Women - Freestyle', fontsize=14, fontname='Franklin Gothic Medium Cond',color = 'gray')
+
+
+            all_4_axis[0].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [40, 20, 15], color=['cornflowerblue', 'darkblue', 'steelblue'])# width
+            all_4_axis[1].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [18, 27, 16], color=['cornflowerblue', 'darkblue', 'steelblue'])# fontname='Franklin Gothic Medium Cond')
+            all_4_axis[2].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [29, 16, 12], color=['cornflowerblue', 'darkblue', 'steelblue']) #,fontname='Franklin Gothic Medium Cond')
+            all_4_axis[3].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [21, 23, 12], color=['cornflowerblue', 'darkblue', 'steelblue'])#,fontname='Franklin Gothic Medium Cond')
+
 
 
         shifting_y_axis = 0.9
@@ -120,9 +125,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
         all_4_axis[3].text(x=1, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
         all_4_axis[3].text(x=1, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
 
-        '04:39.200'
 
-        time_bronze_result
 
         all_4_axis[0].text(x=9, y=1.4,s= '04:39.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
         all_4_axis[0].text(x=9, y=0.9, s='04:42.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
