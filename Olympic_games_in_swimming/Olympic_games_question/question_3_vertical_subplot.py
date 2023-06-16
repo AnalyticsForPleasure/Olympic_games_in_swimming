@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 # **************************************************************************************************************
 # Function  name: prepering_the_data_for_vertical_subplots
@@ -70,56 +71,67 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             print('*')
             # In order to retrieve the name of the teams that won the medals, we need to "reset_index" the table
             mini_df_style = mini_df_style.reset_index()
-            team_gold_annotation = mini_df_style.loc[1, 'Team']
-            time_gold_result = mini_df_style.loc[1, 'Time_results']
+            team_gold_annotation = mini_df_style.loc[0, 'Team']
+            time_gold_result = mini_df_style.loc[0, 'Time_results']
 
-            team_silver_annotation = mini_df_style.loc[2, 'Team']
-            time_silver_result = mini_df_style.loc[2, 'Time_results']
+            team_silver_annotation = mini_df_style.loc[1, 'Team']
+            time_silver_result = mini_df_style.loc[1, 'Time_results']
 
-            team_bronze_annotation = mini_df_style.loc[3, 'Team']
-            time_bronze_result = mini_df_style.loc[3, 'Time_results']
+            team_bronze_annotation = mini_df_style.loc[2, 'Team']
+            time_bronze_result = mini_df_style.loc[2, 'Time_results']
+
+        print('*')
+        plt.figure(figsize=[14, 10])
+        fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
+        # plt.style.use('ggplot')
+        # for index in range(1,4,1):
+        all_4_axis[0].set_title('Men', fontsize=14, fontname='Franklin Gothic Medium Cond')
+        all_4_axis[1].set_title('Women', fontsize=14, fontname='Franklin Gothic Medium Cond')
+        all_4_axis[2].set_title('Men', fontsize=14, fontname='Franklin Gothic Medium Cond')
+        all_4_axis[3].set_title('Women', fontsize=14, fontname='Franklin Gothic Medium Cond')
+
+        all_4_axis[0].barh(['cornflowerblue', 'Silver', 'steelblue'], [40, 20, 15], color=['cornflowerblue', 'Silver', 'steelblue'])  # width
+        all_4_axis[1].barh(['cornflowerblue', 'Silver', 'steelblue'], [18, 27, 16], color=['cornflowerblue', 'Silver', 'steelblue'])
+        all_4_axis[2].barh(['cornflowerblue', 'Silver', 'steelblue'], [29, 16, 12], color=['cornflowerblue', 'Silver', 'steelblue'])
+        all_4_axis[3].barh(['cornflowerblue', 'Silver', 'steelblue'], [21, 23, 12], color=['cornflowerblue', 'Silver', 'steelblue'])
 
 
+        shifting_y_axis = 0.9
 
-        # styles_of_swimming = ['Medley','Freestyle']
-    # for swimming_style in styles_of_swimming:
-    #
-    #     mini_df_men_style = men_df_year[men_df_year['Stroke'] == swimming_style ]
-    #     mini_df_women_style = women_df_year[women_df_year['Stroke'] == swimming_style ]
-    #
-    #     # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
-    #     mini_df_men_style = mini_df_men_style.reset_index()
-    #     team_gold_annotation = mini_df_men_style.loc[1, 'Team']
-    #     time_gold_result = mini_df_men_style.loc[1, 'Time_results']
-    #
-    #     team_silver_annotation = mini_df_men_style.loc[2, 'Team']
-    #     time_silver_result = mini_df_men_style.loc[2, 'Time_results']
-    #
-    #     team_bronze_annotation = mini_df_men_style.loc[3, 'Team']
-    #     time_bronze_result = mini_df_men_style.loc[3, 'Time_results']
+
+        #for n in np.arange(len(mini_df_style)):
+        # Teams names - first 3 places :
+
+        # Men - 'Freestyle'
+        all_4_axis[0].text(x=1, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=1, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=1, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # Men - 'Medley'
+        all_4_axis[2].text(x=1, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[2].text(x=1, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[2].text(x=1, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+
+        # Women - 'Freestyle'
+        all_4_axis[1].text(x=1, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[1].text(x=1, y=0.9, s='USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[1].text(x=1, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # Women - 'Medley'
+        all_4_axis[3].text(x=1, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[3].text(x=1, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[3].text(x=1, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+
+        '04:39.200'
+
+        time_bronze_result
+
+        all_4_axis[0].text(x=9, y=1.4,s= '04:39.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=9, y=0.9, s='04:42.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=9, y=-0.1, s='04:43.700', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
         print('*')
 
 
-
-
-
-    print('*')
-    plt.figure(figsize=[14, 10])
-    fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
-    # plt.style.use('ggplot')
-    # for index in range(1,4,1):
-    all_4_axis[0].set_title('Men', fontsize=14, fontname='Franklin Gothic Medium Cond')
-    all_4_axis[1].set_title('Women', fontsize=14, fontname='Franklin Gothic Medium Cond')
-    all_4_axis[2].set_title('Men', fontsize=14, fontname='Franklin Gothic Medium Cond')
-    all_4_axis[3].set_title('Women', fontsize=14, fontname='Franklin Gothic Medium Cond')
-
-    all_4_axis[0].barh(['Bronze', 'Silver', 'Gold'], [2026493, 710887, 476658], color='Gray')  # width
-    all_4_axis[1].barh(['Bronze', 'Silver', 'Gold'], [2026493, 710887, 476658], color='Gray')
-    all_4_axis[2].barh(['Bronze', 'Silver', 'Gold'], [2026493, 710887, 476658], color='Gray')
-    all_4_axis[3].barh(['Bronze', 'Silver', 'Gold'], [2026493, 710887, 476658], color='Gray')
-
     plt.xlabel('Time', fontsize=18)
-    plt.xticks(fontsize=18)
+    plt.xticks(fontsize=10)
     plt.suptitle('Freestyle VS Medley Relay', fontweight="bold", fontsize=25, fontname='Franklin Gothic Medium Cond')
     # plt.savefig('2BarPlot.png')
     plt.show()
