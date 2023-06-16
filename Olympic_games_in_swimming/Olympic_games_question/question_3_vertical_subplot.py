@@ -6,13 +6,8 @@ import pandas as pd
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-def prepering_the_data_for_vertical_subplots(df):
-    data_without_na = df.dropna(how='all')
-    cleaner_df = data_without_na.dropna(subset=['Results'])
-    # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
-    removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
-    final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
-
+def prepering_the_data_for_vertical_subplots(mini_df_year):
+    print('*')
     my_df = pd.DataFrame({'Team': [],
                           'Year': [],
                           'Stroke': [],
@@ -24,56 +19,37 @@ def prepering_the_data_for_vertical_subplots(df):
     convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
 
     # Apply the lambda function to the 'Time_results' column
-    final_clean_table['Time_results'] = final_clean_table['Results'].apply(convert_time)
+    mini_df_year['Time_results'] = mini_df_year['Results'].apply(convert_time)
 
     gender_type = ['Men','Women']
-
     # Retrieving the data after  3 constraints:
     for gender in gender_type :
-        final_table_by_gender = final_clean_table.loc[(final_clean_table["Relay?"] == 1) &
-                                                      (final_clean_table['Gender'] == gender) &
-                                                      (final_clean_table['Distance (in meters)'] == '4x100')]
-        print('*')
+        mini_df_year_gender = mini_df_year.loc[(mini_df_year["Relay?"] == 1) &
+                                                      (mini_df_year['Gender'] == gender) &
+                                                      (mini_df_year['Distance (in meters)'] == '4x100')]
 
-        # I have added the list of years hard coded because - we are willing to present the two kinds of stroke : 'Medley' & 'Freestyle'
-        years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
-        for olympic_year in years_list :
-
-            mini_df_gender_year = final_table_by_gender[final_table_by_gender['Year'] == olympic_year] # men started only in 1960
+        styles_of_swimming = ['Medley','Freestyle']
+        for swimming_style in styles_of_swimming:
+            print(swimming_style)
             print('*')
 
-            styles_of_swimming = ['Medley','Freestyle']
-            for swimming_style in styles_of_swimming:
-                print(swimming_style)
-                print('*')
+            mini_df_year_gender_style = mini_df_year_gender[mini_df_year_gender['Stroke'] == swimming_style ]
+            print(mini_df_year_gender_style)
 
-                mini_df_gender_year_style = mini_df_gender_year[mini_df_gender_year['Stroke'] == swimming_style ]
-                print(mini_df_gender_year_style)
-
-                first_3_places = [1, 2, 3]
+            first_3_places = [1, 2, 3]
 
 
-                final_medals_table = mini_df_gender_year_style[mini_df_gender_year_style['Rank'].isin(first_3_places)]
-                print('*')
+            final_medals_table = mini_df_year_gender_style[mini_df_year_gender_style['Rank'].isin(first_3_places)]
+            print('*')
 
-                # relevent fields for the table
-                relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
-                final_medals_table = final_medals_table.loc[:,relevent_fields]
-                print('*')
-                my_df = pd.concat([my_df, final_medals_table], axis=0)
-                print('*')
+            # relevent fields for the table
+            relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
+            final_medals_table = final_medals_table.loc[:,relevent_fields]
+            print('*')
+            my_df = pd.concat([my_df, final_medals_table], axis=0)
+            print('*')
 
-            # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
-            # final_medals_table = final_medals_table.reset_index()
-            # final_medals_table
-            # gold_annotation = final_medals_table.loc[1, 'Team']
-            # time_gold_result = final_medals_table.loc[1, 'Time_results']
-            #
-            # silver_annotation = final_medals_table.loc[2, 'Team']
-            # time_silver_result = final_medals_table.loc[2, 'Time_results']
-            #
-            # bronze_annotation = final_medals_table.loc[3, 'Team']
-            # time_bronze_result = final_medals_table.loc[3, 'Time_results']
+
     my_df['Rank'] = my_df['Rank'].apply(lambda x:int(x))
     my_df['Year'] = my_df['Year'].apply(lambda x:int(x))
 
@@ -86,8 +62,23 @@ def prepering_the_data_for_vertical_subplots(df):
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-def plotting_subplot_for_freestyle_vs_medley_relay(final_table):
-    final_table
+def plotting_subplot_for_freestyle_vs_medley_relay(df_result_for_a_year):
+
+    grouping_by_gender = df_result_for_a_year.groupby('Gender')
+    for mini_df_gender_
+    # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
+    # final_medals_table = final_medals_table.reset_index()
+    # final_medals_table
+    # gold_annotation = final_medals_table.loc[1, 'Team']
+    # time_gold_result = final_medals_table.loc[1, 'Time_results']
+    #
+    # silver_annotation = final_medals_table.loc[2, 'Team']
+    # time_silver_result = final_medals_table.loc[2, 'Time_results']
+    #
+    # bronze_annotation = final_medals_table.loc[3, 'Team']
+    # time_bronze_result = final_medals_table.loc[3, 'Time_results']
+
+
     print('*')
     plt.figure(figsize=[14, 10])
     fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
@@ -118,16 +109,19 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', 5000)
     df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
 
-    res= prepering_the_data_for_vertical_subplots(df)
+    data_without_na = df.dropna(how='all')
+    cleaner_df = data_without_na.dropna(subset=['Results'])
+    # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
+    removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
+    final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
 
 
-    plotting_subplot_for_freestyle_vs_medley_relay(res)
-    print('*')
+    # I have added the list of years hard coded because not every year we have had both gender two kinds of stroke : 'Medley' & 'Freestyle'
+    years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
 
-    groups_by_year = res.groupby('Year')
-    for Year, mini_df_Year in groups_by_year:
-        res= prepering_the_data_for_vertical_subplots(df)
-
-        plotting_subplot_for_freestyle_vs_medley_relay(res)
+    for olympic_year in years_list :
+        mini_df_year = final_clean_table[final_clean_table['Year'] == olympic_year]
+        result_for_year = prepering_the_data_for_vertical_subplots(mini_df_year)
+        plotting_subplot_for_freestyle_vs_medley_relay(result_for_year)
         print('*')
 
