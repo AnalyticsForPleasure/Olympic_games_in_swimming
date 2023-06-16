@@ -7,6 +7,10 @@ import pandas as pd
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
 def prepering_the_data_for_vertical_subplots(mini_df_year):
+
+    # # Dealing with the column 'Rank' and 'Year'
+    mini_df_year['Rank'] = mini_df_year['Rank'].apply(lambda x:int(x))
+    mini_df_year['Year'] = mini_df_year['Year'].apply(lambda x:int(x))
     print('*')
     my_df = pd.DataFrame({'Team': [],
                           'Year': [],
@@ -15,7 +19,11 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
                           'Rank': [],
                           'Time_results': [], })
 
-    # Dealing with the "Result" column - Define a lambda function to convert the time format
+    men_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for men
+    women_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for women
+
+
+# Dealing with the "Result" column - Define a lambda function to convert the time format
     convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
 
     # Apply the lambda function to the 'Time_results' column
@@ -24,60 +32,75 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
     gender_type = ['Men','Women']
     # Retrieving the data after  3 constraints:
     for gender in gender_type :
-        mini_df_year_gender = mini_df_year.loc[(mini_df_year["Relay?"] == 1) &
+        mini_df_year_gender = mini_df_year.loc[(mini_df_year["Relay?"] == 1) & #Relay means 'Medley' or 'Freestyle'
                                                       (mini_df_year['Gender'] == gender) &
                                                       (mini_df_year['Distance (in meters)'] == '4x100')]
 
         # Another filter - 3 first place
         first_3_places = [1, 2, 3]
+
         final_medals_table = mini_df_year_gender[mini_df_year_gender['Rank'].isin(first_3_places)]
-        print('*')
-
-        # styles_of_swimming = ['Medley','Freestyle']
-        # for swimming_style in styles_of_swimming:
-        #     print(swimming_style)
-        #     print('*')
-        #
-        #     mini_df_year_gender_style = mini_df_year_gender[mini_df_year_gender['Stroke'] == swimming_style ]
-        #     print(mini_df_year_gender_style)
-
-        # relevent fields for the table
 
         relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
         final_medals_table = final_medals_table.loc[:,relevent_fields]
-        print('*')
-
-        my_df = pd.concat([my_df, final_medals_table], axis=0)
-        print('*')
 
 
-    my_df['Rank'] = my_df['Rank'].apply(lambda x:int(x))
-    my_df['Year'] = my_df['Year'].apply(lambda x:int(x))
+        if gender == 'Men':
+            men_df_each_year = pd.concat([men_df_each_year, final_medals_table], axis=0)
+        else:
+            women_df_each_year = pd.concat([women_df_each_year, final_medals_table], axis=0)
 
     print('*')
 
-    return  my_df
+    return  men_df_each_year,women_df_each_year
 
 # **************************************************************************************************************
 # Function  name: creating_advance_line_chart
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-def plotting_subplot_for_freestyle_vs_medley_relay(df_result_for_a_year):
+def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 
-    grouping_by_gender = df_result_for_a_year.groupby('Gender')
-    # for mini_df_gender
-    # # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
-    # final_medals_table = final_medals_table.reset_index()
-    # final_medals_table
-    # gold_annotation = final_medals_table.loc[1, 'Team']
-    # time_gold_result = final_medals_table.loc[1, 'Time_results']
+    print('*')
+
+    styles_of_swimming = ['Medley', 'Freestyle']
+    for swimming_style in styles_of_swimming:
+        for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]:
+            mini_df_style = df_year[df_year['Stroke'] == swimming_style]
+            print('*')
+            # In order to retrieve the name of the teams that won the medals, we need to "reset_index" the table
+            mini_df_style = mini_df_style.reset_index()
+            team_gold_annotation = mini_df_style.loc[1, 'Team']
+            time_gold_result = mini_df_style.loc[1, 'Time_results']
+
+            team_silver_annotation = mini_df_style.loc[2, 'Team']
+            time_silver_result = mini_df_style.loc[2, 'Time_results']
+
+            team_bronze_annotation = mini_df_style.loc[3, 'Team']
+            time_bronze_result = mini_df_style.loc[3, 'Time_results']
+
+
+
+        # styles_of_swimming = ['Medley','Freestyle']
+    # for swimming_style in styles_of_swimming:
     #
-    # silver_annotation = final_medals_table.loc[2, 'Team']
-    # time_silver_result = final_medals_table.loc[2, 'Time_results']
+    #     mini_df_men_style = men_df_year[men_df_year['Stroke'] == swimming_style ]
+    #     mini_df_women_style = women_df_year[women_df_year['Stroke'] == swimming_style ]
     #
-    # bronze_annotation = final_medals_table.loc[3, 'Team']
-    # time_bronze_result = final_medals_table.loc[3, 'Time_results']
+    #     # in order to retrieve the name co the teams q countries how won the medals, we need to "reset_index" the table
+    #     mini_df_men_style = mini_df_men_style.reset_index()
+    #     team_gold_annotation = mini_df_men_style.loc[1, 'Team']
+    #     time_gold_result = mini_df_men_style.loc[1, 'Time_results']
+    #
+    #     team_silver_annotation = mini_df_men_style.loc[2, 'Team']
+    #     time_silver_result = mini_df_men_style.loc[2, 'Time_results']
+    #
+    #     team_bronze_annotation = mini_df_men_style.loc[3, 'Team']
+    #     time_bronze_result = mini_df_men_style.loc[3, 'Time_results']
+        print('*')
+
+
+
 
 
     print('*')
@@ -122,7 +145,7 @@ if __name__ == '__main__':
 
     for olympic_year in years_list :
         mini_df_year = final_clean_table[final_clean_table['Year'] == olympic_year]
-        result_for_year = prepering_the_data_for_vertical_subplots(mini_df_year)
-        plotting_subplot_for_freestyle_vs_medley_relay(result_for_year)
+        men_df_each_year , women_df_each_year  = prepering_the_data_for_vertical_subplots(mini_df_year)
+        plotting_subplot_for_freestyle_vs_medley_relay(men_df_each_year , women_df_each_year)
         print('*')
 
