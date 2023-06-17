@@ -52,19 +52,21 @@ def creating_advance_line_chart(table_input):
              color = 'dodgerblue',
              linestyle = 'solid',
              linewidth = 4,
-             mfc='none',
-             marker='.',
-             markersize = 24,
+             #mfc='none',
+             marker='o',
+             markerfacecolor='none',
+             markersize = 13,
              label = 'Alice',
-             markeredgecolor='black')
+             markeredgecolor='dodgerblue')
+
+    #plt.scatter(x,y,marker='o', facecolors='none', edgecolors='r')
     # adding rectangle
     plt.axvspan(1927,1929,color='lightgray')#, ymin = 0  ,ymax =0.45 ,alpha=0.2 )
     plt.axvspan(1963,1965,color='lightgray') #, ymin = 1  ,ymax =0.25, alpha=0.2 )
     plt.axvspan(2015,2017,color='lightgray' )#, ymin = 0.0  ,ymax =0.95 , alpha=0.2 )
 
-    # i = 1.0
-    # j = 0.25
-    # plt.annotate(multiple_entrepreneur[i], (-0.05 + i, multiple_entrepreneur[i] + j))
+
+
     first_string = 'Summer Games 1928 - Amsterdam'
     second_string = 'Summer Games 1964 - Tokyo'
     third_string = 'Summer Games 2016 - Rio'
@@ -75,7 +77,7 @@ def creating_advance_line_chart(table_input):
     ax.text(1963.2, 31, second_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
     ax.text(2015.5, 16.5, third_string , rotation=270, va='center' ,fontsize=10 , color='navy' ,weight='bold') # navy
 
-    t_2016 = ("From 1964 to 2016, Olympic swimming witnessed \n"
+    t_ending_2016 = ("From 1964 to 2016, Olympic swimming witnessed \n"
          "extraordinary performances and the emergence of\n" 
          "legendary swimmers. Don Schollander's dominance in\n"
          "1964 Mark Spitz's record-breaking seven gold medals\n" 
@@ -84,7 +86,7 @@ def creating_advance_line_chart(table_input):
          "Hoogenband, and Stephanie Rice showcased their skills\n"
          "during this period. \n")
 
-    t_1964 = ("From 1928 to 1964, the Olympic swimming events\n"
+    t_ending_1964 = ("From 1928 to 1964, the Olympic swimming events\n"
               "witnessed the rise of exceptional swimmers and\n"
               "memorable moments. Johnny Weissmuller's three\n"
               "gold medals in 1928 set a precedent, while Kusuo\n"
@@ -97,17 +99,14 @@ def creating_advance_line_chart(table_input):
               "consecutive Olympics\n")
 
 
-    #adding text inside the plot
-    ax.text(1930, 31, t_1964 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
-    ax.text(1980, 15, t_2016 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
-
-
+    # Adding long text inside the chart:
+    ax.text(1930, 31, t_ending_1964 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
+    ax.text(1980, 15, t_ending_2016 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
 
     plt.title('The distribution of medals won over the years by different teams' ,fontsize=26, weight='bold',fontname='Franklin Gothic Medium Cond')
     plt.xlabel('Years of the Summer Olympic', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
     plt.ylabel('Number of countries teams', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
     plt.xticks(x_values)
-    plt.legend()
     plt.show()
 
 if __name__ == '__main__':
