@@ -10,5 +10,6 @@
 
 
 
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/4ca847b8-8093-4672-9a4a-77cc449ef525)
 
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/b6bf91e9-eaab-45c3-88c8-13e0c1d27924)
+
