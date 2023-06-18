@@ -52,12 +52,15 @@ def creating_advance_line_chart(table_input):
              color = 'dodgerblue',
              linestyle = 'solid',
              linewidth = 4,
-             #mfc='none',
+             markeredgewidth=6, # Thickest of the circle marker
              marker='o',
              markerfacecolor='none',
              markersize = 13,
              label = 'Alice',
-             markeredgecolor='dodgerblue')
+             markeredgecolor='dodgerblue',
+             )
+
+
 
     #plt.scatter(x,y,marker='o', facecolors='none', edgecolors='r')
     # adding rectangle
@@ -103,9 +106,9 @@ def creating_advance_line_chart(table_input):
     ax.text(1930, 31, t_ending_1964 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
     ax.text(1980, 15, t_ending_2016 , rotation=0, va='center' ,fontsize=9 , color='Gray' ,weight='bold')
 
-    plt.title('The distribution of medals won over the years by different teams' ,fontsize=26, weight='bold',fontname='Franklin Gothic Medium Cond')
+    plt.title('The distribution of medals won by various teams over the years' ,fontsize=26, weight='bold',fontname='Franklin Gothic Medium Cond')
     plt.xlabel('Years of the Summer Olympic', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
-    plt.ylabel('Number of countries teams', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
+    plt.ylabel('Number of teams representing countries', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
     plt.xticks(x_values)
     plt.show()
 
