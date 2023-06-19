@@ -18,7 +18,8 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
                           'Stroke': [],
                           'Gender': [],
                           'Rank': [],
-                          'Time_results': [], })
+                          'Time_results': [],
+                          'Location':[]})
 
     men_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for men
     women_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for women
@@ -41,8 +42,8 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
         first_3_places = [1, 2, 3]
 
         final_medals_table = mini_df_year_gender[mini_df_year_gender['Rank'].isin(first_3_places)]
-
-        relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results']
+        print('*')
+        relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results', 'Location']
         final_medals_table = final_medals_table.loc[:,relevent_fields]
 
 
@@ -63,6 +64,11 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
 def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 
     print('*')
+
+
+    subtitle_year= men_df_year.loc[:,'Year'].unique()
+    subtitle_location = men_df_year.loc[:,'Location'].unique()
+    print(subtitle_year)
 
     styles_of_swimming = ['Medley', 'Freestyle']
     for swimming_style in styles_of_swimming:
@@ -85,19 +91,20 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             print('*')
             plt.figure(figsize=[14, 10])
             fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True)  # 4 plots
-            #plt.style.use('ggplot')
+            plt.style.use('ggplot')
+
+            # Iterate over subplots and plot horizontal bars
+            # for ax, val in zip(all_4_axis, values):
+            #     ax.barh(categories, [val] * 4, height=0.1)  # Adjust the height parameter as desired
 
             for index,plot_name in zip(np.arange(0,4,1),subplot_names):
-                all_4_axis[0].set_title('Men - Medley', fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
-                all_4_axis[1].set_title('Women - Medley', fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
-                all_4_axis[2].set_title('Men - Freestyle', fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
-                all_4_axis[3].set_title('Women - Freestyle', fontsize=14, fontname='Franklin Gothic Medium Cond',color = 'gray')
+                all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
 
 
-            all_4_axis[0].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [40, 20, 15], color=['cornflowerblue', 'darkblue', 'steelblue'])# width
-            all_4_axis[1].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [18, 27, 16], color=['cornflowerblue', 'darkblue', 'steelblue'])# fontname='Franklin Gothic Medium Cond')
-            all_4_axis[2].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [29, 16, 12], color=['cornflowerblue', 'darkblue', 'steelblue']) #,fontname='Franklin Gothic Medium Cond')
-            all_4_axis[3].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [21, 23, 12], color=['cornflowerblue', 'darkblue', 'steelblue'])#,fontname='Franklin Gothic Medium Cond')
+            all_4_axis[0].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height  = 0.35)
+            all_4_axis[1].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.35)
+            all_4_axis[2].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.35)
+            all_4_axis[3].barh(['Gold Medal', 'Silver Medal', 'Bronze Medal'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.35)
 
 
 
@@ -133,9 +140,14 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
         print('*')
 
 
+
+    #plt.bar(x, height = h, width = 1.0)
+
+
     plt.xlabel('Time', fontsize=18)
     plt.xticks(fontsize=10)
-    plt.suptitle('Freestyle VS Medley Relay', fontweight="bold", fontsize=25, fontname='Franklin Gothic Medium Cond')
+    plt.title('Comparing the evolution of freestyle and medley relay events throughout the years',fontsize=25)
+    plt.suptitle(f'Year {subtitle_year} - {subtitle_location}', fontweight="bold", fontsize=14, fontname='Franklin Gothic Medium Cond',horizontalalignment='left')
     # plt.savefig('2BarPlot.png')
     plt.show()
 
