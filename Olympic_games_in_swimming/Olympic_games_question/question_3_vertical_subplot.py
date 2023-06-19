@@ -3,6 +3,38 @@ import pandas as pd
 import numpy as np
 
 # **************************************************************************************************************
+# Function  name: convert_time_to_seconds ( Examples  '1:59.06' -> 119.06 , '00:01:53.410000' -> 113.41 )
+# input: Define a custom function to convert time in minutes to seconds
+# return value: Converting  the values to seconds with two decimal place
+# ****************************************************************************************************************
+# Define a custom function to convert time in minutes to seconds
+def convert_time_to_seconds(time_str):
+    parts = time_str.split(':')
+    if len(parts) == 1:  # Format: 'mm.ss'
+        minutes = 0
+        try:
+            seconds = float(parts[0])
+        except ValueError:
+            return None  # Invalid seconds format
+    elif len(parts) == 2:  # Format: 'm:ss'
+        try:
+            minutes = int(parts[0])
+            seconds = float(parts[1])
+        except ValueError:
+            return None  # Invalid minutes or seconds format
+    elif len(parts) == 3:  # Format: 'hh:mm:ss'
+        try:
+            minutes = int(parts[1])
+            seconds = float(parts[2])
+        except ValueError:
+            return None  # Invalid minutes or seconds format
+    else:
+        return None  # Invalid format
+    return minutes * 60 + seconds
+
+
+
+# **************************************************************************************************************
 # Function  name: prepering_the_data_for_vertical_subplots
 # input:
 # return value: Converting  the values to seconds with two decimal place
@@ -12,14 +44,18 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
     # # Dealing with the column 'Rank' and 'Year'
     mini_df_year['Rank'] = mini_df_year['Rank'].apply(lambda x:int(x))
     mini_df_year['Year'] = mini_df_year['Year'].apply(lambda x:int(x))
+
+
     print('*')
+
     my_df = pd.DataFrame({'Team': [],
                           'Year': [],
                           'Stroke': [],
                           'Gender': [],
                           'Rank': [],
                           'Time_results': [],
-                          'Location':[]})
+                          'Location':[],
+                          'Results (In seconds)': []})
 
     men_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for men
     women_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for women
@@ -28,9 +64,9 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
 # Dealing with the "Result" column - Define a lambda function to convert the time format
     convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
 
-    # Apply the lambda function to the 'Time_results' column
+    # Apply the lambda function to the 'Time_results' column - for the annotation values
     mini_df_year['Time_results'] = mini_df_year['Results'].apply(convert_time)
-
+    print('*')
     gender_type = ['Men','Women']
     # Retrieving the data after  3 constraints:
     for gender in gender_type :
@@ -43,7 +79,7 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
 
         final_medals_table = mini_df_year_gender[mini_df_year_gender['Rank'].isin(first_3_places)]
         print('*')
-        relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results', 'Location']
+        relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results', 'Location','Results (In seconds)']
         final_medals_table = final_medals_table.loc[:,relevent_fields]
 
 
@@ -53,6 +89,8 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
             women_df_each_year = pd.concat([women_df_each_year, final_medals_table], axis=0)
 
     print('*')
+    # # Apply the conversion function to the 'time' column    # '1:59.06'  ->119.06 , '00:01:53.410000' -> 113.41
+    # final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
 
     return  men_df_each_year,women_df_each_year
 
@@ -66,8 +104,8 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
     print('*')
 
 
-    subtitle_year= men_df_year.loc[:,'Year'].unique()
-    subtitle_location = men_df_year.loc[:,'Location'].unique()
+    subtitle_year= list(men_df_year.loc[:,'Year'].unique())
+    subtitle_location = list(men_df_year.loc[:,'Location'].unique())
     print(subtitle_year)
 
     styles_of_swimming = ['Medley', 'Freestyle']
@@ -146,15 +184,18 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
         print('*')
 
         # SUBTITLE
-        plt.title(f'Year {subtitle_year}  at {subtitle_location}' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.30, y=1, style='italic' )
+
+        years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
+        location_list=['Tokyo','City','Munich','Angeles','Seoul','Barcelona','Atlanta','Sydney','Athens','Beijing','London','Rio']
+
+        for subtitle_year,subtitle_location in zip(years_list,location_list ):
+#            all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
+            plt.title(f'Year {subtitle_year}  at {subtitle_location}' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.10, y=1, style='italic' )
 
 
 
-
-
-
-    plt.xlabel('Time', fontsize=18)
-    plt.xticks(fontsize=10)
+    #plt.xlabel('Time', fontsize=18)
+    #plt.xticks(fontsize=10)
 
 
     # TITLE
