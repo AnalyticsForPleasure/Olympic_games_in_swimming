@@ -137,7 +137,6 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
                 x_axis_sub_2 = list(mini_df_style.loc[:,'Results (In seconds)'])
                 print('*')
 
-    ax.barh
             subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
             print('*')
 
@@ -163,6 +162,8 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             all_4_axis[2].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
             all_4_axis[3].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
 
+        categories = ['Gold','Silver','Bronze']
+        #ax.barh(categories, ) # TODO: Continue with the ax.barh
         shifting_y_axis = 0.9
 
         #for n in np.arange(len(mini_df_style)):
