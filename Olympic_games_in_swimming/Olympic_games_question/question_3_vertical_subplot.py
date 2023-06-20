@@ -61,7 +61,7 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
     women_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for women
 
 
-# Dealing with the "Result" column - Define a lambda function to convert the time format
+    # Dealing with the "Result" column - Define a lambda function to convert the time format
     convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
 
     # Apply the lambda function to the 'Time_results' column - for the annotation values
@@ -71,13 +71,17 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
     # Retrieving the data after  3 constraints:
     for gender in gender_type :
         mini_df_year_gender = mini_df_year.loc[(mini_df_year["Relay?"] == 1) & #Relay means 'Medley' or 'Freestyle'
-                                                      (mini_df_year['Gender'] == gender) &
-                                                      (mini_df_year['Distance (in meters)'] == '4x100')]
+                                               (mini_df_year['Gender'] == gender) &
+                                               (mini_df_year['Distance (in meters)'] == '4x100')]
 
         # Another filter - 3 first place
         first_3_places = [1, 2, 3]
-
         final_medals_table = mini_df_year_gender[mini_df_year_gender['Rank'].isin(first_3_places)]
+
+        # Apply the conversion function to the 'time' column    # '1:59.06'  ->119.06 , '00:01:53.410000' -> 113.41
+        final_medals_table['Results (In seconds)'] = final_medals_table['Results'].apply(convert_time_to_seconds)
+        final_medals_table['Results (In seconds)'] = final_medals_table['Results (In seconds)'].apply(lambda x: int(x))
+
         print('*')
         relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results', 'Location','Results (In seconds)']
         final_medals_table = final_medals_table.loc[:,relevent_fields]
@@ -89,8 +93,7 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
             women_df_each_year = pd.concat([women_df_each_year, final_medals_table], axis=0)
 
     print('*')
-    # # Apply the conversion function to the 'time' column    # '1:59.06'  ->119.06 , '00:01:53.410000' -> 113.41
-    # final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
+
 
     return  men_df_each_year,women_df_each_year
 
@@ -103,10 +106,12 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 
     print('*')
 
+    fastest_time_for_men = men_df_year.loc[:, 'Results (In seconds)'].min()
+    slowest_time_for_women = women_df_year.loc[:, 'Results (In seconds)'].max()
 
-    subtitle_year= list(men_df_year.loc[:,'Year'].unique())
-    subtitle_location = list(men_df_year.loc[:,'Location'].unique())
-    print(subtitle_year)
+    x_values = np.arange(fastest_time_for_men, slowest_time_for_women, 6)
+
+    print('*')
 
     styles_of_swimming = ['Medley', 'Freestyle']
     for swimming_style in styles_of_swimming:
@@ -116,13 +121,13 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             # In order to retrieve the name of the teams that won the medals, we need to "reset_index" the table
             mini_df_style = mini_df_style.reset_index()
             team_gold_annotation = mini_df_style.loc[0, 'Team']
-            time_gold_result = mini_df_style.loc[0, 'Time_results']
+            time_gold_result_annotation = mini_df_style.loc[0, 'Time_results']
 
             team_silver_annotation = mini_df_style.loc[1, 'Team']
-            time_silver_result = mini_df_style.loc[1, 'Time_results']
+            time_silver_result_annotation = mini_df_style.loc[1, 'Time_results']
 
             team_bronze_annotation = mini_df_style.loc[2, 'Team']
-            time_bronze_result = mini_df_style.loc[2, 'Time_results']
+            time_bronze_result_annotation = mini_df_style.loc[2, 'Time_results']
 
 
             subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
@@ -135,7 +140,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             # Set individual sizes for specific subplots
             #fig, all_4_axis = plt.subplots(nrows=1, ncols=4,  gridspec_kw={'width_ratios': [16, 4]})
 
-            #plt.style.use('ggplot')
+
 
             # Iterate over subplots and plot horizontal bars
             # for ax, val in zip(all_4_axis, values):
@@ -145,10 +150,10 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
                 all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
 
 
-            all_4_axis[0].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height  = 0.5)
-            all_4_axis[1].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
-            all_4_axis[2].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
-            all_4_axis[3].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result, time_silver_result, time_bronze_result], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
+            all_4_axis[0].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height  = 0.5)
+            all_4_axis[1].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
+            all_4_axis[2].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
+            all_4_axis[3].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
 
 
 
@@ -189,20 +194,18 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
         location_list=['Tokyo','City','Munich','Angeles','Seoul','Barcelona','Atlanta','Sydney','Athens','Beijing','London','Rio']
 
         for subtitle_year,subtitle_location in zip(years_list,location_list ):
-#            all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
+            #            all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
             plt.title(f'Year {subtitle_year}  at {subtitle_location}' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.10, y=1, style='italic' )
 
 
-
-    #plt.xlabel('Time', fontsize=18)
-    #plt.xticks(fontsize=10)
+    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14 )
+    # all_4_axis[0].set(xlabel='Results (In seconds)')#'#,fontname='Franklin Gothic Medium Cond')
+    plt.xticks(fontsize=9)
 
 
     # TITLE
     plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1, ha='center', fontsize=25,fontname='Franklin Gothic Medium Cond', color = 'lightseagreen' )
 
-
-    #f'Year {subtitle_year}  at {subtitle_location}'
     # plt.savefig('2BarPlot.png')
     plt.show()
 
@@ -213,7 +216,8 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    #df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
 
     data_without_na = df.dropna(how='all')
     cleaner_df = data_without_na.dropna(subset=['Results'])
@@ -230,4 +234,3 @@ if __name__ == '__main__':
         men_df_each_year , women_df_each_year  = prepering_the_data_for_vertical_subplots(mini_df_year)
         plotting_subplot_for_freestyle_vs_medley_relay(men_df_each_year , women_df_each_year)
         print('*')
-
