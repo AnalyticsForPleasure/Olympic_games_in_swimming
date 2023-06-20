@@ -59,7 +59,7 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
 
     men_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for men
     women_df_each_year = pd.DataFrame()  # Initialize an empty dataframe for women
-
+    df_each_year = pd.DataFrame()
 
     # Dealing with the "Result" column - Define a lambda function to convert the time format
     convert_time = lambda x: ':'.join(x.split(':')[-2:])[:-3]
@@ -86,6 +86,7 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
         relevent_fields = ['Team','Year','Stroke','Gender','Rank','Time_results', 'Location','Results (In seconds)']
         final_medals_table = final_medals_table.loc[:,relevent_fields]
 
+        df_each_year = pd.concat([df_each_year, final_medals_table], axis=0)
 
         if gender == 'Men':
             men_df_each_year = pd.concat([men_df_each_year, final_medals_table], axis=0)
@@ -95,23 +96,28 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
     print('*')
 
 
-    return  men_df_each_year,women_df_each_year
+    return  df_each_year, men_df_each_year, women_df_each_year
 
 # **************************************************************************************************************
 # Function  name: creating_advance_line_chart
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
+def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, women_df_year):
 
     print('*')
 
-    fastest_time_for_men = men_df_year.loc[:, 'Results (In seconds)'].min()
-    slowest_time_for_women = women_df_year.loc[:, 'Results (In seconds)'].max()
+    fastest_time = df_each_year.loc[:, 'Results (In seconds)'].min()
+    slowest_time = df_each_year.loc[:, 'Results (In seconds)'].max()
 
-    x_values = np.arange(fastest_time_for_men, slowest_time_for_women, 6)
+    x_values = np.arange(fastest_time, slowest_time, 6)
 
     print('*')
+    categories = ['Gold', 'silver', 'Bronze']
+    men_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)']) #df_each_year.loc[(mini_df_year["Gender"] == 'Men') &  (mini_df_year['Stroke'] == 'Freestyle'),['Result(In seconds)',]
+    women_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)'])
+    men_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])
+    women_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])
 
     styles_of_swimming = ['Medley', 'Freestyle']
     for swimming_style in styles_of_swimming:
@@ -156,36 +162,55 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             for index,plot_name in zip(np.arange(0,4,1),subplot_names):
                 all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
 
+            #
+            # all_4_axis[0].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height  = 0.5)
+            # all_4_axis[1].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
+            # all_4_axis[2].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
+            # all_4_axis[3].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
 
-            all_4_axis[0].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height  = 0.5)
-            all_4_axis[1].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
-            all_4_axis[2].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
-            all_4_axis[3].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
 
-        categories = ['Gold','Silver','Bronze']
-        #ax.barh(categories, ) # TODO: Continue with the ax.barh
-        shifting_y_axis = 0.9
+            for i, ax in enumerate(all_4_axis):
+                if i == 0:
+                    values = men_medley
+                elif i == 1:
+                    values = women_medley
+                elif i == 2:
+                    values = men_Freestyle
+                elif i == 3:
+                    values = women_Freestyle
+
+                ax.barh(categories, values)
+                ax.set_xlim(180, 320)  # Adjust the x-axis limits
+                print('*')
+                # Add values over the bars - annotation in each subplot
+                for j, v in enumerate(values):
+                    ax.text(v + 0.5, j, str(v), color='Black', va='center')
+
+
+
+     #ax.barh(categories, ) # TODO: Continue with the ax.barh
+        #shifting_y_axis = 0.9
 
         #for n in np.arange(len(mini_df_style)):
         # Teams names - first 3 places :
 
         # Men - 'Freestyle'
-        all_4_axis[0].text(x=1, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[0].text(x=1, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[0].text(x=1, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=1.5, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[0].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
         # Men - 'Medley'
-        all_4_axis[2].text(x=1, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[2].text(x=1, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[2].text(x=1, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[2].text(x=1.5, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[2].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[2].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
 
         # Women - 'Freestyle'
-        all_4_axis[1].text(x=1, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[1].text(x=1, y=0.9, s='USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[1].text(x=1, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[1].text(x=1.5, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[1].text(x=1.5, y=0.9, s='USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[1].text(x=1.5, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
         # Women - 'Medley'
-        all_4_axis[3].text(x=1, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[3].text(x=1, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        all_4_axis[3].text(x=1, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[3].text(x=1.5, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[3].text(x=1.5, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        all_4_axis[3].text(x=1.5, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
 
 
 
@@ -206,8 +231,12 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 
 
 
-    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14,  )
+    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14)
     # all_4_axis[0].set(xlabel='Results (In seconds)')#'#,fontname='Franklin Gothic Medium Cond')
+    # Set labels and title for each subplot
+    #ax.set_xlabel('time (In seconds)')
+    #ax.set_ylabel('Categories')
+    #ax.set_title(f'Subplot {i+1}')
     plt.xticks(fontsize=9)
 
 
@@ -239,6 +268,6 @@ if __name__ == '__main__':
 
     for olympic_year in years_list :
         mini_df_year = final_clean_table[final_clean_table['Year'] == olympic_year]
-        men_df_each_year , women_df_each_year= prepering_the_data_for_vertical_subplots(mini_df_year)
-        plotting_subplot_for_freestyle_vs_medley_relay(men_df_each_year , women_df_each_year)
+        df_each_year, men_df_each_year, women_df_each_year= prepering_the_data_for_vertical_subplots(mini_df_year)
+        plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_each_year , women_df_each_year)
         print('*')
