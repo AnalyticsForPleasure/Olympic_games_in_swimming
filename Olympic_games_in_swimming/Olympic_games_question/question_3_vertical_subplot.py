@@ -129,7 +129,15 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             team_bronze_annotation = mini_df_style.loc[2, 'Team']
             time_bronze_result_annotation = mini_df_style.loc[2, 'Time_results']
 
+            # Add x-axis for each subplot:
+            if (mini_df_style['Gender'].values == 'Men').all():
 
+                x_axis_sub_1 = list(mini_df_style.loc[:,'Results (In seconds)'])
+            else:
+                x_axis_sub_2 = list(mini_df_style.loc[:,'Results (In seconds)'])
+                print('*')
+
+    ax.barh
             subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
             print('*')
 
@@ -155,10 +163,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
             all_4_axis[2].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
             all_4_axis[3].barh(['Gold.', 'Silver.', 'Bronze Medal.'], [time_gold_result_annotation, time_silver_result_annotation, time_bronze_result_annotation], color=['cornflowerblue', 'darkblue', 'steelblue'],height = 0.5)
 
-
-
         shifting_y_axis = 0.9
-
 
         #for n in np.arange(len(mini_df_style)):
         # Teams names - first 3 places :
@@ -195,10 +200,12 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 
         for subtitle_year,subtitle_location in zip(years_list,location_list ):
             #            all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
-            plt.title(f'Year {subtitle_year}  at {subtitle_location}' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.10, y=1, style='italic' )
+            #plt.title(f'Year {subtitle_year}  at {subtitle_location}' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.10, y=1, style='italic' )
+            plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.10, y=1, style='italic', color = 'lightskyblue' )
 
 
-    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14 )
+
+    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14,  )
     # all_4_axis[0].set(xlabel='Results (In seconds)')#'#,fontname='Franklin Gothic Medium Cond')
     plt.xticks(fontsize=9)
 
@@ -216,8 +223,8 @@ def plotting_subplot_for_freestyle_vs_medley_relay(men_df_year,women_df_year):
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    #df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
-    df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
+    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    #df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
 
     data_without_na = df.dropna(how='all')
     cleaner_df = data_without_na.dropna(subset=['Results'])
@@ -231,6 +238,6 @@ if __name__ == '__main__':
 
     for olympic_year in years_list :
         mini_df_year = final_clean_table[final_clean_table['Year'] == olympic_year]
-        men_df_each_year , women_df_each_year  = prepering_the_data_for_vertical_subplots(mini_df_year)
+        men_df_each_year , women_df_each_year= prepering_the_data_for_vertical_subplots(mini_df_year)
         plotting_subplot_for_freestyle_vs_medley_relay(men_df_each_year , women_df_each_year)
         print('*')
