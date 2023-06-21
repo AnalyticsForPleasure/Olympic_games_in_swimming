@@ -172,7 +172,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         #for n in np.arange(len(mini_df_style)):
         # Teams names - first 3 places :
         teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
-        fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'ha': 'left', 'alpha': 0.9, 'color': 'black'}
+        fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
         print('*')
         # Men - 'Freestyle'
         # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
@@ -181,12 +181,10 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         list_of_subplot = list(range(1, 4))
         for subplot_number in list_of_subplot :
             for index,team_name in enumerate(teams_name_annotation):
-                print('*')
-                all_4_axis[subplot_number].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-                # all_4_axis[1].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-                # all_4_axis[2].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-                # all_4_axis[3].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-        #     print('*')
+
+                all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+                all_4_axis[subplot_number].text(x=14, y=1.65 -index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize= '9' ,  fontdict=fontdict_input)
+
             # # all_4_axis[0].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
             # # all_4_axis[0].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
             # print('*')
@@ -205,10 +203,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         # all_4_axis[3].text(x=2, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
 
 
-        #times
-        all_4_axis[0].text(x=4, y=1.4,s= '04:39.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='black',weight='bold')
-        all_4_axis[0].text(x=4, y=0.9, s='04:42.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='black',weight='bold')
-        all_4_axis[0].text(x=4, y=-0.1, s='04:43.700', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='black',weight='bold')
+
         print('*')
 
         # SUBTITLE
@@ -217,7 +212,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 
         for subtitle_year,subtitle_location in zip(years_list,location_list ):
             #            all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
-            plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-4.10, y=1, style='italic', color = 'lightskyblue' )
+            plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-3.80, y=1, style='italic', color = 'lightskyblue' )
 
 
 
