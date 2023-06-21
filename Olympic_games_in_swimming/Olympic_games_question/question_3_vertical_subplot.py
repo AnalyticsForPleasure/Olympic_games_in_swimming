@@ -105,12 +105,12 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 
     print('*')
 
-    fastest_time = df_each_year.loc[:, 'Results (In seconds)'].min()
-    slowest_time = df_each_year.loc[:, 'Results (In seconds)'].max()
+    #fastest_time = df_each_year.loc[:, 'Results (In seconds)'].min()
+    #slowest_time = df_each_year.loc[:, 'Results (In seconds)'].max()
 
-    x_values = np.arange(fastest_time, slowest_time, 6)
-
+    #x_values = np.arange(fastest_time, slowest_time, 6)
     print('*')
+
     categories = ['Gold', 'silver', 'Bronze']
     men_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)']) #df_each_year.loc[(mini_df_year["Gender"] == 'Men') &  (mini_df_year['Stroke'] == 'Freestyle'),['Result(In seconds)',]
     women_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)'])
@@ -143,7 +143,6 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
             fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True,  figsize=(16,4))  # 4 plots
             print('*')
 
-
             # Adding for each subplot a title:
             subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
             for index,plot_name in zip(np.arange(0,4,1),subplot_names):
@@ -160,7 +159,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                     values = women_Freestyle
 
                 ax.barh(categories, values)
-                ax.set_xlim(180, 320)  # Adjust the x-axis limits the x - The scale will start at 180 seconds and will end at 320 seconds
+                ax.set_xlim(180, 320)  # The scale will start at 180 seconds and will ends at 320 seconds
                 print('*')
                 # Add values over the bars - annotation in each subplot
                 for j, v in enumerate(values):
@@ -169,7 +168,6 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
      #ax.barh(categories, ) # TODO: Continue with the ax.barh
         #shifting_y_axis = 0.9
 
-        #for n in np.arange(len(mini_df_style)):
         # Teams names - first 3 places :
         teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
         fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
@@ -178,12 +176,12 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
         # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
         # all_4_axis[0].text(x=2.5, y=-0.05, s='CAD', ha='left', va='bottom', fontdict=fontdict_input)
-        list_of_subplot = list(range(1, 4))
+        list_of_subplot = list(range(0, 4))
         for subplot_number in list_of_subplot :
             for index,team_name in enumerate(teams_name_annotation):
 
                 all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-                all_4_axis[subplot_number].text(x=14, y=1.65 -index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize= '9' ,  fontdict=fontdict_input)
+                all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
 
             # # all_4_axis[0].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
             # # all_4_axis[0].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
