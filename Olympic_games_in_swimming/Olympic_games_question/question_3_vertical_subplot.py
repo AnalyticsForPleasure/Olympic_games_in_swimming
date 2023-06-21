@@ -32,8 +32,6 @@ def convert_time_to_seconds(time_str):
         return None  # Invalid format
     return minutes * 60 + seconds
 
-
-
 # **************************************************************************************************************
 # Function  name: prepering_the_data_for_vertical_subplots
 # input:
@@ -143,6 +141,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 
             #Set one size for all subplots
             fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True,  figsize=(16,4))  # 4 plots
+            print('*')
 
 
             # Adding for each subplot a title:
@@ -167,43 +166,52 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                 for j, v in enumerate(values):
                     ax.text(v + 0.5, j, str(v), color='Black', va='center')
 
-
-
      #ax.barh(categories, ) # TODO: Continue with the ax.barh
         #shifting_y_axis = 0.9
 
         #for n in np.arange(len(mini_df_style)):
         # Teams names - first 3 places :
-        team_annotation = mini_df_style.loc[:, 'Team']
+        teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
+        fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'ha': 'left', 'alpha': 0.9, 'color': 'black'}
+        print('*')
         # Men - 'Freestyle'
-        for idx(index) in team_annotation :
-            all_4_axis[0].text(x=1.5, y=1.9-index ,s= mini_df_style.loc[:, 'Team'][index], ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            # all_4_axis[0].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            # all_4_axis[0].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            print('*')
-            # Men - 'Medley'
-            all_4_axis[2].text(x=1.5, y=1.9,s= 'USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[2].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[2].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[0].text(x=2.5, y=-0.05, s='CAD', ha='left', va='bottom', fontdict=fontdict_input)
+        list_of_subplot = list(range(1, 4))
+        for subplot_number in list_of_subplot :
+            for index,team_name in enumerate(teams_name_annotation):
+                print('*')
+                all_4_axis[subplot_number].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+                # all_4_axis[1].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+                # all_4_axis[2].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+                # all_4_axis[3].text(x=2, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+        #     print('*')
+            # # all_4_axis[0].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+            # # all_4_axis[0].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+            # print('*')
+        # Men - 'Medley' - working
+        # all_4_axis[2].text(x=2, y=1.9,s= 'USA', ha='left', fontdict=fontdict_input)
+        # all_4_axis[2].text(x=2, y=0.9, s='FRA', ha='left',fontdict=fontdict_input)
+        # all_4_axis[2].text(x=2, y=-0.05, s='CAD', ha='left', fontdict=fontdict_input)
 
-            # Women - 'Freestyle'
-            all_4_axis[1].text(x=1.5, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[1].text(x=1.5, y=0.9, s='USA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[1].text(x=1.5, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            # Women - 'Medley'
-            all_4_axis[3].text(x=1.5, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[3].text(x=1.5, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[3].text(x=1.5, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # Women - 'Freestyle' - working ( position 0 )
+        # all_4_axis[1].text(x=3, y=1.9,s= 'ISR', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[1].text(x=3, y=0.9, s='USA', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[1].text(x=3, y=-0.05, s='BRZ', ha='left', va='bottom', fontdict=fontdict_input)
+        # # Women - 'Medley' - - working
+        # all_4_axis[3].text(x=2, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # all_4_axis[3].text(x=2, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # all_4_axis[3].text(x=2, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
 
 
-
-            all_4_axis[0].text(x=9, y=1.4,s= '04:39.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[0].text(x=9, y=0.9, s='04:42.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
-            all_4_axis[0].text(x=9, y=-0.1, s='04:43.700', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='w',weight='bold')
-            print('*')
+        #times
+        all_4_axis[0].text(x=4, y=1.4,s= '04:39.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='black',weight='bold')
+        all_4_axis[0].text(x=4, y=0.9, s='04:42.200', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='black',weight='bold')
+        all_4_axis[0].text(x=4, y=-0.1, s='04:43.700', ha='left', va='bottom', fontsize=10, alpha=1, rotation=0, color='black',weight='bold')
+        print('*')
 
         # SUBTITLE
-
         years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
         location_list=['Tokyo','City','Munich','Angeles','Seoul','Barcelona','Atlanta','Sydney','Athens','Beijing','London','Rio']
 
