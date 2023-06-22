@@ -118,26 +118,24 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
     #     for item in sublist:
     #         print(item)
 
+    gender = ['Men','Women']
+    styles_of_swimming = ['Medley', 'Freestyle'] # ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
 
-    print('*')
-
-    styles_of_swimming = ['Medley', 'Freestyle']
     for swimming_style in styles_of_swimming:
-        for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]:
-            mini_df_style = df_year[df_year['Stroke'] == swimming_style]
+        mini_df_style = df_each_year[df_each_year['Stroke'] == swimming_style]
+        print(mini_df_style)
+        for swimmer_gender in gender:
+            relevant_table = mini_df_style[mini_df_style['Gender'] == swimmer_gender]
+            print(relevant_table)
             print('*')
+
+        # for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]:
+        #     mini_df_style = df_year[df_year['Stroke'] == swimming_style]
+        #     print('*')
             # In order to retrieve the name of the teams that won the medals, we need to "reset_index" the table
-            mini_df_style = mini_df_style.reset_index()
-            team_gold_annotation = mini_df_style.loc[0, 'Team']
-            time_gold_result_annotation = mini_df_style.loc[0, 'Time_results']
-
-            team_annotation = mini_df_style.loc[:, 'Team']
-
-            team_silver_annotation = mini_df_style.loc[1, 'Team']
-            time_silver_result_annotation = mini_df_style.loc[1, 'Time_results']
-
-            team_bronze_annotation = mini_df_style.loc[2, 'Team']
-            time_bronze_result_annotation = mini_df_style.loc[2, 'Time_results']
+            # mini_df_style = mini_df_style.reset_index()
+            # team_gold_annotation = mini_df_style.loc[0, 'Team']
+            # time_gold_result_annotation = mini_df_style.loc[0, 'Time_results']
 
             plt.figure(figsize=[14, 10])
 
@@ -148,11 +146,6 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
             # # Iterate over the axes and plot the bars
             # for ax in all_4_axis:
             #     ax.bar(categories, values, width=0.5)  # Adjust the width parameter as desired
-
-            # Adding for each subplot a title:
-            subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
-            for index,plot_name in zip(np.arange(0,4,1),subplot_names):
-                all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
 
             for i, ax in enumerate(all_4_axis):
                 if i == 0:
@@ -172,31 +165,44 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                     ax.text(v + 0.5, j, str(v), color='Black', va='center')
                     #ax.bar(categories, values, width=0.5)
 
-        # Teams names - first 3 places :
-        teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
-        list_of_subplot = list(range(0, 4))
-        fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
 
-        for subplot_number in list_of_subplot :
-            for index,team_name in enumerate(teams_name_annotation):
 
-                all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-                all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
-        print('*')
+            # Teams names - first 3 places :
+            teams_name_annotation = list(relevant_table.loc[:, 'Team'])
+            list_of_subplot = list(range(0, 4))
+            time_res_annotation = list(relevant_table.loc[:, 'Time_results'])
+            fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
 
-        # SUBTITLE
+
+            # Here below the annotation for the "Team" +  'Time_results' as '04:39.200'
+            for subplot_number in list_of_subplot :  #TODO: find out why the subplot number is not changing during the outer loop
+                # print(subplot_number)
+                # print('*')
+                for index, (team_name, time_zone) in enumerate(zip(teams_name_annotation, time_res_annotation)):
+                    print('*')
+                    all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+                    all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= time_zone, ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
+                    #all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
+
+                    print('*')
+
+        # SUBTITLE ( lines 194 - 201 )
         years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
         location_list=['Tokyo','City','Munich','Angeles','Seoul','Barcelona','Atlanta','Sydney','Athens','Beijing','London','Rio']
-
         # Reverse the list of years and location :
         years_list = years_list[::-1]
         location_list = location_list[::-1]
 
-
         for subtitle_year,subtitle_location in zip(years_list,location_list ):
-            plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-3.80, y=1, style='italic', color = 'lightskyblue' )
+            plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-3.80, y=1, style='italic', color = 'navy' )
 
 
+    # Adding for each subplot a title: ( lines 200-204 )
+    subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
+    for title_subplot in subplot_names :
+        print(title_subplot)
+    for index,plot_name in zip(np.arange(0,4,1),subplot_names):
+        all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
 
     #ax.set_xlabel('time (In seconds)')
     fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14)
@@ -204,9 +210,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
     # Set labels and title for each subplot
     #ax.set_ylabel('Categories')
     plt.xticks(fontsize=9)
-    # Iterate over the axes and plot the bars
-    for ax in all_4_axis:
-        ax.bar(categories, values, width=0.5)  # Adjust the width parameter as desired
+
 
     # TITLE
     plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1, ha='center', fontsize=25,fontname='Franklin Gothic Medium Cond', color = 'lightseagreen' )
@@ -238,6 +242,7 @@ if __name__ == '__main__':
         print('*')
 
 
+
         # #need to add:
         # my_list = [[men_medley], [women_medley], [men_Freestyle],[women_Freestyle]]
         #
@@ -245,7 +250,24 @@ if __name__ == '__main__':
         #     for item in sublist:
         #         print(item)
 
+
+        ## need to add to the cheatsheet :
+        # styles_of_swimming = ['Medley', 'Freestyle'] # ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
+        # for swimming_style in styles_of_swimming:
+        #
+        # for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]: # we have 2 dataframes
+        #     mini_df_style = df_year[df_year['Stroke'] == swimming_style]
+        #     print('*')
+
         #removed from the script
+        # team_annotation = mini_df_style.loc[:, 'Team']
+        #
+        # team_silver_annotation = mini_df_style.loc[1, 'Team']
+        # time_silver_result_annotation = mini_df_style.loc[1, 'Time_results']
+        #
+        # team_bronze_annotation = mini_df_style.loc[2, 'Team']
+        # time_bronze_result_annotation = mini_df_style.loc[2, 'Time_results']
+
         #fastest_time = df_each_year.loc[:, 'Results (In seconds)'].min()
         #slowest_time = df_each_year.loc[:, 'Results (In seconds)'].max()
 
