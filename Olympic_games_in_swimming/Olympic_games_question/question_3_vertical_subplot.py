@@ -170,6 +170,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                 # Add values over the bars - annotation in each subplot
                 for j, v in enumerate(values):
                     ax.text(v + 0.5, j, str(v), color='Black', va='center')
+                    #ax.bar(categories, values, width=0.5)
 
         # Teams names - first 3 places :
         teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
@@ -204,8 +205,8 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
     #ax.set_ylabel('Categories')
     plt.xticks(fontsize=9)
     # Iterate over the axes and plot the bars
-    # for ax in all_4_axis:
-    #     ax.bar(categories, values, width=0.5)  # Adjust the width parameter as desired
+    for ax in all_4_axis:
+        ax.bar(categories, values, width=0.5)  # Adjust the width parameter as desired
 
     # TITLE
     plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1, ha='center', fontsize=25,fontname='Franklin Gothic Medium Cond', color = 'lightseagreen' )
