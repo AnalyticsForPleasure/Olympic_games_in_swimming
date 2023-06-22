@@ -104,18 +104,20 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
 def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, women_df_year):
 
     print('*')
-
-    #fastest_time = df_each_year.loc[:, 'Results (In seconds)'].min()
-    #slowest_time = df_each_year.loc[:, 'Results (In seconds)'].max()
-
-    #x_values = np.arange(fastest_time, slowest_time, 6)
-    print('*')
-
     categories = ['Gold', 'silver', 'Bronze']
-    men_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)']) #df_each_year.loc[(mini_df_year["Gender"] == 'Men') &  (mini_df_year['Stroke'] == 'Freestyle'),['Result(In seconds)',]
-    women_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)'])
-    men_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])
-    women_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])
+
+    men_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)'])#['Time_results'])
+    women_medley = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Medley')]['Results (In seconds)'])#['Time_results'])
+    men_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])#['Time_results'])
+    women_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])#['Time_results'])
+
+
+    # my_list = [[men_medley], [women_medley], [men_Freestyle],[women_Freestyle]]
+    #
+    # for sublist in my_list:
+    #     for item in sublist:
+    #         print(item)
+
 
     print('*')
 
@@ -143,6 +145,10 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
             fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True,  figsize=(16,4))  # 4 plots
             print('*')
 
+            # # Iterate over the axes and plot the bars
+            # for ax in all_4_axis:
+            #     ax.bar(categories, values, width=0.5)  # Adjust the width parameter as desired
+
             # Adding for each subplot a title:
             subplot_names = ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
             for index,plot_name in zip(np.arange(0,4,1),subplot_names):
@@ -165,72 +171,47 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                 for j, v in enumerate(values):
                     ax.text(v + 0.5, j, str(v), color='Black', va='center')
 
-     #ax.barh(categories, ) # TODO: Continue with the ax.barh
-        #shifting_y_axis = 0.9
-
         # Teams names - first 3 places :
         teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
-        fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
-        print('*')
-        # Men - 'Freestyle'
-        # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
-        # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
-        # all_4_axis[0].text(x=2.5, y=-0.05, s='CAD', ha='left', va='bottom', fontdict=fontdict_input)
         list_of_subplot = list(range(0, 4))
+        fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
+
         for subplot_number in list_of_subplot :
             for index,team_name in enumerate(teams_name_annotation):
 
                 all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
                 all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
-
-            # # all_4_axis[0].text(x=1.5, y=0.9, s='FRA', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            # # all_4_axis[0].text(x=1.5, y=-0.05, s='CAD', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-            # print('*')
-        # Men - 'Medley' - working
-        # all_4_axis[2].text(x=2, y=1.9,s= 'USA', ha='left', fontdict=fontdict_input)
-        # all_4_axis[2].text(x=2, y=0.9, s='FRA', ha='left',fontdict=fontdict_input)
-        # all_4_axis[2].text(x=2, y=-0.05, s='CAD', ha='left', fontdict=fontdict_input)
-
-        # Women - 'Freestyle' - working ( position 0 )
-        # all_4_axis[1].text(x=3, y=1.9,s= 'ISR', ha='left', va='bottom', fontdict=fontdict_input)
-        # all_4_axis[1].text(x=3, y=0.9, s='USA', ha='left', va='bottom', fontdict=fontdict_input)
-        # all_4_axis[1].text(x=3, y=-0.05, s='BRZ', ha='left', va='bottom', fontdict=fontdict_input)
-        # # Women - 'Medley' - - working
-        # all_4_axis[3].text(x=2, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        # all_4_axis[3].text(x=2, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-        # all_4_axis[3].text(x=2, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-
-
-
         print('*')
 
         # SUBTITLE
         years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
         location_list=['Tokyo','City','Munich','Angeles','Seoul','Barcelona','Atlanta','Sydney','Athens','Beijing','London','Rio']
 
+        # Reverse the list of years and location :
+        years_list = years_list[::-1]
+        location_list = location_list[::-1]
+
+
         for subtitle_year,subtitle_location in zip(years_list,location_list ):
-            #            all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
             plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-3.80, y=1, style='italic', color = 'lightskyblue' )
 
 
 
-    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14)
-    # all_4_axis[0].set(xlabel='Results (In seconds)')#'#,fontname='Franklin Gothic Medium Cond')
-    # Set labels and title for each subplot
     #ax.set_xlabel('time (In seconds)')
-    #ax.set_ylabel('Categories')
-    #ax.set_title(f'Subplot {i+1}')
-    plt.xticks(fontsize=9)
+    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14)
 
+    # Set labels and title for each subplot
+    #ax.set_ylabel('Categories')
+    plt.xticks(fontsize=9)
+    # Iterate over the axes and plot the bars
+    # for ax in all_4_axis:
+    #     ax.bar(categories, values, width=0.5)  # Adjust the width parameter as desired
 
     # TITLE
     plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1, ha='center', fontsize=25,fontname='Franklin Gothic Medium Cond', color = 'lightseagreen' )
 
     # plt.savefig('2BarPlot.png')
     plt.show()
-
-
-
 
 
 if __name__ == '__main__':
@@ -254,3 +235,37 @@ if __name__ == '__main__':
         df_each_year, men_df_each_year, women_df_each_year= prepering_the_data_for_vertical_subplots(mini_df_year)
         plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_each_year , women_df_each_year)
         print('*')
+
+
+        # #need to add:
+        # my_list = [[men_medley], [women_medley], [men_Freestyle],[women_Freestyle]]
+        #
+        # for sublist in my_list:
+        #     for item in sublist:
+        #         print(item)
+
+        #removed from the script
+        #fastest_time = df_each_year.loc[:, 'Results (In seconds)'].min()
+        #slowest_time = df_each_year.loc[:, 'Results (In seconds)'].max()
+
+        #x_values = np.arange(fastest_time, slowest_time, 6)
+
+        # Men - 'Freestyle'
+        # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[0].text(x=2.5, y=0.9, s='FRA', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[0].text(x=2.5, y=-0.05, s='CAD', ha='left', va='bottom', fontdict=fontdict_input)
+        # print('*')
+        # Men - 'Medley' - working
+        # all_4_axis[2].text(x=2, y=1.9,s= 'USA', ha='left', fontdict=fontdict_input)
+        # all_4_axis[2].text(x=2, y=0.9, s='FRA', ha='left',fontdict=fontdict_input)
+        # all_4_axis[2].text(x=2, y=-0.05, s='CAD', ha='left', fontdict=fontdict_input)
+
+        # Women - 'Freestyle' - working ( position 0 )
+        # all_4_axis[1].text(x=3, y=1.9,s= 'ISR', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[1].text(x=3, y=0.9, s='USA', ha='left', va='bottom', fontdict=fontdict_input)
+        # all_4_axis[1].text(x=3, y=-0.05, s='BRZ', ha='left', va='bottom', fontdict=fontdict_input)
+        # # Women - 'Medley' - - working
+        # all_4_axis[3].text(x=2, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # all_4_axis[3].text(x=2, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+        # all_4_axis[3].text(x=2, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
+
