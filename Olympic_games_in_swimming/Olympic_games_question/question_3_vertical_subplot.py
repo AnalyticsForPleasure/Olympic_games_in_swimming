@@ -111,13 +111,6 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
     men_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Men')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])#['Time_results'])
     women_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])#['Time_results'])
 
-
-    # my_list = [[men_medley], [women_medley], [men_Freestyle],[women_Freestyle]]
-    #
-    # for sublist in my_list:
-    #     for item in sublist:
-    #         print(item)
-
     gender = ['Men','Women']
     styles_of_swimming = ['Medley', 'Freestyle'] # ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
 
@@ -129,9 +122,9 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
             print(relevant_table)
             print('*')
 
-        # for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]:
-        #     mini_df_style = df_year[df_year['Stroke'] == swimming_style]
-        #     print('*')
+            # for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]:
+            #     mini_df_style = df_year[df_year['Stroke'] == swimming_style]
+            #     print('*')
             # In order to retrieve the name of the teams that won the medals, we need to "reset_index" the table
             # mini_df_style = mini_df_style.reset_index()
             # team_gold_annotation = mini_df_style.loc[0, 'Team']
@@ -203,6 +196,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         print(title_subplot)
     for index,plot_name in zip(np.arange(0,4,1),subplot_names):
         all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
+        #all_4_axis[subplot_number].bar(x_values, y_values, width=bar_width)
 
     #ax.set_xlabel('time (In seconds)')
     fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14)
@@ -254,10 +248,6 @@ if __name__ == '__main__':
         ## need to add to the cheatsheet :
         # styles_of_swimming = ['Medley', 'Freestyle'] # ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
         # for swimming_style in styles_of_swimming:
-        #
-        # for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]: # we have 2 dataframes
-        #     mini_df_style = df_year[df_year['Stroke'] == swimming_style]
-        #     print('*')
 
         #removed from the script
         # team_annotation = mini_df_style.loc[:, 'Team']
@@ -291,4 +281,3 @@ if __name__ == '__main__':
         # all_4_axis[3].text(x=2, y=1.9,s= 'ISR', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
         # all_4_axis[3].text(x=2, y=0.9, s='CAN', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
         # all_4_axis[3].text(x=2, y=-0.05, s='BRZ', ha='left', va='bottom', fontsize=12, alpha=1, rotation=0, color='w',weight='bold')
-
