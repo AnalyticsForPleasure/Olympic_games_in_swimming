@@ -112,15 +112,16 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
     women_Freestyle = list(df_each_year.loc[(mini_df_year["Gender"] == 'Women')&(mini_df_year['Stroke'] == 'Freestyle')]['Results (In seconds)'])#['Time_results'])
 
     gender = ['Men','Women']
-    styles_of_swimming = ['Medley', 'Freestyle'] # ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
+    styles_of_swimming = ['Freestyle', 'Medley'] # ['Men - Medley','Women - Medley','Men - Freestyle','Women - Freestyle']
 
-    for swimming_style in styles_of_swimming:
-        mini_df_style = df_each_year[df_each_year['Stroke'] == swimming_style]
-        print(mini_df_style)
-        for swimmer_gender in gender:
-            relevant_table = mini_df_style[mini_df_style['Gender'] == swimmer_gender]
-            print(relevant_table)
-            print('*')
+
+    for swimmer_gender in gender:
+        relevant_table = df_each_year[df_each_year['Gender'] == swimmer_gender]
+        print(relevant_table)
+        print('*')
+        for swimming_style in styles_of_swimming:
+            mini_df_style = relevant_table[relevant_table['Stroke'] == swimming_style]
+            print(mini_df_style)
 
             # for gender, df_year in [('Men', men_df_year), ('Women', women_df_year)]:
             #     mini_df_style = df_year[df_year['Stroke'] == swimming_style]
@@ -158,24 +159,26 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                     ax.text(v + 0.5, j, str(v), color='Black', va='center')
                     #ax.bar(categories, values, width=0.5)
 
+                # Teams names - first 3 places :
+                teams_name_annotation = list(mini_df_style.loc[:, 'Team'])
+                list_of_subplot = list(range(0, 4))
+                time_res_annotation = list(mini_df_style.loc[:, 'Time_results'])
+                fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
+                print('*')
 
 
-            # Teams names - first 3 places :
-            teams_name_annotation = list(relevant_table.loc[:, 'Team'])
-            list_of_subplot = list(range(0, 4))
-            time_res_annotation = list(relevant_table.loc[:, 'Time_results'])
-            fontdict_input = {'fontsize': 12, 'weight': 'heavy', 'alpha': 0.9, 'color': 'white'} # 'ha': 'left'
+                # Here below the annotation for the "Team" +  'Time_results' as '04:39.200'
+                for subplot_number in list_of_subplot :  #TODO: find out why the subplot number is not changing during the outer loop
+                    # print(subplot_number)
+                    # print('*')
+                    for index, (team_name, time_zone) in enumerate(zip(teams_name_annotation, time_res_annotation)):
+                        print('*')
 
+                        all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
+                        all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= time_zone, ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
+                        #all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
+                        #all_4_axis[subplot_number].bar(categories, values, width=0.4)
 
-            # Here below the annotation for the "Team" +  'Time_results' as '04:39.200'
-            for subplot_number in list_of_subplot :  #TODO: find out why the subplot number is not changing during the outer loop
-                # print(subplot_number)
-                # print('*')
-                for index, (team_name, time_zone) in enumerate(zip(teams_name_annotation, time_res_annotation)):
-                    print('*')
-                    all_4_axis[subplot_number].text(x=13, y=1.9-index ,s= team_name ,  va='bottom',fontdict=fontdict_input)
-                    all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= time_zone, ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
-                    #all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
 
                     print('*')
 
