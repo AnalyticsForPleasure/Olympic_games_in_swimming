@@ -3,6 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
+
+
+#https://stats.stackexchange.com/questions/423735/what-is-the-name-of-this-plot-that-has-rows-with-two-connected-dots
+
 sns.set(style="whitegrid")  # set style
 
 data = io.StringIO(""""Country"  1990  2015
