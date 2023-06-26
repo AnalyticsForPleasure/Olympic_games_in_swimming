@@ -50,20 +50,7 @@ def convert_time_to_seconds(time_str):
 # input:
 # return value: Converting  the values to seconds with two decimal place
 # ****************************************************************************************************************
-def preparing_the_olympic_data_for_the_dot_plot(df):
-    # Cleaning_the_data:
-    data_without_na = df.dropna(how='all')
-    cleaner_df = data_without_na.dropna(subset=['Results'])
-    # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
-    removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
-    final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
-    print('*')
-    # Apply the conversion function to the 'time' column    # '1:59.06'  ->119.06 , '00:01:53.410000' -> 113.41
-    final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
-    print('*')
-
-    final_clean_table = final_clean_table.loc[(final_clean_table["Distance (in meters)"] == '200m') & (final_clean_table['Gender'] == 'Men')]
-
+def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
 
     starting_point_percentage_list = []
     ending_point_percentage_list = []
@@ -73,8 +60,8 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
                                                   'Location': [],
                                                   'Year': [],
                                                   'Athlete': [],  # This filed is possible to be in a  pivot table index
-                                                  'Results (In seconds)': []  # Fastest result , Slowest result
-                                                  })
+                                                  'Results (In seconds)': [] , # Fastest result , Slowest result
+                                                  'percentage':[]})
 
 
     final_table_slowest_results = pd.DataFrame({ 'Team':[],
@@ -82,78 +69,70 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
                                                  'Location': [],
                                                  'Year': [],
                                                  'Athlete': [],  # This filed is possible to be in a  pivot table index
-                                                 'Results (In seconds)': []  # Fastest result , Slowest result
-                                                 })
+                                                 'Results (In seconds)': [] , # Fastest result , Slowest result
+                                                 'percentage':[]})
 
-    # ['Team','Stroke','Location', 'Year','Athlete', 'Results (In seconds)']]
-    list_of_teams = ['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
-    # grouping_by_team = final_clean_table.groupby('Team')
-    for team_names in list_of_teams:
-        mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
-        #print(team_names)
-        #print(df_team)
-
-        list_of_strokes = mini_df_team['Stroke'].unique()  # kinds of strokes: ['Breaststroke' 'Backstroke' 'Freestyle' 'Butterfly' 'Individual medley']
-        for name_stroke in list_of_strokes:
-            mini_df_by_stroke = mini_df_team[mini_df_team['Stroke'] == name_stroke]
-            print('*')
-
-            # Best & Worst above all the teams over entire years:
-            worst_score_ever_in_the_event = final_clean_table['Results (In seconds)'].max()
-            best_score_ever_in_the_event = final_clean_table['Results (In seconds)'].min()
-            print('*')
-
-            worst_score_achieved_by_the_team = mini_df_by_stroke['Results (In seconds)'].max()
-            # retrieving the row of the worst_score_achieved_by_the_team :
-            full_line_worst_score = mini_df_by_stroke[mini_df_by_stroke['Results (In seconds)'] == mini_df_by_stroke['Results (In seconds)'].max()]
-            line_values_for_worst = full_line_worst_score.loc[:,['Team','Stroke','Location', 'Year','Athlete', 'Results (In seconds)']]
-            print('*')
-            best_score_achieved_by_the_team = mini_df_by_stroke['Results (In seconds)'].min()
-            # retrieving the row of the best_score_achieved_by_the_team:
-            full_line_best_score = mini_df_by_stroke[mini_df_by_stroke['Results (In seconds)'] == mini_df_by_stroke['Results (In seconds)'].min()]
-            line_values_for_best = full_line_best_score.loc[:, ['Team','Stroke','Location', 'Year','Athlete', 'Results (In seconds)']]
-            print('*')
-
-            # normalization_scale = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event))
-            # Getting to the precentage values of the slowest & fastest swimmer in each teams :
-
-            starting_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - worst_score_achieved_by_the_team)
-            starting_point_percentage_for_the_team = "{:.2f}".format(starting_point_for_the_team)
-
-            starting_point_percentage = starting_point_percentage_for_the_team
-            starting_point_percentage_list.append(starting_point_percentage)
-            # working on the data before passing it to the Area chart
-
-
-            ending_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - best_score_achieved_by_the_team)
-            ending_point_percentage_for_the_team = "{:.2f}".format(ending_point_for_the_team)
-
-            ending_point_percentage = ending_point_percentage_for_the_team
-            ending_point_percentage_list.append(ending_point_percentage)
-            print('*')
-
-
-
-            total_improvement_by_the_team = (ending_point_for_the_team - starting_point_for_the_team)
-            total_improvement_by_the_team = "{:.2f}%".format(total_improvement_by_the_team)
-            print('*')
-
-            merged_df_one_line_after_the_other = pd.concat([line_values_for_best, line_values_for_worst], ignore_index=True)
-            # Table of fastest results:
-            final_table_fastest_results  = pd.concat([final_table_fastest_results,line_values_for_best], axis=0)
-
-            # Table of slowest results:
-            final_table_slowest_results = pd.concat([final_table_slowest_results, line_values_for_worst], axis=0)
-            print('*')
-        list_starting_percentage = starting_point_percentage_list
-        list_ending_percentage = ending_point_percentage_list
-
+    list_of_strokes = mini_df_team['Stroke'].unique()  # kinds of strokes: ['Breaststroke' 'Backstroke' 'Freestyle' 'Butterfly' 'Individual medley']
+    for name_stroke in list_of_strokes:
+        mini_df_by_stroke = mini_df_team[mini_df_team['Stroke'] == name_stroke]
         print('*')
+
+        # Best & Worst above all the teams over entire years:
+        worst_score_ever_in_the_event = final_clean_table['Results (In seconds)'].max()
+        best_score_ever_in_the_event = final_clean_table['Results (In seconds)'].min()
+        print('*')
+
+        worst_score_achieved_by_the_team = mini_df_by_stroke['Results (In seconds)'].max()
+        # retrieving the row of the worst_score_achieved_by_the_team :
+        full_line_worst_score = mini_df_by_stroke[mini_df_by_stroke['Results (In seconds)'] == mini_df_by_stroke['Results (In seconds)'].max()]
+        line_values_for_worst = full_line_worst_score.loc[:,['Team','Stroke','Location', 'Year','Athlete', 'Results (In seconds)']]
+        print('*')
+        best_score_achieved_by_the_team = mini_df_by_stroke['Results (In seconds)'].min()
+        # retrieving the row of the best_score_achieved_by_the_team:
+        full_line_best_score = mini_df_by_stroke[mini_df_by_stroke['Results (In seconds)'] == mini_df_by_stroke['Results (In seconds)'].min()]
+        line_values_for_best = full_line_best_score.loc[:, ['Team','Stroke','Location', 'Year','Athlete', 'Results (In seconds)']]
+        print('*')
+
+        # normalization_scale = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event))
+        # Getting to the precentage values of the slowest & fastest swimmer in each teams :
+
+        starting_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - worst_score_achieved_by_the_team)
+        starting_point_percentage_for_the_team = "{:.2f}".format(starting_point_for_the_team)
+
+        starting_point_percentage = starting_point_percentage_for_the_team
+        starting_point_percentage_list.append(starting_point_percentage)
+        # working on the data before passing it to the Area chart
+
+
+        ending_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - best_score_achieved_by_the_team)
+        ending_point_percentage_for_the_team = "{:.2f}".format(ending_point_for_the_team)
+
+        ending_point_percentage = ending_point_percentage_for_the_team
+        ending_point_percentage_list.append(ending_point_percentage)
+        print('*')
+
+
+
+        total_improvement_by_the_team = (ending_point_for_the_team - starting_point_for_the_team)
+        total_improvement_by_the_team = "{:.2f}%".format(total_improvement_by_the_team)
+        print('*')
+
+        merged_df_one_line_after_the_other = pd.concat([line_values_for_best, line_values_for_worst], ignore_index=True)
+        # Table of fastest results:
+        final_table_fastest_results  = pd.concat([final_table_fastest_results,line_values_for_best], axis=0)
+
+        # Table of slowest results:
+        final_table_slowest_results = pd.concat([final_table_slowest_results, line_values_for_worst], axis=0)
+        print('*')
+    list_starting_percentage = starting_point_percentage_list
+    list_ending_percentage = ending_point_percentage_list
+
+    print('*')
     final_table_fastest_results.rename(columns={final_table_fastest_results.columns[5]: 'Best results by the team (In seconds)'}, inplace=True) # 'Best results by the team (In seconds)'
     #final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'USA']
     final_table_fastest_results['Best results by the team (In seconds)'] = final_table_fastest_results['Best results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_fastest_results['Year'] = final_table_fastest_results['Year'].apply(lambda x:int(x))
-    final_table_fastest_results_6_rows   = final_table_fastest_results.reset_index()
+    final_table_fastest_results_6_rows  = final_table_fastest_results.reset_index()
     print('*')
 
 
@@ -211,9 +190,10 @@ def dot_plot_for_the_slowest_and_lastest_athletics():
     plt.scatter(ordered_df['best_score_achieved_by_the_team'], wrapped_label, label='best_score_achieved_by_the_team') # label='first_months'
     plt.hlines(y=wrapped_label, xmin=ordered_df['before_covid'], xmax=ordered_df['first_months'], color='#666666')
     # set chart legend
-    ax.legend(labels=["best_score_achieved_by_the_team", "worst_score_achieved_by_the_team"], loc=(0, 1.05), ncol=2)
+    ax.legend(labels=["Best_score_achieved_by_the_team", "Worst_score_achieved_by_the_team"], loc=(0, 1.05), ncol=2)
     # set chart title
-    ax.set_title('The USA team improvement in their results across every Olympic swimming category', pad=50)
+    # f'{subtitle_location}
+    ax.set_title(f'The {team_names} team improvement in their results across every Olympic swimming category', pad=50)
     # xticks and x ticklabel format
     limit = plt.xlim(0, 1)
     vals = ax.get_xticks()
@@ -239,7 +219,23 @@ if __name__ == '__main__':
 
     # Q - 1 : The swimming results of the USA team showed significant improvement across all fields -
 
-    preparing_the_olympic_data_for_the_dot_plot(df)
+    # Cleaning_the_data:
+    data_without_na = df.dropna(how='all')
+    cleaner_df = data_without_na.dropna(subset=['Results'])
+    # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
+    removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
+    final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
+
+    # Apply the conversion function to the 'time' column    # '1:59.06'  ->119.06 , '00:01:53.410000' -> 113.41
+    final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
+    final_clean_table = final_clean_table.loc[(final_clean_table["Distance (in meters)"] == '200m') & (final_clean_table['Gender'] == 'Men')]
+
+    # I have added the list of years hard coded because we want to select only 8 teams q countries
+    list_of_teams = ['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
+
+    for team_names in list_of_teams:
+        mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
+        preparing_the_olympic_data_for_the_dot_plot(mini_df_team)
     #dot_plot_for_the_slowest_and_lastest_athletics()
     print('*')
 
