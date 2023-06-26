@@ -86,21 +86,22 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
                                                  })
 
     # ['Team','Stroke','Location', 'Year','Athlete', 'Results (In seconds)']]
-
-    grouping_by_team = final_clean_table.groupby('Team')
-    for team_names, df_team in grouping_by_team:
+    list_of_teams = ['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
+    # grouping_by_team = final_clean_table.groupby('Team')
+    for team_names in list_of_teams:
+        mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
         #print(team_names)
         #print(df_team)
 
-        list_of_strokes = df_team['Stroke'].unique()  # kinds of strokes:
+        list_of_strokes = mini_df_team['Stroke'].unique()  # kinds of strokes: ['Breaststroke' 'Backstroke' 'Freestyle' 'Butterfly' 'Individual medley']
         for name_stroke in list_of_strokes:
-            mini_df_by_stroke = df_team[df_team['Stroke'] == name_stroke]
+            mini_df_by_stroke = mini_df_team[mini_df_team['Stroke'] == name_stroke]
             print('*')
 
-            # best & worst above all the teams
+            # Best & Worst above all the teams over entire years:
             worst_score_ever_in_the_event = final_clean_table['Results (In seconds)'].max()
             best_score_ever_in_the_event = final_clean_table['Results (In seconds)'].min()
-            # print('*')
+            print('*')
 
             worst_score_achieved_by_the_team = mini_df_by_stroke['Results (In seconds)'].max()
             # retrieving the row of the worst_score_achieved_by_the_team :
@@ -127,8 +128,9 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
             ending_point_for_the_team = (100 / (worst_score_ever_in_the_event - best_score_ever_in_the_event)) * (worst_score_ever_in_the_event - best_score_achieved_by_the_team)
             ending_point_percentage_for_the_team = "{:.2f}".format(ending_point_for_the_team)
 
-            ending_point_percentage = starting_point_percentage_for_the_team
+            ending_point_percentage = ending_point_percentage_for_the_team
             ending_point_percentage_list.append(ending_point_percentage)
+            print('*')
 
 
 
@@ -151,14 +153,16 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
     #final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'USA']
     final_table_fastest_results['Best results by the team (In seconds)'] = final_table_fastest_results['Best results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_fastest_results['Year'] = final_table_fastest_results['Year'].apply(lambda x:int(x))
-    final_table_fastest_results_6_rows = final_table_fastest_results.reset_index()
+    final_table_fastest_results_6_rows   = final_table_fastest_results.reset_index()
+    print('*')
+
 
     # Adding_columns_for_the pre - plot :
     final_table_fastest_results['order'] = np.arange(final_table_fastest_results.shape[0])
     final_table_fastest_results['status'] = 'Best result by the team (In seconds)'
     final_table_fastest_results['percent'] = list_ending_percentage  # TODO :don't understand why it's no the same numer of rows : 145 rows VS 149 rows
 
-    #final_table_fastest_results_6_rows = final_table_fastest_results_6_rows.drop(2,axis=0,inplace=True)
+    final_table_fastest_results_6_rows = final_table_fastest_results_6_rows.drop(2,axis=0,inplace=True)
 
     print('*')
     #styled_formating_df = res_1.style.apply(func=relevant_columns_highlighter, subset=['Best results by the team (In seconds)']).hide_index()
@@ -166,15 +170,17 @@ def preparing_the_olympic_data_for_the_dot_plot(df):
     # dfi.export(final_table_fastest_results_6_rows, filename='output_images_olympic/fastest_time_table.png')
 
     final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Best and Worst results by the team (In seconds)'}, inplace=True) # 'Worst results by the team (In seconds)'
-    #final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'USA']
+    final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'USA']
     final_table_slowest_results['Best and Worst results by the team (In seconds)'] = final_table_slowest_results['Best and Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_slowest_results['Year'] = final_table_slowest_results['Year'].apply(lambda x:int(x))
     res_2 = final_table_slowest_results.reset_index()
+    print('*')
 
     # Adding_columns_for_the pre - plot :
-    final_table_slowest_results['order'] = np.arange(final_table_fastest_results_6_rows.shape[0])
+    final_table_slowest_results['order'] = np.arange(final_table_fastest_results.shape[0])
     final_table_slowest_results['status'] = 'Worst result by the team (In seconds)'
     final_table_slowest_results['percent'] = list_ending_percentage  # TODO :don't understand why it's no the same numer of rows : 145 rows VS 149 rows
+    print('*')
 
 
     # df_output = pd.concat([res_1, res_2]).sort_index(kind='merge')
