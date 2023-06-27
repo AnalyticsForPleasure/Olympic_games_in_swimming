@@ -186,12 +186,6 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
 
 def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
 
-
-    #['Team_x', 'Location_x', 'Year_x', 'Athlete_x', 'Worst results by the team (In seconds)', 'Slowest percentage', 'status_x', 'Team_y', 'Location_y', 'Year_y', 'Athlete_y', 'Best results by the team (In seconds)', 'Fastest percentage', 'status_y'#]
-    # df = pd.read_csv(data, sep="\s+", quotechar='"')
-    # df = df.set_index("Country").sort_values("2015")
-
-
     # Convert columns to numeric data types
     final_fastest_slowest_table["Fastest_percentage"] = pd.to_numeric(final_fastest_slowest_table["Fastest_percentage"])
     final_fastest_slowest_table["Slowest_percentage"] = pd.to_numeric(final_fastest_slowest_table["Slowest_percentage"])
@@ -199,7 +193,6 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     # Calculate improvement percentage
     final_fastest_slowest_table["Improvement %"] = final_fastest_slowest_table["Fastest_percentage"] / final_fastest_slowest_table["Slowest_percentage"] - 1
 
-    print('*')
     plt.style.use('seaborn')
     plt.figure(figsize=(12,6))
     y_range = np.arange(1, len(final_fastest_slowest_table.index) + 1) # Dynamic Y range of axis
@@ -209,7 +202,7 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     plt.scatter(final_fastest_slowest_table['Fastest_percentage'], y_range, color='#003953', s=200 , label='Best team improvement result', zorder=3)  #003953
     for (_, row), y in zip(final_fastest_slowest_table.iterrows(), y_range):
         plt.annotate(f"{row['Improvement %']:+.0%}", (max(row["Slowest_percentage"]-0.15, row["Fastest_percentage"]) + 4, y - 0.15))
-    plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
+    plt.legend(ncol=2, bbox_to_anchor=(1., 1.02), loc="lower right", frameon=False)
 
 
     team_iteration = final_fastest_slowest_table['Team_y'].unique()
@@ -218,7 +211,8 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
     fontdict_input_y_axis = {'fontsize': 16, 'weight': 'heavy', 'alpha': 0.9, 'color': 'gray','fontname':'Franklin Gothic Medium Cond'}
     plt.yticks(y_range, final_fastest_slowest_table.index,fontdict=fontdict_input_y_axis)
-    plt.title(f'The {team_iteration_str} team improvement in their results across every Olympic swimming category', loc='left',fontdict=fontdict_input_title)
+    #  The improvement of the {team_iteration_str} team in each swimming category across all Olympic swimming events
+    plt.title(f"The improvement of the {team_iteration_str} team in each Olympic swimming events", loc='left',fontdict=fontdict_input_title,  pad=50)
 
     # Create a FuncFormatter object with the format_percent function - Dealing the percentage sign
     percent_formatter = ticker.FuncFormatter(format_percent)
@@ -228,27 +222,20 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     plt.gcf().subplots_adjust(left=0.35)
 
     #set chart legend
-    plt.legend(labels = ["Worst team score", "Best team score"], loc=(0,1.07), ncol=2) # loc=(0,1.05), ncol=2)
-
-    # xticks and xticklabel format
-    # limit = plt.xlim(0, 1)
-    # vals = plt.get_xticks()
-    # plt.set_xticklabels(['{:,.0%}'.format(x) for x in vals])
-
+    plt.legend(labels = ["Worst score by the team", "Best score by the team"], loc=(0,1.07), ncol=2) # loc=(0,1.05), ncol=2)
 
     plt.tight_layout()
+    plt.savefig(f'Cleveland_dot_plot_{team_iteration_str}.jpg', dpi=250, bbox_inches='tight')
     plt.show()
 
 
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
     print('*')
 
     column_headers = list(df.columns.values)  # -> ['Location', 'Year', 'Distance (in meters)', 'Stroke', 'Relay?', 'Gender', 'Team', 'Athlete', 'Results', 'Rank']
-
-    # Q - 1 : The swimming results of the USA team showed significant improvement across all fields -
 
     # Cleaning_the_data:
     data_without_na = df.dropna(how='all')
