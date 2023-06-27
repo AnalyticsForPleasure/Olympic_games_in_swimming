@@ -98,23 +98,51 @@ def prepering_the_data_for_vertical_subplots(mini_df_year):
 
 
 def plotting_subplot_for_freestyle_vs_medley_relay_v2(df_each_year, men_df_year, women_df_year):
+    categories = ['Gold', 'silver', 'Bronze']
     groups = df_each_year.groupby(['Gender', 'Stroke'])
     # Set one size for all subplots
     fig, all_4_axis = plt.subplots(nrows=1, ncols=4, sharey=True, figsize=(16, 4))  # 4 plots
 
     for idx, (criterias, mini_df) in enumerate(groups):
         mini_df.reset_index(inplace=True)
+
+
         for index, row in (mini_df[["Team", "Results (In seconds)", "Rank"]].iterrows()):
             print(f'{row["Results (In seconds)"]}')
             # y, width, height
-            all_4_axis[idx].barh(row["Rank"], row["Results (In seconds)"])
+            all_4_axis[idx].barh(categories, row["Results (In seconds)"])
             print(f'y_pos = {1.9 - index}')
             all_4_axis[idx].text(x=13, y=1.9 - index, s=row["Team"], va='bottom')
-            all_4_axis[idx].text(x=14, y=1.65 - index, s=row["Results (In seconds)"], ha='left', va='bottom',
-                                 style='italic',
-                                 fontsize='9')
+            all_4_axis[idx].text(x=14, y=1.65 - index, s=row["Results (In seconds)"], ha='left', va='bottom',style='italic',fontsize='9')
 
-        print(f'{idx=}')
+            print('*')
+
+        #print(f'{idx=}')
+    # SUBTITLE ( lines 119 - 206 )
+
+    # Adding for each subplot a title: ( lines 200-204 )
+    subplot_names = ['Men - Medley', 'Women - Medley', 'Men - Freestyle', 'Women - Freestyle']
+    for title_subplot in subplot_names:
+        print(title_subplot)
+    for index, plot_name in zip(np.arange(0, 4, 1), subplot_names):
+        all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color='gray')
+
+      # The scale will start at 180 seconds and will ends at 320 seconds
+    years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
+    location_list=['Tokyo','City','Munich','Angeles','Seoul','Barcelona','Atlanta','Sydney','Athens','Beijing','London','Rio']
+    # Reverse the list of years and location :
+    years_list = years_list[::-1]
+    location_list = location_list[::-1]
+    for subtitle_year,subtitle_location in zip(years_list,location_list ):
+        plt.title(f'{subtitle_location} - {subtitle_year} \nOlympic Games' ,fontweight="bold", loc='left', fontsize=14,fontname='Franklin Gothic Medium Cond', x=-3.80, y=1, style='italic', color = 'navy' )
+
+
+
+
+    # TITLE
+    plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1,
+                     ha='center', fontsize=25, fontname='Franklin Gothic Medium Cond', color='lightseagreen')
+
     plt.show()
 
 
@@ -199,10 +227,8 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                     for index, (team_name, time_zone) in enumerate(zip(teams_name_annotation, time_res_annotation)):
                         print('*')
 
-                        all_4_axis[subplot_number].text(x=13, y=1.9 - index, s=team_name, va='bottom',
-                                                        fontdict=fontdict_input)
-                        all_4_axis[subplot_number].text(x=14, y=1.65 - index, s=time_zone, ha='left', va='bottom',
-                                                        style='italic', fontsize='9', fontdict=fontdict_input)
+                        all_4_axis[subplot_number].text(x=13, y=1.9 - index, s=team_name, va='bottom',fontdict=fontdict_input)
+                        all_4_axis[subplot_number].text(x=14, y=1.65 - index, s=time_zone, ha='left', va='bottom',style='italic', fontsize='9', fontdict=fontdict_input)
                         # all_4_axis[subplot_number].text(x=14, y=1.65-index ,s= '04:39.200', ha='left', va='bottom' ,style='italic',fontsize='9',  fontdict=fontdict_input)
                         # all_4_axis[subplot_number].bar(categories, values, width=0.4)
 
@@ -229,7 +255,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         # all_4_axis[subplot_number].bar(x_values, y_values, width=bar_width)
 
     # ax.set_xlabel('time (In seconds)')
-    fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center", weight='bold', style='italic',
+    fig.text(0.5, 0.14, "Results (In seconds)", ha="center", va="center", weight='bold', style='italic',
              fontname='Franklin Gothic Medium Cond', fontsize=14)
 
     # Set labels and title for each subplot
@@ -238,7 +264,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 
     # TITLE
     plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1,
-                 ha='center', fontsize=25, fontname='Franklin Gothic Medium Cond', color='lightseagreen')
+                 ha='center', fontsize=25, fontname='Franklin Gothic Medium Cond', color='lightseagreen',  pad=80)
 
     # plt.savefig('2BarPlot.png')
     plt.show()
@@ -247,8 +273,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv(
-        '/home/gil/PycharmProjects/Olympic_games_in_swimming/Olympic_games_in_swimming/Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
     # df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
 
     data_without_na = df.dropna(how='all')
