@@ -12,11 +12,9 @@ import numpy as np
 # input:
 # return value:
 # ****************************************************************************************************************
-
 # Create a function to format the tick labels with '%'
 def format_percent(x, pos):
     return f"{int(x)}%"
-
 
 # **************************************************************************************************************
 # Function  name: relevant_columns_highlighter
