@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from textwrap import wrap
 #plt.style.use(['unhcrpyplotstyle','dotplot'])
-import dataframe_image as dfi
+#import dataframe_image as dfi
 import numpy as np
 
 # **************************************************************************************************************
@@ -61,7 +61,7 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
                                                   'Year': [],
                                                   'Athlete': [],  # This filed is possible to be in a  pivot table index
                                                   'Results (In seconds)': [] , # Fastest result , Slowest result
-                                                  'percentage':[]})
+                                                  'Fastest percentage':[]})
 
 
     final_table_slowest_results = pd.DataFrame({ 'Team':[],
@@ -70,7 +70,7 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
                                                  'Year': [],
                                                  'Athlete': [],  # This filed is possible to be in a  pivot table index
                                                  'Results (In seconds)': [] , # Fastest result , Slowest result
-                                                 'percentage':[]})
+                                                 'Slowest percentage':[]})
 
     list_of_strokes = mini_df_team['Stroke'].unique()  # kinds of strokes: ['Breaststroke' 'Backstroke' 'Freestyle' 'Butterfly' 'Individual medley']
     for name_stroke in list_of_strokes:
@@ -141,15 +141,10 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
     final_table_fastest_results = final_table_fastest_results.drop_duplicates()
     final_table_fastest_results['order'] = np.arange(final_table_fastest_results.shape[0])
     final_table_fastest_results['status'] = 'Best result by the team (In seconds)'
-    final_table_fastest_results['percentage'] = list_ending_percentage
+    final_table_fastest_results['Fastest percentage'] = list_ending_percentage
 
-    print('*')
-    #styled_formating_df = res_1.style.apply(func=relevant_columns_highlighter, subset=['Best results by the team (In seconds)']).hide_index()
-    #dfi.export(res_1, '../output_images_olympic/fastest_time_table.png')
-    # dfi.export(final_table_fastest_results_6_rows, filename='output_images_olympic/fastest_time_table.png')
 
     final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Worst results by the team (In seconds)'}, inplace=True) # 'Worst results by the team (In seconds)'
-    #final_table_slowest_results_6_rows = final_table_slowest_results[final_table_slowest_results['Team'] == 'USA']
     final_table_slowest_results['Worst results by the team (In seconds)'] = final_table_slowest_results['Worst results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_slowest_results['Year'] = final_table_slowest_results['Year'].apply(lambda x:int(x))
     final_table_slowest_results = final_table_slowest_results.reset_index()
@@ -160,13 +155,17 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
     final_table_slowest_results = final_table_slowest_results.drop_duplicates()
     final_table_slowest_results['order'] = np.arange(final_table_fastest_results.shape[0])
     final_table_slowest_results['status'] = 'Worst result by the team (In seconds)'
-    final_table_slowest_results['percentage'] = list_ending_percentage
-    print('*')
+    final_table_slowest_results['Slowest percentage'] = list_starting_percentage
 
+    # Move third column values to index column
+    final_table_slowest_results = final_table_slowest_results.set_index('Stroke')
+    final_table_fastest_results = final_table_fastest_results.set_index('Stroke')
+
+    final_table = pd.merge(final_table_slowest_results, final_table_fastest_results, left_index=True, right_index=True)
 
     #df_output = pd.concat([final_table_fastest_results, final_table_slowest_results]).sort_index(kind='merge')
     print('*')
-    return final_table_slowest_results , final_table_fastest_results
+    return final_table
 
 
 # **************************************************************************************************************
@@ -175,40 +174,35 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
 # return value: dot_plot
 # ****************************************************************************************************************
 
-def dot_plot_for_the_slowest_and_lastest_athletics():
-    # load and reshape the data
-    df = pd.read_csv(
-        'https://raw.githubusercontent.com/GDS-ODSSS/unhcr-dataviz-platform/master/data/change_over_time/dot_plot.csv')
-    df = df.pivot_table(index=['location', 'order'], columns='period', values='percent', sort=False)
-    df = df.reset_index()
-    # sort values in descending order
-    ordered_df = df.sort_values(by='order', ascending=False)
-    # wrap the long labels
-    y_labels = ordered_df['location']
-    wrapped_label = ['\n'.join(wrap(l, 20)) for l in y_labels]
-    # plot the chart
-    fig, ax = plt.subplots()
-    plt.scatter(ordered_df['worst_score_achieved_by_the_team'], wrapped_label, label='worst_score_achieved_by_the_team') # label='before_covid'
-    plt.scatter(ordered_df['best_score_achieved_by_the_team'], wrapped_label, label='best_score_achieved_by_the_team') # label='first_months'
-    plt.hlines(y=wrapped_label, xmin=ordered_df['before_covid'], xmax=ordered_df['first_months'], color='#666666')
-    # set chart legend
-    ax.legend(labels=["Best_score_achieved_by_the_team", "Worst_score_achieved_by_the_team"], loc=(0, 1.05), ncol=2)
-    # set chart title
-    # f'{subtitle_location}
-    ax.set_title(f'The {team_names} team improvement in their results across every Olympic swimming category', pad=50)
-    # xticks and x ticklabel format
-    limit = plt.xlim(0, 1)
-    vals = ax.get_xticks()
-    ax.set_xticklabels(['{:,.0%}'.format(x) for x in vals])
-    # set chart source and copyright
-    plt.annotate('Source: AnalyticsForPleasure', (0, 0), (0, -25), xycoords='axes fraction',
-                 textcoords='offset points', va='top', color='#666666', fontsize=9)
-    plt.annotate('©UNHCR, The UN Refugee Agency', (0, 0), (0, -35), xycoords='axes fraction',
-                 textcoords='offset points', va='top', color='#666666', fontsize=9)
-    # adjust chart margin and layout
-    fig.tight_layout()
-    # show chart
+def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
+
+
+
+    # df = pd.read_csv(data, sep="\s+", quotechar='"')
+    # df = df.set_index("Country").sort_values("2015")
+    # df["change"] = df["2015"] / df["1990"] - 1
+    print('*')
+
+    plt.figure(figsize=(12,6))
+    y_range = np.arange(1, len(final_fastest_slowest_table.index) + 1) # Dynamic Y range of axis
+    colors = np.where(final_fastest_slowest_table['Fastest percentage'] > final_fastest_slowest_table['Slowest percentage'], '#d9d9d9', '#d57883')
+    plt.hlines(y=y_range, xmin=df['1990'], xmax=df['2015'],
+               color=colors, lw=10)
+    plt.scatter(df['1990'], y_range, color='#0096d7', s=200, label='1990', zorder=3)
+    plt.scatter(df['2015'], y_range, color='#003953', s=200 , label='2015', zorder=3)
+    for (_, row), y in zip(df.iterrows(), y_range):
+        plt.annotate(f"{row['change']:+.0%}", (max(row["1990"], row["2015"]) + 4, y - 0.25))
+    plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
+
+    plt.yticks(y_range, df.index)
+    fontdict_input = {'fontsize': 19, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
+    plt.title("The USA team improvement in their results across every Olympic swimming category", loc='left',fontdict=fontdict_input)
+    plt.xlim(50, 300)
+    plt.gcf().subplots_adjust(left=0.35)
+    plt.tight_layout()
     plt.show()
+
+
 
 
 if __name__ == '__main__':
@@ -237,8 +231,8 @@ if __name__ == '__main__':
 
     for team_names in list_of_teams:
         mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
-        preparing_the_olympic_data_for_the_dot_plot(mini_df_team)
-    #dot_plot_for_the_slowest_and_lastest_athletics()
+        final_table= preparing_the_olympic_data_for_the_dot_plot(mini_df_team)
+        dot_plot_for_the_slowest_and_lastest_athletics(final_table )
     print('*')
 
 
