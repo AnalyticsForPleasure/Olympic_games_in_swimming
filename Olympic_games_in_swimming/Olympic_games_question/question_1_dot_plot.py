@@ -3,7 +3,20 @@ import matplotlib.pyplot as plt
 from textwrap import wrap
 #plt.style.use(['unhcrpyplotstyle','dotplot'])
 #import dataframe_image as dfi
+import matplotlib.ticker as ticker
 import numpy as np
+
+
+# **************************************************************************************************************
+# Function  name: helper function for the x-asix values in the chart
+# input:
+# return value:
+# ****************************************************************************************************************
+
+# Create a function to format the tick labels with '%'
+def format_percent(x, pos):
+    return f"{int(x)}%"
+
 
 # **************************************************************************************************************
 # Function  name: relevant_columns_highlighter
@@ -61,7 +74,7 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
                                                   'Year': [],
                                                   'Athlete': [],  # This filed is possible to be in a  pivot table index
                                                   'Results (In seconds)': [] , # Fastest result , Slowest result
-                                                  'Fastest percentage':[]})
+                                                  'Fastest_percentage':[]})
 
 
     final_table_slowest_results = pd.DataFrame({ 'Team':[],
@@ -70,7 +83,7 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
                                                  'Year': [],
                                                  'Athlete': [],  # This filed is possible to be in a  pivot table index
                                                  'Results (In seconds)': [] , # Fastest result , Slowest result
-                                                 'Slowest percentage':[]})
+                                                 'Slowest_percentage':[]})
 
     list_of_strokes = mini_df_team['Stroke'].unique()  # kinds of strokes: ['Breaststroke' 'Backstroke' 'Freestyle' 'Butterfly' 'Individual medley']
     for name_stroke in list_of_strokes:
@@ -129,7 +142,6 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
 
     print('*')
     final_table_fastest_results.rename(columns={final_table_fastest_results.columns[5]: 'Best results by the team (In seconds)'}, inplace=True) # 'Best results by the team (In seconds)'
-    #final_table_fastest_results_6_rows = final_table_fastest_results[final_table_fastest_results['Team'] == 'USA']
     final_table_fastest_results['Best results by the team (In seconds)'] = final_table_fastest_results['Best results by the team (In seconds)'].apply(lambda x: "{0:.2f}".format(x))
     final_table_fastest_results['Year'] = final_table_fastest_results['Year'].apply(lambda x:int(x))
     final_table_fastest_results = final_table_fastest_results.reset_index()  # final_table_fastest_results_6_rows
@@ -139,9 +151,8 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
     # Adding_columns_for_the pre - plot :
     final_table_fastest_results=final_table_fastest_results.drop(['index'], axis=1)
     final_table_fastest_results = final_table_fastest_results.drop_duplicates()
-    final_table_fastest_results['order'] = np.arange(final_table_fastest_results.shape[0])
     final_table_fastest_results['status'] = 'Best result by the team (In seconds)'
-    final_table_fastest_results['Fastest percentage'] = list_ending_percentage
+    final_table_fastest_results['Fastest_percentage'] = list_ending_percentage
 
 
     final_table_slowest_results.rename(columns={final_table_slowest_results.columns[5]: 'Worst results by the team (In seconds)'}, inplace=True) # 'Worst results by the team (In seconds)'
@@ -153,9 +164,8 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
     # Adding_columns_for_the pre - plot :
     final_table_slowest_results=final_table_slowest_results.drop(['index'], axis=1)
     final_table_slowest_results = final_table_slowest_results.drop_duplicates()
-    final_table_slowest_results['order'] = np.arange(final_table_fastest_results.shape[0])
     final_table_slowest_results['status'] = 'Worst result by the team (In seconds)'
-    final_table_slowest_results['Slowest percentage'] = list_starting_percentage
+    final_table_slowest_results['Slowest_percentage'] = list_starting_percentage
 
     # Move third column values to index column
     final_table_slowest_results = final_table_slowest_results.set_index('Stroke')
@@ -177,32 +187,57 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
 def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
 
 
-
+    #['Team_x', 'Location_x', 'Year_x', 'Athlete_x', 'Worst results by the team (In seconds)', 'Slowest percentage', 'status_x', 'Team_y', 'Location_y', 'Year_y', 'Athlete_y', 'Best results by the team (In seconds)', 'Fastest percentage', 'status_y'#]
     # df = pd.read_csv(data, sep="\s+", quotechar='"')
     # df = df.set_index("Country").sort_values("2015")
-    # df["change"] = df["2015"] / df["1990"] - 1
-    print('*')
 
+
+    # Convert columns to numeric data types
+    final_fastest_slowest_table["Fastest_percentage"] = pd.to_numeric(final_fastest_slowest_table["Fastest_percentage"])
+    final_fastest_slowest_table["Slowest_percentage"] = pd.to_numeric(final_fastest_slowest_table["Slowest_percentage"])
+
+    # Calculate improvement percentage
+    final_fastest_slowest_table["Improvement %"] = final_fastest_slowest_table["Fastest_percentage"] / final_fastest_slowest_table["Slowest_percentage"] - 1
+
+    print('*')
+    plt.style.use('seaborn')
     plt.figure(figsize=(12,6))
     y_range = np.arange(1, len(final_fastest_slowest_table.index) + 1) # Dynamic Y range of axis
-    colors = np.where(final_fastest_slowest_table['Fastest percentage'] > final_fastest_slowest_table['Slowest percentage'], '#d9d9d9', '#d57883')
-    plt.hlines(y=y_range, xmin=df['1990'], xmax=df['2015'],
-               color=colors, lw=10)
-    plt.scatter(df['1990'], y_range, color='#0096d7', s=200, label='1990', zorder=3)
-    plt.scatter(df['2015'], y_range, color='#003953', s=200 , label='2015', zorder=3)
-    for (_, row), y in zip(df.iterrows(), y_range):
-        plt.annotate(f"{row['change']:+.0%}", (max(row["1990"], row["2015"]) + 4, y - 0.25))
+    colors = np.where(final_fastest_slowest_table['Fastest_percentage'] > final_fastest_slowest_table['Slowest_percentage'], '#d9d9d9', '#d57883')
+    plt.hlines(y=y_range, xmin=final_fastest_slowest_table['Slowest_percentage'], xmax=final_fastest_slowest_table['Fastest_percentage'], color=colors, lw=10)
+    plt.scatter(final_fastest_slowest_table['Slowest_percentage'], y_range, color='#0096d7', s=200, label='Less team improvement result', zorder=3)
+    plt.scatter(final_fastest_slowest_table['Fastest_percentage'], y_range, color='#003953', s=200 , label='Best team improvement result', zorder=3)  #003953
+    for (_, row), y in zip(final_fastest_slowest_table.iterrows(), y_range):
+        plt.annotate(f"{row['Improvement %']:+.0%}", (max(row["Slowest_percentage"]-0.15, row["Fastest_percentage"]) + 4, y - 0.15))
     plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
 
-    plt.yticks(y_range, df.index)
-    fontdict_input = {'fontsize': 19, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
-    plt.title("The USA team improvement in their results across every Olympic swimming category", loc='left',fontdict=fontdict_input)
-    plt.xlim(50, 300)
+
+    team_iteration = final_fastest_slowest_table['Team_y'].unique()
+    team_iteration_str = ', '.join(team_iteration)
+
+    fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
+    fontdict_input_y_axis = {'fontsize': 16, 'weight': 'heavy', 'alpha': 0.9, 'color': 'gray','fontname':'Franklin Gothic Medium Cond'}
+    plt.yticks(y_range, final_fastest_slowest_table.index,fontdict=fontdict_input_y_axis)
+    plt.title(f'The {team_iteration_str} team improvement in their results across every Olympic swimming category', loc='left',fontdict=fontdict_input_title)
+
+    # Create a FuncFormatter object with the format_percent function - Dealing the percentage sign
+    percent_formatter = ticker.FuncFormatter(format_percent)
+
+    # Apply the formatter to the x-axis tick labels
+    plt.gca().xaxis.set_major_formatter(percent_formatter)
     plt.gcf().subplots_adjust(left=0.35)
+
+    #set chart legend
+    plt.legend(labels = ["Worst team score", "Best team score"], loc=(0,1.07), ncol=2) # loc=(0,1.05), ncol=2)
+
+    # xticks and xticklabel format
+    # limit = plt.xlim(0, 1)
+    # vals = plt.get_xticks()
+    # plt.set_xticklabels(['{:,.0%}'.format(x) for x in vals])
+
+
     plt.tight_layout()
     plt.show()
-
-
 
 
 if __name__ == '__main__':
