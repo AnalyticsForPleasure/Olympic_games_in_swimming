@@ -10,6 +10,11 @@ import numpy as np
 
 def preparing_the_data_for_the_dot_plot(mini_df_team):
     # Retrieving -  3 first place
+
+    df_starting = pd.DataFrame({'olympic_year': [],
+                                'Amount_of_medals': []})
+
+
     first_3_places = [1, 2, 3]
     final_medals_table = mini_df_team[mini_df_team['Rank'].isin(first_3_places)]
     final_medals_table.reset_index(inplace=True)
@@ -24,11 +29,20 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 
         # list_of_number_of_medals_for_the_team.append()
         list_of_number_of_medals_for_the_team.append(medals_specific_year)
+
+
     print('*')
     avg_of_the_team_over_the_years = np.mean(list_of_number_of_medals_for_the_team) # In order to create the vertical line
+    list_of_years = list(mini_df_team['Year'].unique())
+    list_of_years = list_of_years[::-1]
     print('*')
 
-    return avg_of_the_team_over_the_years
+    df_starting = {'Olympic_year': list_of_years,
+                   'Amount_of_medals': list_of_number_of_medals_for_the_team}
+
+    final_table = pd.DataFrame(df_starting,columns=['Olympic_year', 'Amount_of_medals'])
+    print('*')
+    return avg_of_the_team_over_the_years , final_table
 
 
 if __name__ == '__main__':
