@@ -73,19 +73,17 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver', 'navy')
 
     # Create the dot plot
+
     plt.scatter(x_axis, y_axis, c=colors)
 
     # Customize the plot
-    plt.xlabel('X-axis')
-    plt.ylabel('Y-axis')
-
-
-    team_iteration = final_table['Team'].unique()
-    team_iteration_str = ', '.join(team_iteration)
+    plt.xlabel('Olympic Years',fontsize= 17,  color= 'Gray',fontname='Franklin Gothic Medium Cond')
+    plt.ylabel(f'Amount of medals for the {team_name_str} team',fontsize= 17,  color= 'Gray',fontname='Franklin Gothic Medium Cond')
 
     fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
-    plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=50)
+    plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=20) # }
 
+    plt.xticks(range(1, 5))
 # Show the plot
     plt.show()
 
