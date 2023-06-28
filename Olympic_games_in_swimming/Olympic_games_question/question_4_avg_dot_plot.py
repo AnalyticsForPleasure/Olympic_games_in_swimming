@@ -11,8 +11,8 @@ import numpy as np
 def preparing_the_data_for_the_dot_plot(mini_df_team):
     # Retrieving -  3 first place
 
-    df_starting = pd.DataFrame({'olympic_year': [],
-                                'Amount_of_medals': []})
+    # df_starting = pd.DataFrame({'olympic_year': [],
+    #                             'Amount_of_medals': []})
 
 
     first_3_places = [1, 2, 3]
@@ -58,7 +58,8 @@ if __name__ == '__main__':
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
 
-    list_of_teams = ['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
+    list_of_teams = ['AUS','GBR','JPN','GER','CAN','GDR','HUN'] # 'USA',
+    list_of_teams = ['AUS','GBR','JPN','GER','CAN','GDR','HUN'] # 'USA',
     for team_names in list_of_teams:
         mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
         preparing_the_data_for_the_dot_plot(mini_df_team)
