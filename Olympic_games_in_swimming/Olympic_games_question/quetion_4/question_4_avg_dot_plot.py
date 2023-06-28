@@ -31,40 +31,62 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
     list_of_years = list(final_medals_table['Year'].unique())
     list_of_years = list_of_years[::-1]
 
+    team_name = final_medals_table['Team'].unique()
+    print('*')
     df_starting = {'Olympic_year': list_of_years,
                    'Amount_of_medals': list_of_number_of_medals_for_the_team}
 
     final_table = pd.DataFrame(df_starting,columns=['Olympic_year', 'Amount_of_medals'])
     print('*')
-    return avg_of_the_team_over_the_years , final_table
+    return avg_of_the_team_over_the_years , final_table ,  team_name
 
 # **************************************************************************************************************
 # Function  name: creating_the_plot_chart_of_each_teams
 # input:
 # return value:
 # ****************************************************************************************************************
-def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table):
+def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table, team_name):
 
     #sns.catplot(data=tips, x="day", y="total_bill", jitter=False)
-
+    print('*')
     #https://www.machinelearningplus.com/plots/top-50-matplotlib-visualizations-the-master-plots-python/#17.-Dot-Plot
+    #https://seaborn.pydata.org/tutorial/categorical.html
     # Prepare Data
-    df_raw = pd.read_csv("https://github.com/selva86/datasets/raw/master/mpg_ggplot2.csv")
-    df = df_raw[['cty', 'manufacturer']].groupby('manufacturer').apply(lambda x: x.mean())
-    df.sort_values('cty', inplace=True)
-    df.reset_index(inplace=True)
+    # Generate sample data
+    # np.random.seed(0)
+    # x = np.random.randn(25)
+    # y = np.random.randint(1, 33, size=25)
 
-    # Draw plot
-    fig, ax = plt.subplots(figsize=(16,10), dpi= 80)
-    ax.hlines(y=df.index, xmin=11, xmax=26, color='gray', alpha=0.7, linewidth=1, linestyles='dashdot')
-    ax.scatter(y=df.index, x=df.cty, s=75, color='firebrick', alpha=0.7)
 
-    # Title, Label, Ticks and Ylim
-    ax.set_title('Dot Plot for Highway Mileage', fontdict={'size':22})
-    ax.set_xlabel('Miles Per Gallon')
-    ax.set_yticks(df.index)
-    ax.set_yticklabels(df.manufacturer.str.title(), fontdict={'horizontalalignment': 'right'})
-    ax.set_xlim(10, 27)
+    team_name_str = ', '.join(team_name)
+    print('*')
+    x_axis = final_table['Olympic_year'].to_numpy()
+    y_axis = final_table['Amount_of_medals'].to_numpy()
+
+
+    print('*')
+    # Define the threshold for color differentiationrn, di
+    threshold = 12
+
+
+    # Assign colors based on the y-values
+    colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver', 'navy')
+
+    # Create the dot plot
+    plt.scatter(x_axis, y_axis, c=colors)
+
+    # Customize the plot
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+
+
+    team_iteration = final_table['Team'].unique()
+    team_iteration_str = ', '.join(team_iteration)
+
+    fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
+    plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=50)
+
+# Show the plot
     plt.show()
 
 
@@ -75,7 +97,7 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
     print('*')
 
     # Cleaning_the_data:
@@ -89,6 +111,7 @@ if __name__ == '__main__':
 
     for team_names in list_of_teams:
         mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
-         preparing_the_data_for_the_dot_plot(mini_df_team)
-        creating_the_dot_chart_of_each_teams()
+        avg_of_the_team_over_the_years , final_table , team_name = preparing_the_data_for_the_dot_plot(mini_df_team)
+        creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years , final_table , team_name )
         print('*')
+
