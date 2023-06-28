@@ -10,11 +10,6 @@ import numpy as np
 
 def preparing_the_data_for_the_dot_plot(mini_df_team):
     # Retrieving -  3 first place
-
-    # df_starting = pd.DataFrame({'olympic_year': [],
-    #                             'Amount_of_medals': []})
-
-
     first_3_places = [1, 2, 3]
     final_medals_table = mini_df_team[mini_df_team['Rank'].isin(first_3_places)]
     final_medals_table.reset_index(inplace=True)
@@ -27,15 +22,13 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
         medals_specific_year = mini_df_year.shape[0]
         print('*')
 
-        # list_of_number_of_medals_for_the_team.append()
-        list_of_number_of_medals_for_the_team.append(medals_specific_year)
 
+        list_of_number_of_medals_for_the_team.append(medals_specific_year)
 
     print('*')
     avg_of_the_team_over_the_years = np.mean(list_of_number_of_medals_for_the_team) # In order to create the vertical line
-    list_of_years = list(mini_df_team['Year'].unique())
+    list_of_years = list(final_medals_table['Year'].unique())
     list_of_years = list_of_years[::-1]
-    print('*')
 
     df_starting = {'Olympic_year': list_of_years,
                    'Amount_of_medals': list_of_number_of_medals_for_the_team}
@@ -58,8 +51,8 @@ if __name__ == '__main__':
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
 
-    list_of_teams = ['AUS','GBR','JPN','GER','CAN','GDR','HUN'] # 'USA',
-    list_of_teams = ['AUS','GBR','JPN','GER','CAN','GDR','HUN'] # 'USA',
+    list_of_teams = ['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
+
     for team_names in list_of_teams:
         mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
         preparing_the_data_for_the_dot_plot(mini_df_team)
