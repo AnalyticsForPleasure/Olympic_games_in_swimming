@@ -89,6 +89,7 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
     plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=20) # }
 
+    plt.savefig(f'dot_plot_with_avg_line_of_{team_name_str}.jpg', dpi=250, bbox_inches='tight')
 # Show the plot
     plt.show()
 

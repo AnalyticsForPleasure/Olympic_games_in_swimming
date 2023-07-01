@@ -9,14 +9,15 @@ import matplotlib.pyplot as plt
 
 # Generate sample data
 np.random.seed(0)
-x = np.random.randn(100)
-y = np.random.randint(1, 10, size=100)
+x = np.random.randn(25)
+y = np.random.randint(1, 33, size=25)
 
-# Define the threshold for color differentiation
-threshold = 5
+# Define the threshold for color differentiationrn, di
+threshold = 12
+
 
 # Assign colors based on the y-values
-colors = np.where(y <= threshold, 'gray', 'navy')
+colors = np.where(y <= threshold, 'silver', 'navy')
 
 # Create the dot plot
 plt.scatter(x, y, c=colors)
