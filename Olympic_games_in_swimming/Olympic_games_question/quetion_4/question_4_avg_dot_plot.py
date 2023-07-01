@@ -70,10 +70,16 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
 
 
     # Assign colors based on the y-values
-    colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver', 'navy')
+    colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver', 'deepskyblue')
+    avg_of_the_team_over_the_years
+    print('*')
+
+    fig, ax = plt.subplots()
+    ax.axhline(y=avg_of_the_team_over_the_years,xmin=0 , xmax = 2000, color= 'r')
+    # matplotlib.pyplot.hlines(y = avg_of_the_team_over_the_years, xmin = 1968, xmax = 2000, colors="Green", linestyles='solid',
+
 
     # Create the dot plot
-
     plt.scatter(x_axis, y_axis, c=colors)
 
     # Customize the plot
@@ -83,7 +89,6 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
     plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=20) # }
 
-    plt.xticks(range(1, 5))
 # Show the plot
     plt.show()
 
