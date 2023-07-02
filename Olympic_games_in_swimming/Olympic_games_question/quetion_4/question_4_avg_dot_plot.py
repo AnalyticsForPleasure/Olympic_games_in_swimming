@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -64,23 +65,27 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     y_axis = final_table['Amount_of_medals'].to_numpy()
 
 
-    print('*')
-    # Define the threshold for color differentiationrn, di
-    threshold = 12
-
-
     # Assign colors based on the y-values
     colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver', 'deepskyblue')
-    avg_of_the_team_over_the_years
+    fontdict_input2 = {'fontsize': 21, 'weight': 'heavy', 'alpha': 0.9, 'color': 'gray','fontname':'Franklin Gothic Medium Cond',  'weight':'bold' , 'style':'italic' }
     print('*')
 
     fig, ax = plt.subplots()
-    ax.axhline(y=avg_of_the_team_over_the_years,xmin=0 , xmax = 2000, color= 'r')
-    # matplotlib.pyplot.hlines(y = avg_of_the_team_over_the_years, xmin = 1968, xmax = 2000, colors="Green", linestyles='solid',
+
+    # Add the horizontal line ( we have 2 parts )
+    plt.hlines(avg_of_the_team_over_the_years,1912,1960,colors="gray", linestyle='dashed', linewidth=3)
+    plt.hlines(avg_of_the_team_over_the_years,1976,2020,colors="gray", linestyle='dashed',  linewidth=3)
+
+    rounded_number = round(avg_of_the_team_over_the_years, 2)
 
 
-    # Create the dot plot
-    plt.scatter(x_axis, y_axis, c=colors)
+    # Annotation for the avg value at the center
+    plt.text(x=1964, y=avg_of_the_team_over_the_years - avg_of_the_team_over_the_years * 0.05, s=f'Avg   {rounded_number}', ha='left', va='bottom', fontdict=fontdict_input2)
+
+
+
+# Create the dot plot
+    plt.scatter(x_axis, y_axis, s= 100,  c=colors)
 
     # Customize the plot
     plt.xlabel('Olympic Years',fontsize= 17,  color= 'Gray',fontname='Franklin Gothic Medium Cond')
@@ -92,8 +97,6 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     plt.savefig(f'dot_plot_with_avg_line_of_{team_name_str}.jpg', dpi=250, bbox_inches='tight')
 # Show the plot
     plt.show()
-
-
 
 
 
