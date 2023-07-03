@@ -95,8 +95,6 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     plt.show()
 
 
-
-
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
