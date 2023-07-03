@@ -20,11 +20,11 @@ During this period, we will examine the swimming competitions, which are an inte
 
 
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/4ca847b8-8093-4672-9a4a-77cc449ef525)
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/93e2cd2f-e1b8-4ffd-b659-5a47c9310ba6)
 
 
 
 
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/33e803fc-3504-4ac0-9036-44cd664ba91c)
 
 
 
