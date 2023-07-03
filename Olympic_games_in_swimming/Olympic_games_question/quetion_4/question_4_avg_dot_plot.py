@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -46,27 +45,18 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 # input:
 # return value:
 # ****************************************************************************************************************
-def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table, team_name):
+def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table, team_name, color):
 
-    #sns.catplot(data=tips, x="day", y="total_bill", jitter=False)
     print('*')
-    #https://www.machinelearningplus.com/plots/top-50-matplotlib-visualizations-the-master-plots-python/#17.-Dot-Plot
-    #https://seaborn.pydata.org/tutorial/categorical.html
-    # Prepare Data
-    # Generate sample data
-    # np.random.seed(0)
-    # x = np.random.randn(25)
-    # y = np.random.randint(1, 33, size=25)
-
-
     team_name_str = ', '.join(team_name)
     print('*')
     x_axis = final_table['Olympic_year'].to_numpy()
     y_axis = final_table['Amount_of_medals'].to_numpy()
+    print('*')
 
 
     # Assign colors based on the y-values
-    colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver', 'deepskyblue')
+    colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver',color ) #'deepskyblue'
     fontdict_input2 = {'fontsize': 21, 'weight': 'heavy', 'alpha': 0.9, 'color': 'gray','fontname':'Franklin Gothic Medium Cond',  'weight':'bold' , 'style':'italic' }
     print('*')
 
@@ -86,6 +76,12 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
 
 # Create the dot plot
     plt.scatter(x_axis, y_axis, s= 100,  c=colors)
+
+    plt.xticks(np.arange(1912, 2020, step=8))
+
+    #np.arange(1, 30,step = 5)
+
+    #xticks(np.arange(0, 1, step=0.2))
 
     # Customize the plot
     plt.xlabel('Olympic Years',fontsize= 17,  color= 'Gray',fontname='Franklin Gothic Medium Cond')
@@ -110,15 +106,16 @@ if __name__ == '__main__':
     # Cleaning_the_data:
     data_without_na = df.dropna(how='all')
     cleaner_df = data_without_na.dropna(subset=['Results'])
-    # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
 
     list_of_teams = ['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
 
-    for team_names in list_of_teams:
+    colors = ['orange','lightcoral', 'dodgerblue', 'yellowgreen', 'navy', 'springgreen','Black','lightgreen']
+
+    for team_names , color in zip (list_of_teams, colors):
         mini_df_team = final_clean_table[final_clean_table['Team'] == team_names]
         avg_of_the_team_over_the_years , final_table , team_name = preparing_the_data_for_the_dot_plot(mini_df_team)
-        creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years , final_table , team_name )
+        creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years , final_table , team_name,  color )
         print('*')
 
