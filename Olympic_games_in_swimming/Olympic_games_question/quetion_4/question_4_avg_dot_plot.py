@@ -54,23 +54,23 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     y_axis = final_table['Amount_of_medals'].to_numpy()
     print('*')
 
-
+    plt.style.use('seaborn')
     # Assign colors based on the y-values
     colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver',color ) #'deepskyblue'
-    fontdict_input2 = {'fontsize': 21, 'weight': 'heavy', 'alpha': 0.9, 'color': 'gray','fontname':'Franklin Gothic Medium Cond',  'weight':'bold' , 'style':'italic' }
+    fontdict_input2 = {'fontsize': 21, 'weight': 'heavy', 'alpha': 0.9,'fontname':'Franklin Gothic Medium Cond',  'weight':'bold' , 'style':'italic' }
     print('*')
 
     fig, ax = plt.subplots()
 
     # Add the horizontal line ( we have 2 parts )
-    plt.hlines(avg_of_the_team_over_the_years,1912,1960,colors="gray", linestyle='dashed', linewidth=3)
-    plt.hlines(avg_of_the_team_over_the_years,1976,2020,colors="gray", linestyle='dashed',  linewidth=3)
+    plt.hlines(avg_of_the_team_over_the_years,1912,1964,colors="gray", linestyle='dashed', linewidth=3)
+    plt.hlines(avg_of_the_team_over_the_years,1972,2020,colors="gray", linestyle='dashed',  linewidth=3)
 
     rounded_number = round(avg_of_the_team_over_the_years, 2)
 
 
     # Annotation for the avg value at the center
-    plt.text(x=1964, y=avg_of_the_team_over_the_years - avg_of_the_team_over_the_years * 0.05, s=f'Avg   {rounded_number}', ha='left', va='bottom', fontdict=fontdict_input2)
+    plt.text(x=1964, y=avg_of_the_team_over_the_years - avg_of_the_team_over_the_years * 0.08, s=f'Avg   {rounded_number}', ha='left', va='bottom', color = color ,fontdict=fontdict_input2)
 
 
 
@@ -91,6 +91,7 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=20) # }
 
     plt.savefig(f'dot_plot_with_avg_line_of_{team_name_str}.jpg', dpi=250, bbox_inches='tight')
+
 # Show the plot
     plt.show()
 
