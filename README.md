@@ -24,7 +24,8 @@ During this period, we will examine the swimming competitions, which are an inte
 
 
 
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/33e803fc-3504-4ac0-9036-44cd664ba91c)
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/4dd5268a-fd81-4259-856c-9cdbcf4ee89f)
+
 
 
 
