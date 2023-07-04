@@ -70,11 +70,8 @@ if __name__ == '__main__':
     # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
-    column_headers = list(final_clean_table.columns.values)
-
-    #
-    # final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
-    # final_clean_table['Results (In seconds)'] = final_clean_table['Results (In seconds)'].apply(lambda x: int(x))
+    final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
+    #final_clean_table['Results (In seconds)'] = final_clean_table['Results (In seconds)'].apply(lambda x: int(x))
 
 
     print('*')
