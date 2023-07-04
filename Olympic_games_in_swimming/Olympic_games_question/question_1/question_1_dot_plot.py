@@ -210,7 +210,7 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     fontdict_input_y_axis = {'fontsize': 16, 'weight': 'heavy', 'alpha': 0.9, 'color': 'gray','fontname':'Franklin Gothic Medium Cond'}
     plt.yticks(y_range, final_fastest_slowest_table.index,fontdict=fontdict_input_y_axis)
     #  The improvement of the {team_iteration_str} team in each swimming category across all Olympic swimming events
-    plt.title(f"The improvement of the {team_iteration_str} team in each Olympic swimming events", loc='left',fontdict=fontdict_input_title,  pad=50)
+    plt.title(f"The improvement of the {team_iteration_str} team in each Olympic swimming events - Men's 200m", loc='left',fontdict=fontdict_input_title,  pad=50)
 
     # Create a FuncFormatter object with the format_percent function - Dealing the percentage sign
     percent_formatter = ticker.FuncFormatter(format_percent)
@@ -226,7 +226,6 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     plt.tight_layout()
     plt.savefig(f'Cleveland_dot_plot_{team_iteration_str}.jpg', dpi=250, bbox_inches='tight')
     plt.show()
-
 
 if __name__ == '__main__':
 
