@@ -48,10 +48,14 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
     print('*')
 
     groupby_stroke = final_men_table.groupby("Stroke")
-    for swimming_style, mini_df_style in groupby_stroke:
-        print(swimming_style)
-        print(mini_df_style)
-        print('*')
+    for swimming_style_men, mini_df_style_men in groupby_stroke:
+        print(swimming_style_men)
+        print(mini_df_style_men)
+        grooupby_distance = mini_df_style_men.groupby("Distance (in meters)")
+        for type_distance_men, mini_df_distance_men in grooupby_distance:
+            print(type_distance_men)
+            print(mini_df_distance_men)
+            print('*')
 
 
 if __name__ == '__main__':
@@ -66,6 +70,7 @@ if __name__ == '__main__':
     # Removing rows with the values : 'Disqualified','Did not start','Did not finish'
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
+    column_headers = list(final_clean_table.columns.values)
 
     #
     # final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
