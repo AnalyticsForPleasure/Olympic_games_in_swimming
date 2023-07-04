@@ -180,7 +180,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
                         #all_4_axis[subplot_number].bar(categories, values, width=0.4)
 
 
-                    print('*')
+                print('*')
 
         # SUBTITLE ( lines 194 - 201 )
         years_list = [1964,1968,1972,1984,1988,1992,1996,2000,2004,2008,2012,2016]
@@ -201,13 +201,22 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
         all_4_axis[index].set_title(plot_name, fontsize=14, fontname='Franklin Gothic Medium Cond', color = 'gray')
         #all_4_axis[subplot_number].bar(x_values, y_values, width=bar_width)
 
+
+        # SUBTITLE ( lines 194 - 201 )
+        years_list = [1964, 1968, 1972, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016]
+        location_list = ['Tokyo', 'City', 'Munich', 'Angeles', 'Seoul', 'Barcelona', 'Atlanta', 'Sydney', 'Athens',
+                         'Beijing', 'London', 'Rio']
+        # Reverse the list of years and location :
+        years_list = years_list[::-1]
+        location_list = location_list[::-1]
+
     #ax.set_xlabel('time (In seconds)')
     fig.text(0.5, 0.04, "Results (In seconds)", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=14)
+
 
     # Set labels and title for each subplot
     #ax.set_ylabel('Categories')
     plt.xticks(fontsize=9)
-
 
     # TITLE
     plt.suptitle('Comparing the evolution of freestyle and medley relay events throughout the years', x=0.53, y=1, ha='center', fontsize=25,fontname='Franklin Gothic Medium Cond', color = 'lightseagreen' )
@@ -219,7 +228,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
     #df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
 
     data_without_na = df.dropna(how='all')

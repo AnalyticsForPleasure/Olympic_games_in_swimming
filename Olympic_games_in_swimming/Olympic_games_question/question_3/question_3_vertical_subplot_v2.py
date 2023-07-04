@@ -273,7 +273,7 @@ def plotting_subplot_for_freestyle_vs_medley_relay(df_each_year, men_df_year, wo
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
     # df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
 
     data_without_na = df.dropna(how='all')

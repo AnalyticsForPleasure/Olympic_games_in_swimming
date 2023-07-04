@@ -110,12 +110,15 @@ def creating_advance_line_chart(table_input):
     plt.xlabel('Years of the Summer Olympic', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
     plt.ylabel('Number of teams representing countries', fontsize=14,fontweight='bold',fontname='Franklin Gothic Medium Cond')
     plt.xticks(x_values)
+
+    plt.savefig('line_chart.jpg',dpi=750, bbox_inches='tight')
+
     plt.show()
 
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
     print('*')
 
     result = preparing_the_data_for_the_line_plot(df)

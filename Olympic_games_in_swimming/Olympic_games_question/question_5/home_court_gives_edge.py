@@ -4,7 +4,7 @@ import numpy as np
 
 # **************************************************************************************************************
 # Function  name:
-# input: How home field adventage gives O;ympic hpst countries an Edge?
+# input: How home field advantage gives O;ympic hpst countries an Edge?
 # return value:
 # ****************************************************************************************************************
 
