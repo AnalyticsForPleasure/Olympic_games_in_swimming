@@ -54,10 +54,23 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
         for type_distance_men, mini_df_distance_men in grooupby_distance:
             print(type_distance_men)
             print(mini_df_distance_men)
-            mini_df_distance_men.reset_index()
-            # Another filter - 3 first place
-            first_place = [1,2]
-            final_medals_table = mini_df_distance_men[mini_df_distance_men['Rank'].isin(first_place)]
+
+            final_medals_table = mini_df_distance_men[mini_df_distance_men['Rank'] == 1]
+            final_medals_table.sort_values(by = 'Year', inplace=True, ascending=True)
+            res = final_medals_table.reset_index()
+            first_olympic_games_result = res.loc[0,'Results (In seconds)']
+            current_olympic_game = []
+            for index_row in np.arange(1,res.shape[0],1):
+                current_olympic_game = res.loc[index_row,'Results (In seconds)']
+                if current_olympic_game < first_olympic_games_result :
+                    world_olympic_record = current_olympic_game
+                else :
+
+                print('*')
+                #if res[]
+
+            # final_medals_table.loc[,'Results (In seconds)']
+
             print('*')
 
 
@@ -76,10 +89,10 @@ if __name__ == '__main__':
     final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
     #final_clean_table['Results (In seconds)'] = final_clean_table['Results (In seconds)'].apply(lambda x: int(x))
 
-
+    #['Location', 'Year', 'Distance (in meters)', 'Stroke', 'Relay?', 'Gender', 'Team', 'Athlete', 'Results', 'Rank', 'Results (In seconds)']
     print('*')
 
-
+    column_headers = list(final_clean_table.columns.values)
 
     prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_clean_table)
     print('*')
