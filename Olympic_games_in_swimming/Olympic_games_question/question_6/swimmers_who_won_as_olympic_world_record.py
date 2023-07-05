@@ -64,9 +64,10 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
                 current_olympic_game = res.loc[index_row,'Results (In seconds)']
                 if current_olympic_game < first_olympic_games_result :
                     world_olympic_record = current_olympic_game
-                else :
+                else:
 
-                print('*')
+
+                    print('*')
                 #if res[]
 
             # final_medals_table.loc[,'Results (In seconds)']
