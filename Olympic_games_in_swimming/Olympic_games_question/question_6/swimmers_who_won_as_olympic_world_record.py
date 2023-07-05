@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-
 # **************************************************************************************************************
 # Function  name: convert_time_to_seconds ( Examples  '1:59.06' -> 119.06 , '00:01:53.410000' -> 113.41 )
 # input: Define a custom function to convert time in minutes to seconds
@@ -55,6 +54,10 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
         for type_distance_men, mini_df_distance_men in grooupby_distance:
             print(type_distance_men)
             print(mini_df_distance_men)
+            mini_df_distance_men.reset_index()
+            # Another filter - 3 first place
+            first_place = [1,2]
+            final_medals_table = mini_df_distance_men[mini_df_distance_men['Rank'].isin(first_place)]
             print('*')
 
 
