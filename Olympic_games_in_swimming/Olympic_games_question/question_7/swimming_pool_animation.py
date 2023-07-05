@@ -4,6 +4,10 @@ import numpy as np
 import seaborn as sns
 
 
+# The number of  time each team to broke the olympic record over the years
+
+list_of_teams_names =['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
+
 
 if __name__ == '__main__':
 
