@@ -33,7 +33,7 @@ def convert_time_to_seconds(time_str):
     return minutes * 60 + seconds
 
 # **************************************************************************************************************
-# Function  name:
+# Function  name: prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record
 # input:
 # return value:
 # ****************************************************************************************************************
@@ -72,8 +72,9 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
 
             current_min = float('inf')
 
-            min_values = []
             for value in res['Results (In seconds)'][::1]:
+
+                # The next row give us the min value  between the 'value' between the 'current_min'
                 current_min = min(value, current_min)
                 # The next row gives us info about current olympic record in a specific field
                 current_Olympic_record = res[res['Results (In seconds)'] == current_min][['Location','Distance (in meters)', 'Stroke','Team','Athlete', 'Results','Results (In seconds)']]
@@ -84,11 +85,6 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
             world_olympic_record['Athlete'].value_counts()
 
             print('*')
-
-            # final_medals_table.loc[,'Results (In seconds)']
-
-            print('*')
-
             return 5
 
 
@@ -107,7 +103,6 @@ if __name__ == '__main__':
     final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
     #final_clean_table['Results (In seconds)'] = final_clean_table['Results (In seconds)'].apply(lambda x: int(x))
 
-    #['Location', 'Year', 'Distance (in meters)', 'Stroke', 'Relay?', 'Gender', 'Team', 'Athlete', 'Results', 'Rank', 'Results (In seconds)']
     print('*')
 
     column_headers = list(final_clean_table.columns.values)
