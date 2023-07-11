@@ -46,6 +46,14 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
     final_women_table.sort_values(by = 'Year', inplace=True, ascending=True)
     print('*')
 
+    world_olympic_record = pd.DataFrame({'Location':[],
+                                         'Distance (in meters)':[],
+                                         'Stroke':[],
+                                         'Team':[],
+                                         'Athlete':[],
+                                         'Results':[],
+                                         'Results (In seconds)':[]})
+
     groupby_stroke = final_men_table.groupby("Stroke")
     for swimming_style_men, mini_df_style_men in groupby_stroke:
         print(swimming_style_men)
@@ -54,25 +62,34 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
         for type_distance_men, mini_df_distance_men in grooupby_distance:
             print(type_distance_men)
             print(mini_df_distance_men)
+            print('*')
 
             final_medals_table = mini_df_distance_men[mini_df_distance_men['Rank'] == 1]
             final_medals_table.sort_values(by = 'Year', inplace=True, ascending=True)
             res = final_medals_table.reset_index()
-            first_olympic_games_result = res.loc[0,'Results (In seconds)']
-            current_olympic_game = []
-            for index_row in np.arange(1,res.shape[0],1):
-                current_olympic_game = res.loc[index_row,'Results (In seconds)']
-                if current_olympic_game < first_olympic_games_result :
-                    world_olympic_record = current_olympic_game
-                else:
 
 
-                    print('*')
-                #if res[]
+
+            current_min = float('inf')
+
+            min_values = []
+            for value in res['Results (In seconds)'][::1]:
+                current_min = min(value, current_min)
+                # The next row gives us info about current olympic record in a specific field
+                current_Olympic_record = res[res['Results (In seconds)'] == current_min][['Location','Distance (in meters)', 'Stroke','Team','Athlete', 'Results','Results (In seconds)']]
+
+                # Concatenate all the broken records together for the same field :
+                world_olympic_record = pd.concat([world_olympic_record, current_Olympic_record], axis=0)
+            print('*')
+            world_olympic_record['Athlete'].value_counts()
+
+            print('*')
 
             # final_medals_table.loc[,'Results (In seconds)']
 
             print('*')
+
+            return 5
 
 
 if __name__ == '__main__':
