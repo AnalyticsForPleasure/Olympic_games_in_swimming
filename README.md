@@ -6,6 +6,7 @@
 * [The men's teams demonstrated remarkable progress and improvements in each swimming event.](#"The-men's-teams-demonstrated-remarkable-progress-and-improvements-in-each-swimming-event)
 * [The distribution of medals won by various teams over the years](#The-distribution-of-medals-won-by-various-teams-over-the-years)
 * [Comparing the evolution of freestyle and medley relay events throughout the years](#Comparing-the-evolution-of-freestyle-and-medley-relay-events-throughout-the-years)
+* [Which swimmers hold the highest number of Olympic records in the field of swimming? ](#Which-swimmers-hold-the-highest-number-of-Olympic-records-in-the-field-of-swimming?)
 
 ## Introduction 
 
@@ -34,6 +35,11 @@ In our upcoming chart analysis, we aim to determine the distribution of medals a
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/93e2cd2f-e1b8-4ffd-b659-5a47c9310ba6)
 
 
+
+
+
+## Which swimmers hold the highest number of Olympic records in the field of swimming?
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/21e53987-0585-491e-833f-d0352e4fb515)
 
 
 
