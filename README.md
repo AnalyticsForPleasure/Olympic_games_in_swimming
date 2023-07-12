@@ -16,10 +16,11 @@ During this period, we will examine the swimming competitions, which are an inte
 
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/fbea407a-a946-4490-ace4-a3a3493bc267)
 
-
-Our next question to explore is the number of teams / countries participating in the swimming events of the Olympic Games throughout the years. We want to determine if there has been a decrease or increase in the number of participating teams since the inaugural Olympic Games held in Stockholm in 1912.
+We would like to explore our next question, which is to determine the number of teams/countries that have participated in the swimming events of the Olympic Games over the years. We are interested in understanding whether there has been a change in the number of teams since the inaugural Olympic Games held in Stockholm in 1912. 
 
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/4ca847b8-8093-4672-9a4a-77cc449ef525)
+Looking at the chart provided, we observe a significant increase in the number of teams participating in swimming events from 1964 to 2020.
+
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/93e2cd2f-e1b8-4ffd-b659-5a47c9310ba6)
 
 
