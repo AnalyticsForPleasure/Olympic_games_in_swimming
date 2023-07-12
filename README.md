@@ -39,7 +39,10 @@ In our upcoming chart analysis, we aim to determine the distribution of medals a
 
 
 ## Which swimmers hold the highest number of Olympic records?
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/21e53987-0585-491e-833f-d0352e4fb515)
+
+
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/c798c055-e7f0-400c-915d-e63c189132ff)
+
 
 
 
