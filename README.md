@@ -21,6 +21,10 @@ We would like to explore our next question, which is to determine the number of 
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/4ca847b8-8093-4672-9a4a-77cc449ef525)
 Looking at the chart provided, we observe a significant increase in the number of teams participating in swimming events from 1964 to 2020.
 
+
+
+In our upcoming chart analysis, we aim to determine the distribution of medals awarded to each team throughout the Olympic Games from 1912 to 2020. Additionally, we plan to incorporate a vertical line that represents the average number of medals awarded in the swimming events for each individual Olympic Games. To accomplish this, I have created an animated chart that focuses on seven specific teams: United States, Australia, Canada, United Kingdom, Germany, Hungary, and Japan.
+
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/93e2cd2f-e1b8-4ffd-b659-5a47c9310ba6)
 
 
