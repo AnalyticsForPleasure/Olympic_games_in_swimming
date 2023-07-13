@@ -32,8 +32,8 @@ if __name__ == '__main__':
     # Create a dictionary of the location of the Olympic took place and team
     dict_location_city = {
         "Tokyo": "JPN",
-        "Rio": "Mustang",
-        "Atlanta":'USA',
+        "Rio": "BRA",
+        "Atlanta":"USA",
         "London": "GBR",
         "Paris": "FRA",
         "Sydney":"AUS",
@@ -45,15 +45,16 @@ if __name__ == '__main__':
         "Munich": "GRE",
         "Berlin": "GRE",
         "Athens":"GRE",
-        "Seoul":"", # South Korea
-        "Stockholm": "GRE",
+        "Seoul":"KOR",
+        "Stockholm": "SWE",
         "Athens":"GRE",
         "Amsterdam":"NED",
         "Helsinki":"FIN",
         "Moscow":"RSA",
-        "Seoul":"FIN",
+        "City":"MEX",
         "Antwerp":"BUL",
         "Rome":"GRE"}
+    print('*')
 
 
 
