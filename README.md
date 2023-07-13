@@ -6,6 +6,7 @@
 * [The men's teams demonstrated remarkable progress and improvements in each swimming event.](#"The-men's-teams-demonstrated-remarkable-progress-and-improvements-in-each-swimming-event)
 * [The distribution of medals won by various teams over the years](#The-distribution-of-medals-won-by-various-teams-over-the-years)
 * [Comparing the evolution of freestyle and medley relay events throughout the years](#Comparing-the-evolution-of-freestyle-and-medley-relay-events-throughout-the-years)
+* [How home field advantage gives Olympic host countries an Edge?](#How-home-field-advantage-gives-Olympic-host-countries-an-Edge?)
 * [Which swimmers hold the highest number of Olympic records in the field of swimming? ](#Which-swimmers-hold-the-highest-number-of-Olympic-records-in-the-field-of-swimming?)
 
 ## Introduction 
@@ -36,7 +37,7 @@ In our upcoming chart analysis, we aim to determine the distribution of medals a
 
 
 
-
+## How home field advantage gives Olympic host countries an Edge?
 
 ## Which swimmers hold the highest number of Olympic records?
 
