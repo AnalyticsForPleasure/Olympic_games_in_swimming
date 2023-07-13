@@ -61,14 +61,3 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-['USA','AUS','GBR','JPN','GER','CAN','GDR','HUN']
-    # }
-
-
-
-
-
