@@ -82,17 +82,18 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
                 # Concatenate all the broken records together for the same field :
                 world_olympic_record = pd.concat([world_olympic_record, current_Olympic_record], axis=0)
             print('*')
-            world_olympic_record['Athlete'].value_counts()
+            men_world_breaker_holder= world_olympic_record['Athlete'].value_counts()
 
-            print('*')
-            return 5
+    Top_men_world_breaker_holder = men_world_breaker_holder.head(n=10)
+    print('*')
+    return Top_men_world_breaker_holder
 
 
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
-    # df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
+    #df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
+    df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
     print('*')
 
     data_without_na = df.dropna(how='all')
@@ -101,7 +102,7 @@ if __name__ == '__main__':
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
     final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
-    #final_clean_table['Results (In seconds)'] = final_clean_table['Results (In seconds)'].apply(lambda x: int(x))
+
 
     print('*')
 
