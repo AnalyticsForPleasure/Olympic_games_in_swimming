@@ -222,7 +222,7 @@ def dot_plot_for_the_slowest_and_lastest_athletics(final_fastest_slowest_table):
     #set chart legend
     plt.legend(labels = ["Worst score by the team", "Best score by the team"], loc=(0,1.07), ncol=2) # loc=(0,1.05), ncol=2)
     # Adding x-axis title into the chart
-    plt.text(50, 0.04, "Improvement by percentage - %", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=17)
+    plt.text(55, 0.04, "Improvement by percentage - %", ha="center", va="center",weight='bold',style='italic',fontname='Franklin Gothic Medium Cond',fontsize=17)
     plt.tight_layout()
     plt.savefig(f'Cleveland_dot_plot_{team_iteration_str}.jpg', dpi=250, bbox_inches='tight')
     plt.show()
