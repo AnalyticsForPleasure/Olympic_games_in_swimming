@@ -7,8 +7,6 @@ import numpy as np
 # input: How home field advantage gives Olympic hpst countries an Edge?
 # return value:
 # ****************************************************************************************************************
-
-
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
@@ -22,6 +20,8 @@ if __name__ == '__main__':
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
     print('*')
+
+
 
     Unique_Location = list(final_clean_table['Location'].unique())
     #['Tokyo', 'Rio', 'London', 'Beijing', 'Athens', 'Sydney', 'Atlanta', 'Barcelona', 'Seoul', 'Angeles', 'Moscow', 'Montreal', 'Munich', 'City', 'Rome', 'Melbourne', 'Helsinki', 'Berlin', 'Amsterdam', 'Paris', 'Antwerp', 'Stockholm']#
@@ -55,6 +55,19 @@ if __name__ == '__main__':
         "Antwerp":"BUL",
         "Rome":"GRE"}
     print('*')
+
+
+    # we will be focusing over the best hosting team home court : atlanta ,sydney, tokyo , seoul, munich
+    final_clean_table.loc[:,'Location'] = 'London'
+
+    london_court = final_clean_table[final_clean_table['Location'] == 'London']
+    print('*')
+
+    #GBR
+
+
+
+
 
 
 
