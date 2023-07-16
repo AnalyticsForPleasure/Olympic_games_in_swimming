@@ -31,6 +31,7 @@ if __name__ == '__main__':
 
     # Create a dictionary of the location of the Olympic took place and team
     dict_location_city = {
+        "Beijing": 'CHN',
         "Tokyo": "JPN",
         "Rio": "BRA",
         "Atlanta":"USA",
@@ -56,12 +57,16 @@ if __name__ == '__main__':
         "Rome":"GRE"}
     print('*')
 
+    # we will be focusing over the best hosting team home court :
+    List_of_best_home_courts =['London','Munich','Seoul','Stockholm','Sydney','Tokyo','beijing']
+    List_of_country_code = ['GBR','GRE','KOR','SWE','AUS','JPN','CHN']
+    first_3_places = [1, 2, 3]
+    for home_court_location, code_country in zip(List_of_best_home_courts, List_of_country_code ):
+        home_court_data = final_clean_table[final_clean_table['Location'] == home_court_location]
 
-    # we will be focusing over the best hosting team home court : atlanta ,sydney, tokyo , seoul, munich
-    final_clean_table.loc[:,'Location'] = 'London'
-
-    london_court = final_clean_table[final_clean_table['Location'] == 'London']
-    print('*')
+        home_court_data_code_country = home_court_data[home_court_data['Team']== code_country]
+        home_court_data = home_court_data_code_country[home_court_data_code_country['Rank'].isin(first_3_places)]
+        print('*')
 
     #GBR
 
