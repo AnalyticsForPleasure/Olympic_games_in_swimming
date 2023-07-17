@@ -58,14 +58,32 @@ if __name__ == '__main__':
     print('*')
 
     # we will be focusing over the best hosting team home court :
-    List_of_best_home_courts =['London','Munich','Seoul','Stockholm','Sydney','Tokyo','beijing']
-    List_of_country_code = ['GBR','GRE','KOR','SWE','AUS','JPN','CHN']
-    first_3_places = [1, 2, 3]
-    for home_court_location, code_country in zip(List_of_best_home_courts, List_of_country_code ):
-        home_court_data = final_clean_table[final_clean_table['Location'] == home_court_location]
 
+    list_of_years = np.array([1984, 1996, 2012, 1972, 1988, 1956, 2000, 2020, 2008, 1980, 1956, 1936])
+    list_of_years_minus_4 = list_of_years - 4
+    List_of_best_home_courts = ['Angeles','Atlanta','London','Munich','Seoul','Stockholm','Sydney','Tokyo','beijing','Moscow','Melbourne','Berlin']
+    List_of_country_code = ['USA','USA','GBR','GRE','KOR','SWE','AUS','JPN','CHN','RSA','AUS','GRE']
+
+    first_3_places = [1, 2, 3]
+
+    for home_court_location, code_country,olypic_year_before in zip(List_of_best_home_courts, List_of_country_code, list_of_years_minus_4 ):
+
+        # Home court info:
+        home_court_data = final_clean_table[final_clean_table['Location'] == home_court_location]
         home_court_data_code_country = home_court_data[home_court_data['Team']== code_country]
         home_court_data = home_court_data_code_country[home_court_data_code_country['Rank'].isin(first_3_places)]
+        number_of_medals = home_court_data.shape[0]
+
+        # Before home court ( One Olymplic games before ) - number of medals :
+        before_home_court_data = final_clean_table[final_clean_table['Year'] == olypic_year_before]
+        before_home_court_data = before_home_court_data[before_home_court_data['Team'] == code_country]
+        home_court_data_3_places = before_home_court_data[before_home_court_data['Rank'].isin(first_3_places)]
+        number_of_medals_before = home_court_data_3_places.shape[0]
+        print('*')
+
+
+
+
         print('*')
 
     #GBR
