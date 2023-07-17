@@ -57,34 +57,44 @@ if __name__ == '__main__':
         "Rome":"GRE"}
     print('*')
 
-    # we will be focusing over the best hosting team home court :
 
-    list_of_years = np.array([ 2012, 1972, 1988, 1956, 2000, 2020, 2008, 1980, 1956, 1936,1984, 1996])
+
+    list_number_of_medals_home_court_advantage = []
+    list_number_of_medals_before_home_court_advantage = []
+
+    # We will be focusing on the best hosting team's home court:
+    list_of_years = np.array([2012, 1972, 1988, 1956, 2000, 2020, 2008, 1980, 1956, 1936, 1984, 1996])
     list_of_years_minus_4 = list_of_years - 4
-    List_of_best_home_courts = ['London','Munich','Seoul','Stockholm','Sydney','Tokyo','beijing','Moscow','Melbourne','Berlin','Angeles','Atlanta',]
-    List_of_country_code = ['GBR','GRE','KOR','SWE','AUS','JPN','CHN','RSA','AUS','GRE','USA','USA']
+    List_of_best_home_courts = ['London', 'Munich', 'Seoul', 'Stockholm', 'Sydney', 'Tokyo', 'Beijing', 'Moscow',
+                                'Melbourne', 'Berlin', 'Angeles', 'Atlanta']
+    List_of_country_code = ['GBR', 'GRE', 'KOR', 'SWE', 'AUS', 'JPN', 'CHN', 'RSA', 'AUS', 'GRE', 'USA', 'USA']
 
     first_3_places = [1, 2, 3]
 
-    for home_court_location, code_country,olypic_year_before in zip(List_of_best_home_courts, List_of_country_code, list_of_years_minus_4 ):
-
+    for home_court_location, code_country, olympic_year_before in zip(List_of_best_home_courts, List_of_country_code,
+                                                                      list_of_years_minus_4):
         # Home court info:
         home_court_data = final_clean_table[final_clean_table['Location'] == home_court_location]
-        home_court_data_code_country = home_court_data[home_court_data['Team']== code_country]
+        home_court_data_code_country = home_court_data[home_court_data['Team'] == code_country]
         home_court_data = home_court_data_code_country[home_court_data_code_country['Rank'].isin(first_3_places)]
         number_of_medals = home_court_data.shape[0]
+        list_number_of_medals_home_court_advantage.append(number_of_medals)
 
-        # Before home court ( One Olymplic games before ) - number of medals :
-
-        before_home_court_data = final_clean_table.loc[final_clean_table['Year'] == olypic_year_before,:]
-        before_home_court_data_code_country = before_home_court_data.loc[before_home_court_data['Team'] == code_country,:]
-        home_court_data_3_places = before_home_court_data_code_country.loc[before_home_court_data_code_country['Rank'].isin(first_3_places)]
+        # Before home court (One Olympic games before) - number of medals:
+        before_home_court_data = final_clean_table.loc[final_clean_table['Year'] == olympic_year_before, :]
+        before_home_court_data_code_country = before_home_court_data.loc[before_home_court_data['Team'] == code_country, :]
+        home_court_data_3_places = before_home_court_data_code_country.loc[
+            before_home_court_data_code_country['Rank'].isin(first_3_places)]
         number_of_medals_before = home_court_data_3_places.shape[0]
-
-        #Percent increase = [(new value - original value) / original value] x 100
-        Percent_increase = [(number_of_medals - number_of_medals_before)/number_of_medals_before]
-
+        list_number_of_medals_before_home_court_advantage.append(number_of_medals_before)
         print('*')
+
+
+    final_table = pd.DataFrame({'Host Cities of the Olympic Games': List_of_best_home_courts,
+                                'Country code': List_of_country_code,
+                                'Medals before getting home court advantage': list_number_of_medals_before_home_court_advantage,
+                                'Medals with home court advantage': list_number_of_medals_home_court_advantage})
+    print('*')
 
 
 
