@@ -1,8 +1,24 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import dataframe_image as dfi
+
+# **************************************************************************************************************
+# Function  name: relevant_columns_highlighter
+# input: adding styles to our dataframe
+# return value:
+# ****************************************************************************************************************
+def relevant_columns_highlighter(x):
+    my_style = "color: #1E90FF;" \
+               "font-weight: bold;"
+    return [my_style] * len(x)
 
 
+# **************************************************************************************************************
+# Function  name: retrieving_the_number_of_medals_with_home_court_advantage
+# input:
+# return value:
+# ****************************************************************************************************************
 def retrieving_the_number_of_medals_with_home_court_advantage(final_clean_table):
     Unique_Location = list(final_clean_table['Location'].unique())
     # ['Tokyo', 'Rio', 'London', 'Beijing', 'Athens', 'Sydney', 'Atlanta', 'Barcelona', 'Seoul', 'Angeles', 'Moscow', 'Montreal', 'Munich', 'City', 'Rome', 'Melbourne', 'Helsinki', 'Berlin', 'Amsterdam', 'Paris', 'Antwerp', 'Stockholm']#
@@ -71,6 +87,11 @@ def retrieving_the_number_of_medals_with_home_court_advantage(final_clean_table)
     final_table.at[10, 'Medals with home court advantage'] = 34
     print('*')
 
+    result = final_table.style.apply(func=relevant_columns_highlighter, subset=['Host Cities of the Olympic Games']).hide_index()
+    dfi.export(result,'..PycharmProjects/Olympic_games_in_swimming_1/Olympic_games_in_swimming/question_5/output_image/home_court_image.png')
+    #../images/scraping_bubble/top_eight_episode_season
+    print('*')
+    #C:\Users\Gil\PycharmProjects\Olympic_games_in_swimming_1\Olympic_games_in_swimming\Olympic_games_question\question_5\output_image
     return final_table
 
 
