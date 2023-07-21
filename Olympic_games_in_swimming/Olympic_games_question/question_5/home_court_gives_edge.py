@@ -88,8 +88,11 @@ def retrieving_the_number_of_medals_with_home_court_advantage(final_clean_table)
     print('*')
 
     result = final_table.style.apply(func=relevant_columns_highlighter, subset=['Host Cities of the Olympic Games']).hide_index()
-    dfi.export(result,'..PycharmProjects/Olympic_games_in_swimming_1/Olympic_games_in_swimming/question_5/output_image/home_court_image.png')
-    #../images/scraping_bubble/top_eight_episode_season
+    #dfi.export(result,'Users\Gil\PycharmProjects\Olympic_games_in_swimming_1\Olympic_games_in_swimming\Olympic_games_question\question_5\output_image.png')
+    dfi.export(result, filename='Olympic_games_in_swimming_1/images_for_questions/question_5/home_court_image.png')
+
+
+    #
     print('*')
     #C:\Users\Gil\PycharmProjects\Olympic_games_in_swimming_1\Olympic_games_in_swimming\Olympic_games_question\question_5\output_image
     return final_table
