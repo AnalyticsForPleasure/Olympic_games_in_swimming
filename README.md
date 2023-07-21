@@ -1,5 +1,4 @@
-# Olympic_games_in_swimming
-
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/b0e418bb-6867-4af8-9c47-7b0457694bc4)
 
 
 * [Introduction](#Introduction)
