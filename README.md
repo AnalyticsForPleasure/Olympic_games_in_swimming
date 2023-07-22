@@ -29,6 +29,7 @@ Looking at the chart provided, we observe a significant increase in the number o
 
 
 
+
 ## Number of medals for a specific team
 In our upcoming chart analysis, we aim to determine the distribution of medals awarded to each team throughout the Olympic Games from 1912 to 2020. Additionally, we plan to incorporate a vertical line that represents the average number of medals awarded in the swimming events for each individual Olympic Games. To accomplish this, I have created an animated chart that focuses on seven specific teams: United States, Australia, Canada, United Kingdom, Germany, Hungary, and Japan.
 
@@ -37,6 +38,10 @@ In our upcoming chart analysis, we aim to determine the distribution of medals a
 
 
 ## How home field advantage gives Olympic host countries an Edge?
+
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/609e9794-2572-4663-a431-ce604c7ecfc9)
+
+
 
 ## Which swimmers hold the highest number of Olympic records?
 
