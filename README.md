@@ -49,7 +49,11 @@ To accomplish this, I have chosen to examine the medal counts before and after e
 
 ## Which swimmers hold the highest number of Olympic records?
 
-The most thrilling elements of the Olympic games are undoubtedly the World Records (WR) and Olympic Records (OR). Consequently, we are eager to examine the statistics of elite athletes who have attained the prestigious title of an Olympic Record holder in swimming throughout the years. Our goal is to identify the most decorated swimmers who have repeatedly broken Olympic Records during various Olympic games. Are there any swimmers who have achieved this remarkable feat multiple times over the years? We aim to uncover and celebrate these exceptional athletes and their extraordinary achievements in the realm of Olympic swimming.
+The most thrilling elements of the Olympic games are undoubtedly the World Records (WR) and Olympic Records (OR). Consequently, we are eager to examine the statistics of elite athletes who have attained the prestigious title of an Olympic Record holder in swimming throughout the years. Our goal is to identify the most decorated swimmers who have repeatedly broken Olympic Records during various Olympic games. 
+
+**Are there any swimmers who have achieved this remarkable feat multiple times over the years?**
+
+We aim to uncover and celebrate these exceptional athletes and their extraordinary achievements in the realm of Olympic swimming.
 
 ![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/c798c055-e7f0-400c-915d-e63c189132ff)
 
