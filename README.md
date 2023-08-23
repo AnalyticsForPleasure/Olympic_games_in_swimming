@@ -46,6 +46,7 @@ To accomplish this, I have chosen to examine the medal counts before and after e
 
 ![home_court](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/1e4e46e5-2a85-4e5e-81a6-1d7aa964f725)
 
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/67a14d21-be97-4564-8aaa-42782b77e3fb)
 
 
 
