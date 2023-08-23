@@ -82,7 +82,7 @@ def retrieving_the_number_of_medals_with_home_court_advantage(final_clean_table)
         number_of_medals_before = home_court_data_3_places.shape[0]
         list_number_of_medals_before_home_court_advantage.append(number_of_medals_before)
         print('*')
-    final_table = pd.DataFrame({'Host Cities of the Olympic Games': List_of_best_home_courts,
+    final_table = pd.DataFrame({'Host City': List_of_best_home_courts,
                                 'Country code': List_of_country_code,
                                 'Medals before getting home court advantage': list_number_of_medals_before_home_court_advantage,
                                 'Medals with home court advantage': list_number_of_medals_home_court_advantage})
