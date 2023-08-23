@@ -43,7 +43,7 @@ In our upcoming analysis, we aim to investigate whether there is any correlation
 
 To accomplish this, I have chosen to examine the medal counts before and after each country hosted the games, comparing the results from four years prior to the games to the results during the Olympic games they hosted. For instance, we will examine the case of Sydney, Australia, hosting the games in 2000. We will assess whether there was an increase or decrease in the number of medals won by the Australian swimming team during the 2000 Olympics compared to four years before that event. This analysis will help us better understand any potential influence of hosting the games on a country's swimming team performance.
 
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/609e9794-2572-4663-a431-ce604c7ecfc9)
+![home_court](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/71c8e42f-fbe1-4138-98ff-8217dea8d412)
 
 
 
