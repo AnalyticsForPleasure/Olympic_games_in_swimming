@@ -56,6 +56,10 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
 
     groupby_stroke = final_men_table.groupby("Stroke")
     #groupby_stroke_women = final_women_table.groupby("Stroke")
+
+
+    #for (swimming_style_men, mini_df_style_men), (swimming_style_women, mini_df_style_women) in zip(groupby_stroke_men, groupby_stroke_women):
+
     for swimming_style_men, mini_df_style_men in groupby_stroke:
         print(swimming_style_men)
         print(mini_df_style_men)
