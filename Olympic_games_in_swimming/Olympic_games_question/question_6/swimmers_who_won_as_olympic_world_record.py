@@ -55,6 +55,7 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
                                          'Results (In seconds)':[]})
 
     groupby_stroke = final_men_table.groupby("Stroke")
+    #groupby_stroke_women = final_women_table.groupby("Stroke")
     for swimming_style_men, mini_df_style_men in groupby_stroke:
         print(swimming_style_men)
         print(mini_df_style_men)
@@ -67,8 +68,6 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
             final_medals_table = mini_df_distance_men[mini_df_distance_men['Rank'] == 1]
             final_medals_table.sort_values(by = 'Year', inplace=True, ascending=True)
             res = final_medals_table.reset_index()
-
-
 
             current_min = float('inf')
 
@@ -88,12 +87,10 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
     print('*')
     return Top_men_world_breaker_holder
 
-
 if __name__ == '__main__':
 
     pd.set_option('display.max_rows', 5000)
-    #df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
-    df = pd.read_csv('/home/shay_diy/PycharmProjects/Olympic_games/data/Olympic_Swimming.csv')
+    df = pd.read_csv('../../Data/Olympic_Swimming_1912to2020.csv')
     print('*')
 
     data_without_na = df.dropna(how='all')
