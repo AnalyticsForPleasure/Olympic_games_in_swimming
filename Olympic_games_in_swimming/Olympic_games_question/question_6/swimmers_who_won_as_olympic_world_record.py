@@ -62,14 +62,17 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
         for swimming_style, mini_df_style in groupby_stroke:
             grooupby_distance = mini_df_style.groupby("Distance (in meters)")
 
+            # In the for loop below we will get a table of each gender who won first place in each event and each swimming distance
             for distance, mini_df_distance in grooupby_distance:
                 final_medals_table = mini_df_distance[mini_df_distance['Rank'] == 1]
+                # The sorting part is important in order to find the each time the new record breaker.
                 final_medals_table.sort_values(by='Year', inplace=True, ascending=True)
                 res = final_medals_table.reset_index()
 
                 current_min = float('inf')
 
-                for value in res['Results (In seconds)'][::-1]:
+                # In the loop below, after we sorted the loop by 'Year' - we are willing to go backwards for finding the current_min - current best
+                for value in res['Results (In seconds)'][::-1]:  # TODO :Need to check if it's correct here to go backwards, don't think it's correct
                     current_min = min(value, current_min)
                     current_Olympic_record = res[res['Results (In seconds)'] == current_min][['Location', 'Distance (in meters)', 'Stroke', 'Team', 'Athlete', 'Results', 'Results (In seconds)']]
                     world_olympic_record = pd.concat([world_olympic_record, current_Olympic_record], axis=0)
