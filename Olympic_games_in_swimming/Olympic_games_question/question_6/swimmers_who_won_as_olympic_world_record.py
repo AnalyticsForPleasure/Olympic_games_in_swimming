@@ -47,6 +47,7 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
     print('*')
 
     world_olympic_record = pd.DataFrame({'Location':[],
+                                         'Gender':[],
                                          'Distance (in meters)':[],
                                          'Stroke':[],
                                          'Team':[],
@@ -66,7 +67,7 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
             for distance, mini_df_distance in grooupby_distance:
                 final_medals_table = mini_df_distance[mini_df_distance['Rank'] == 1]
                 # The sorting part is important in order to find the each time the new record breaker.
-                final_medals_table.sort_values(by='Year', inplace=True, ascending=True)
+                final_medals_table.sort_values(by='Year', inplace=True, ascending=False) # True
                 res = final_medals_table.reset_index()
 
                 current_min = float('inf')
@@ -74,13 +75,14 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
                 # In the loop below, after we sorted the loop by 'Year' - we are willing to go backwards for finding the current_min - current best
                 for value in res['Results (In seconds)'][::-1]:  # TODO :Need to check if it's correct here to go backwards, don't think it's correct
                     current_min = min(value, current_min)
-                    current_Olympic_record = res[res['Results (In seconds)'] == current_min][['Location', 'Distance (in meters)', 'Stroke', 'Team', 'Athlete', 'Results', 'Results (In seconds)']]
+                    current_Olympic_record = res[res['Results (In seconds)'] == current_min][['Location','Gender','Distance (in meters)', 'Stroke', 'Team', 'Athlete', 'Results', 'Results (In seconds)']]
                     world_olympic_record = pd.concat([world_olympic_record, current_Olympic_record], axis=0)
 
                 world_breaker_holder = world_olympic_record['Athlete'].value_counts()
-
+                print('*')
                 if gender == 'Men':
                     men_world_breaker_holder = world_breaker_holder
+                #else:
 
             # Continue with other actions or analyses you want to perform here
 
@@ -89,41 +91,7 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
     print('*')
 
 
-# # groupby_stroke_female = final_men_table.groupby("Stroke")
-#     # groupby_stroke_male = final_men_table.groupby("Stroke")
-#     for (swimming_style_men, mini_df_style_men), (swimming_style_women, mini_df_style_women) in zip(groupby_stroke_male, groupby_stroke_female):
-#     #for swimming_style_men, mini_df_style_men in groupby_stroke:
-#         print(swimming_style_men)
-#         print(mini_df_style_men)
-#         grooupby_distance = mini_df_style_men.groupby("Distance (in meters)")
-#         for type_distance_men, mini_df_distance_men in grooupby_distance:
-#             print(type_distance_men)
-#             print(mini_df_distance_men)
-#             print('*')
-#
-#             final_medals_table = mini_df_distance_men[mini_df_distance_men['Rank'] == 1]
-#             final_medals_table.sort_values(by = 'Year', inplace=True, ascending=True)
-#             res = final_medals_table.reset_index()
-#
-#             current_min = float('inf')
-#
-#             for value in res['Results (In seconds)'][::1]:
-#
-#                 # The next row give us the min value  between the 'value' between the 'current_min'
-#                 current_min = min(value, current_min)
-#                 # The next row gives us info about current olympic record in a specific field
-#                 current_Olympic_record = res[res['Results (In seconds)'] == current_min][['Location','Distance (in meters)', 'Stroke','Team','Athlete', 'Results','Results (In seconds)']]
-#
-#                 # Concatenate all the broken records together for the same field :
-#                 world_olympic_record = pd.concat([world_olympic_record, current_Olympic_record], axis=0)
-#                 print('*')
-#             men_world_breaker_holder= world_olympic_record['Athlete'].value_counts()
-#             print('*')
-#     #men_world_breaker_holder.rename(columns={men_world_breaker_holder.columns[1]: 'Number of breaker holder'}, inplace=True)
-#     #men_world_breaker_holder_sorted = men_world_breaker_holder.sort_values(by = 'Number of breaker holder', inplace=True, ascending=True)
-#
-#     Top_men_world_breaker_holder = men_world_breaker_holder.head(n=10)
-#     print('*')
+
     return Top_men_world_breaker_holder
 
 if __name__ == '__main__':
