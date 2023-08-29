@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib import transforms, pyplot as plt
 import pandas as pd
 import numpy as np
 
@@ -88,11 +89,92 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
 
     # Now you have 'men_world_breaker_holder' containing the top record holders for men
     Top_men_world_breaker_holder = men_world_breaker_holder.head(n=10)
+    final_result = Top_men_world_breaker_holder.reset_index()
+    final_result.rename(columns={final_result.columns[0]: 'Swimmer name'}, inplace=True)
+    final_result.rename(columns={final_result.columns[1]: 'Number of times broke world record'}, inplace=True)
     print('*')
 
+    return final_result
 
 
-    return Top_men_world_breaker_holder
+# **************************************************************************************************************
+# Function  name: prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record
+# input:
+# return value:
+# ****************************************************************************************************************
+def creating_a_bar_chart_from_the_storytelling_book(res):
+    # define colors
+    GRAY1, GRAY2, GRAY3 = '#231F20', '#414040', '#555655'
+    GRAY4, GRAY5, GRAY6 = '#646369', '#76787B', '#828282'
+    GRAY7, GRAY8, GRAY9 = '#929497', '#A6A6A5', '#BFBEBE'
+    BLUE1, BLUE2, BLUE3, BLUE4 = '#174A7E', '#4A81BF', '#94B2D7', '#94AFC5'
+    RED1, RED2 = '#C3514E', '#E6BAB7'
+    GREEN1, GREEN2 = '#0C8040', '#9ABB59'
+    ORANGE1 = '#F79747'
+    # survey responses
+    X = list(res.loc[:,'Swimmer name'])
+    Y =  list( res.loc[:,'Number of times broke world record'])
+    print('*')
+
+    # create new figure
+    fig, ax1 = plt.subplots(figsize=(8.2, 4.2),  # width, height in inches
+                            dpi=110)             # resolution of the figure
+
+    # tune the subplot layout by setting sides of the figure
+    fig.subplots_adjust(left=0.28, right=0.53, top=0.61, bottom=0.107)
+
+    # draw horizontal bars
+    ax1.barh(range(len(X)),
+             Y,
+             height=0.65,
+             color=[GRAY1] + [GRAY2]*2 + [GRAY8]*3 + [GRAY2])
+
+    # set the data limits for the y-axis and x-axis
+    ax1.set_xlim([0, 80])
+    ax1.set_ylim([-0.5, 6.5])
+
+    # set properties for axes object
+    plt.setp(ax1,
+         xticks=[0, 20, 40, 60, 80 , 100 ,120],  # 5 x-ticks only 0 and 1
+         xticklabels=['3', '6', '9', '12', '15', '18', '21'],  # with n% labels
+         yticks=np.arange(len(X)),  # tick for all response
+         yticklabels=X)  # with text labels
+
+    # change the appearance of ticks, tick labels, and gridlines
+    ax1.tick_params(top='on', bottom='off', left='off',
+                    labelbottom='off', labeltop='on')
+
+
+    # configure y tick label appearance
+    for item in ax1.get_yticklabels():
+        item.set_fontsize(12)
+    # use trasformations to shift y tick labels
+    # left y labels slightly right, and right labels slightly left
+    offset = transforms.ScaledTranslation(-0.06, 0.02, fig.dpi_scale_trans)
+    item.set_transform(item.get_transform() + offset)
+
+    # remove chart border
+    ax1.tick_params(color=GRAY7)
+    ax1.spines['top'].set_color(GRAY7)
+    ax1.spines['left'].set_visible(False)
+    ax1.spines['right'].set_visible(False)
+    ax1.spines['bottom'].set_visible(False)
+
+    # # title the plot
+    rainbow_text(-86, 10.4,
+                 '$\\bf{Demonstrating\ effectiveness}$||'
+                 ' is most important consideration\n'
+                 'when selecting a provider',
+                 [[GRAY1, GRAY4], [GRAY4]],
+                 spacing=25,
+                 ax=ax1,
+                 fontsize=14.7)
+
+
+
+
+
+
 
 if __name__ == '__main__':
 
@@ -114,5 +196,6 @@ if __name__ == '__main__':
 
     column_headers = list(final_clean_table.columns.values)
 
-    prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_clean_table)
+    res = prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_clean_table)
+    creating_a_bar_chart_from_the_storytelling_book(res)
     print('*')
