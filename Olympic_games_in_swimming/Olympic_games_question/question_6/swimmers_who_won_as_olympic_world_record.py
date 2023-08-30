@@ -141,10 +141,9 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
          yticklabels=X)  # with text labels
 
     # change the appearance of ticks, tick labels, and gridlines
-    ax1.tick_params(top='on', bottom='off', left='off',
-                    labelbottom='off', labeltop='on')
+    ax1.tick_params(top='on', bottom='off', left='off',labelbottom='off', labeltop='on')
 
-
+    print('*')
     # configure y tick label appearance
     for item in ax1.get_yticklabels():
         item.set_fontsize(12)
@@ -152,6 +151,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     # left y labels slightly right, and right labels slightly left
     offset = transforms.ScaledTranslation(-0.06, 0.02, fig.dpi_scale_trans)
     item.set_transform(item.get_transform() + offset)
+    print('*')
 
     # remove chart border
     ax1.tick_params(color=GRAY7)
@@ -159,18 +159,24 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     ax1.spines['left'].set_visible(False)
     ax1.spines['right'].set_visible(False)
     ax1.spines['bottom'].set_visible(False)
+    print('*')
 
     # # title the plot
-    rainbow_text(-86, 10.4,
-                 '$\\bf{Demonstrating\ effectiveness}$||'
-                 ' is most important consideration\n'
-                 'when selecting a provider',
-                 [[GRAY1, GRAY4], [GRAY4]],
-                 spacing=25,
-                 ax=ax1,
-                 fontsize=14.7)
+    # rainbow_text(-86, 10.4,
+    #              '$\\bf{Demonstrating\ effectiveness}$||'
+    #              ' is most important consideration\n'
+    #              'when selecting a provider',
+    #              [[GRAY1, GRAY4], [GRAY4]],
+    #              spacing=25,
+    #              ax=ax1,
+    #              fontsize=14.7)
 
-
+    # footnote with the data source
+    ax1.text(-86, -1.4,
+             'Data source: xyz; includes N number of survey respondents.\n'
+             'Note that respondents were able to choose up to 3 options.',
+             fontsize=8.3,
+             color=GRAY3)
 
 
 
