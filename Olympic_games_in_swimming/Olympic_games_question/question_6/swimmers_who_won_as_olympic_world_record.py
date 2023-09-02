@@ -136,7 +136,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     # set properties for axes object
     plt.setp(ax1,
          #xticks=[0, 20, 40, 60, 80 , 100 ,120],  # 5 x-ticks only 0 and 1
-         xticklabels=['2', '4', '6', '8', '10', '12', '14','16','18'],  # with n% labels
+         xticklabels=['2', '4', '6', '8', '10'],#, '12', '14','16','18'],  # with n% labels
          yticks=np.arange(len(Y)),  # tick for all response
          yticklabels=X)  # with text labels
 
@@ -165,7 +165,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
 
     # # title the plot
     # rainbow_text(-86, 10.4,
-    #              '$\\bf{Demonstrating\ effectiveness}$||'
+    #              '$\\bf{Which swimmers hold the highest number of Olympic records?}$||'
     #              ' is most important consideration\n'
     #              'when selecting a provider',
     #              [[GRAY1, GRAY4], [GRAY4]],
@@ -174,7 +174,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     #              fontsize=14.7)
 
     # footnote with the data source
-    ax1.text(-75, -2.1,
+    ax1.text(-60, -2.1,
              'Data source: Kaggle website -  Datasets\n' # 
              'Olympic Swimming Results 1912 to 2020',
              fontsize=8.3,
@@ -183,9 +183,6 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     # Show the plot
     plt.show()
     print('*')
-
-
-
 
 
 if __name__ == '__main__':
@@ -202,7 +199,6 @@ if __name__ == '__main__':
     removing_words = ['Disqualified', 'Did not start', 'Did not finish', '36.4est']
     final_clean_table = cleaner_df[~cleaner_df['Results'].isin(removing_words)]
     final_clean_table['Results (In seconds)'] = final_clean_table['Results'].apply(convert_time_to_seconds)
-
 
     print('*')
 
