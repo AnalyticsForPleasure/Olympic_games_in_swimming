@@ -135,9 +135,9 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
 
     # set properties for axes object
     plt.setp(ax1,
-         xticks=[0, 20, 40, 60, 80 , 100 ,120],  # 5 x-ticks only 0 and 1
-         xticklabels=['3', '6', '9', '12', '15', '18', '21'],  # with n% labels
-         yticks=np.arange(len(X)),  # tick for all response
+         #xticks=[0, 20, 40, 60, 80 , 100 ,120],  # 5 x-ticks only 0 and 1
+         xticklabels=['2', '4', '6', '8', '10', '12', '14','16','18'],  # with n% labels
+         yticks=np.arange(len(Y)),  # tick for all response
          yticklabels=X)  # with text labels
 
     # change the appearance of ticks, tick labels, and gridlines
@@ -161,6 +161,8 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     ax1.spines['bottom'].set_visible(False)
     print('*')
 
+
+
     # # title the plot
     # rainbow_text(-86, 10.4,
     #              '$\\bf{Demonstrating\ effectiveness}$||'
@@ -172,11 +174,15 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     #              fontsize=14.7)
 
     # footnote with the data source
-    ax1.text(-86, -1.4,
-             'Data source: xyz; includes N number of survey respondents.\n'
-             'Note that respondents were able to choose up to 3 options.',
+    ax1.text(-75, -2.1,
+             'Data source: Kaggle website -  Datasets\n' # 
+             'Olympic Swimming Results 1912 to 2020',
              fontsize=8.3,
              color=GRAY3)
+
+    # Show the plot
+    plt.show()
+    print('*')
 
 
 
