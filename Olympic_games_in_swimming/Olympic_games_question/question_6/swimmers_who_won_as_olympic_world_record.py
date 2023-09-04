@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import transforms, pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+
 import pandas as pd
 import numpy as np
 
@@ -97,6 +99,32 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
     return final_result
 
 
+# matplotlib doesn't have a function for drawing text with
+#
+
+# **************************************************************************************************************
+# Function  name: rainbow_text
+# input: matplotlib doesn't have a function for drawing text with different colors, let's implement it
+# return value:
+# ****************************************************************************************************************
+def rainbow_text(x, y, text, colors, spacing=20, ax=None, **kw):
+    colors = list(reversed(colors))
+    t = ax.transData
+    canvas = ax.figure.canvas
+
+    for i, line in enumerate(reversed(text.split('\n'))):
+        strings = line.split('||')
+        for s, c in zip(strings, colors[i]):
+            text = ax.text(x, y, s, color=c, transform=t, **kw)
+            text.draw(canvas.get_renderer())
+            ex = text.get_window_extent()
+            t = transforms.offset_copy(text._transform, x=ex.width,
+                                       units='dots')
+
+        t = transforms.offset_copy(ax.transData, x=0, y=(i + 1) * spacing,
+                                   units='dots')
+
+
 # **************************************************************************************************************
 # Function  name: prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record
 # input:
@@ -137,7 +165,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     plt.setp(ax1,
          #xticks=[0, 20, 40, 60, 80 , 100 ,120],  # 5 x-ticks only 0 and 1
          xticklabels=['2', '4', '6', '8', '10'],#, '12', '14','16','18'],  # with n% labels
-         yticks=np.arange(len(Y)),  # tick for all response
+         yticks=np.arange(len(X)),  # tick for all response
          yticklabels=X)  # with text labels
 
     # change the appearance of ticks, tick labels, and gridlines
@@ -163,15 +191,55 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
 
 
 
-    # # title the plot
-    # rainbow_text(-86, 10.4,
-    #              '$\\bf{Which swimmers hold the highest number of Olympic records?}$||'
-    #              ' is most important consideration\n'
-    #              'when selecting a provider',
-    #              [[GRAY1, GRAY4], [GRAY4]],
-    #              spacing=25,
+
+
+    # title the plot
+    rainbow_text(-64, 10.4,
+                 '$\\bf{Which\ swimmers\ hold\ the\ highest\ number\ of\ Olympic\ records?}$||'
+                 ' (1912 - 2020)\n'
+                 'AnalyticsForPleasure',
+                 [[GRAY1, GRAY4], [GRAY4]],
+                 spacing=25,
+                 ax=ax1,
+                 fontsize=14.7)
+
+    # survey question
+    # rainbow_text(-86, 8.35,
+    #              'In general, ||$\\bf{what\ attributes\ are\ the\ most\ '
+    #              'important}$\n'
+    #              'to you in selecting a service provider?',
+    #              [[GRAY4, GRAY1], [GRAY4]],
+    #              spacing=20,
     #              ax=ax1,
-    #              fontsize=14.7)
+    #              fontsize=11.5)
+    # ax1.text(-86, 7.5, '$\\it{(Choose\ up\ to\ 3)}$', color=GRAY7, fontsize=10)
+    # ax1.text(-4, 7.5, '% selecting given attribute', color=GRAY7, fontsize=10)
+
+    # text note with survey result
+    rainbow_text(87.6, 4,
+                 'Survey shows that ||$\\bf{demonstration}$\n'
+                 '$\\bf{of\ results}$|| is the single most\n'
+                 'important dimension when\n'
+                 'choosing a service provider.',
+                 [[GRAY4, GRAY1], [GRAY1, GRAY4],
+                  [GRAY4], [GRAY4]],
+                 spacing=20,
+                 ax=ax1,
+                 fontsize=11.5)
+
+    # text note with initial hypothesis
+    rainbow_text(87.6, -0.2,
+                 '$\\bf{Affordability}$|| and ||$\\bf{experience}$\n'
+                 '$\\bf{working\ together\ previously}$,\n'
+                 'which were hypothesized to be\n'
+                 'very important in the decision\n'
+                 'making process, were both cited\n'
+                 'less frequently as important attributes.',
+                 [[GRAY1, GRAY4, GRAY1], [GRAY1],
+                  [GRAY4], [GRAY4], [GRAY4], [GRAY4]],
+                 spacing=20,
+                 ax=ax1,
+                 fontsize=11.5)
 
     # footnote with the data source
     ax1.text(-60, -2.1,
