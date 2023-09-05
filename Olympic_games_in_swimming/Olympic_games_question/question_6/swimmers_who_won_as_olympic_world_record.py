@@ -215,31 +215,62 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     # ax1.text(-86, 7.5, '$\\it{(Choose\ up\ to\ 3)}$', color=GRAY7, fontsize=10)
     # ax1.text(-4, 7.5, '% selecting given attribute', color=GRAY7, fontsize=10)
 
-    # text note with survey result
-    rainbow_text(87.6, 4,
-                 'Survey shows that ||$\\bf{demonstration}$\n'
-                 '$\\bf{of\ results}$|| is the single most\n'
-                 'important dimension when\n'
-                 'choosing a service provider.',
-                 [[GRAY4, GRAY1], [GRAY1, GRAY4],
-                  [GRAY4], [GRAY4]],
+
+
+    # Several swimmers have made their mark in Olympic history by holding multiple records.
+    # Some notable names include Michael Phelps of the United States, who boasts a remarkable 23 Olympic gold medals and
+    # numerous records, and Katie Ledecky, also from the United States, who has set numerous world records in freestyle
+    # events. Additionally, Ian Thorpe of Australia and Kristin Otto of Germany have left their indelible marks on the
+    # Olympic swimming record books. These extraordinary athletes have become legends in the world of swimming and have
+    # set standards that inspire generations to come.
+
+
+    # survey question
+    rainbow_text(87.6, 5.5,
+                 'Several swimmers have ||$\\bf{made\ their\ mark\ in}$\n'
+                 'Olympic history by holding multiple records\n'
+                 'Some notable names include ||$\\bf{Michael\ Phelps}$\n '
+                 'States, who boasts a remarkable 23 Olympic gold medals and.',
+                 [[GRAY4 , GRAY1], # first line
+                  [GRAY4], # second line
+                  [GRAY4, GRAY1 ], # third line
+                  [GRAY4]], # forth line
                  spacing=20,
                  ax=ax1,
                  fontsize=11.5)
 
+
+    # text note with survey result
+    # rainbow_text(87.6, 5.5,
+    #              'Several swimmers have $\\bf{made\ their\ mark\ in}$\n '
+    #              '$\\bf{Olympic\ history\ by\ holding\ multiple\ records.}$\n'
+    #              'Some notable names include Michael Phelps of the United\n'
+    #              #'States, who boasts a remarkable $\\bf{23 Olympic gold medals}$ and\n'
+    #              #'numerous records, and \\bf{Katie Ledecky}$, also from the United\n'
+    #              #'States, who has set numerous world records in freestyle events\n'
+    #              #'Survey shows that ||$\\bf{demonstration}$\n'
+    #              #'$\\bf{of\ results}$|| is the single most\n'
+    #              #'important dimension when\n'
+    #              #'choosing a service provider.',
+    #              [[GRAY4, GRAY1], [GRAY1],
+    #               [GRAY4]],# [GRAY4]],
+    #              spacing=20,
+    #              ax=ax1,
+    #              fontsize=11.5)
+
     # text note with initial hypothesis
-    rainbow_text(87.6, -0.2,
-                 '$\\bf{Affordability}$|| and ||$\\bf{experience}$\n'
-                 '$\\bf{working\ together\ previously}$,\n'
-                 'which were hypothesized to be\n'
-                 'very important in the decision\n'
-                 'making process, were both cited\n'
-                 'less frequently as important attributes.',
-                 [[GRAY1, GRAY4, GRAY1], [GRAY1],
-                  [GRAY4], [GRAY4], [GRAY4], [GRAY4]],
-                 spacing=20,
-                 ax=ax1,
-                 fontsize=11.5)
+    # rainbow_text(87.6, -0.2,
+    #              '$\\bf{Affordability}$|| and ||$\\bf{experience}$\n'
+    #              '$\\bf{working\ together\ previously}$,\n'
+    #              'which were hypothesized to be\n'
+    #              'very important in the decision\n'
+    #              'making process, were both cited\n'
+    #              'less frequently as important attributes.',
+    #              [[GRAY1, GRAY4, GRAY1], [GRAY1],
+    #               [GRAY4], [GRAY4], [GRAY4], [GRAY4]],
+    #              spacing=20,
+    #              ax=ax1,
+    #              fontsize=11.5)
 
     # footnote with the data source
     ax1.text(-60, -2.1,
