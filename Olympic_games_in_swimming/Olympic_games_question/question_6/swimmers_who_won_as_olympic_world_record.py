@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 from matplotlib import transforms, pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
-
 import pandas as pd
 import numpy as np
 
@@ -98,10 +96,6 @@ def prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_cle
 
     return final_result
 
-
-# matplotlib doesn't have a function for drawing text with
-#
-
 # **************************************************************************************************************
 # Function  name: rainbow_text
 # input: matplotlib doesn't have a function for drawing text with different colors, let's implement it
@@ -130,12 +124,13 @@ def rainbow_text(x, y, text, colors, spacing=20, ax=None, **kw):
 # input:
 # return value:
 # ****************************************************************************************************************
-def creating_a_bar_chart_from_the_storytelling_book(res):
+def creating_a_storytelling_bar_chart(res):
     # define colors
+    '#030764'
     GRAY1, GRAY2, GRAY3 = '#231F20', '#414040', '#555655'
     GRAY4, GRAY5, GRAY6 = '#646369', '#76787B', '#828282'
     GRAY7, GRAY8, GRAY9 = '#929497', '#A6A6A5', '#BFBEBE'
-    BLUE1, BLUE2, BLUE3, BLUE4 = '#174A7E', '#4A81BF', '#94B2D7', '#94AFC5'
+    BLUE_1,BLUE_2, BLUE_3, BLUE_4, BLUE_5, BLUE_6 , BLUE_7, BLUE_8  = '#01153E','#030764','#174A7E', '#0343DF' ,  '#069AF3' , '#4A81BF', '#94B2D7', '#94AFC5',
     RED1, RED2 = '#C3514E', '#E6BAB7'
     GREEN1, GREEN2 = '#0C8040', '#9ABB59'
     ORANGE1 = '#F79747'
@@ -144,6 +139,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
     Y =  list( res.loc[:,'Number of times broke world record'])
     print('*')
 
+    #plt.style.use('seaborn')
     # create new figure
     fig, ax1 = plt.subplots(figsize=(8.2, 4.2),  # width, height in inches
                             dpi=110)             # resolution of the figure
@@ -163,13 +159,13 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
 
     # set properties for axes object
     plt.setp(ax1,
-         #xticks=[0, 20, 40, 60, 80 , 100 ,120],  # 5 x-ticks only 0 and 1
-         xticklabels=['2', '4', '6', '8', '10'],#, '12', '14','16','18'],  # with n% labels
-         yticks=np.arange(len(X)),  # tick for all response
+         xticks=[0, 15, 30, 30, 40,50],  # 5 x-ticks only 0 and 1
+         xticklabels=['0','3', '6', '9', '12', '15'],#, '12', '14','16','18'],  # with n% labels
+         yticks=np.arange(len(Y)),  # tick for all response
          yticklabels=X)  # with text labels
-
+    print('*')
     # change the appearance of ticks, tick labels, and gridlines
-    ax1.tick_params(top='on', bottom='off', left='off',labelbottom='off', labeltop='on')
+    ax1.tick_params(top='on', bottom='off', left='off',labelbottom='on', labeltop='on')
 
     print('*')
     # configure y tick label appearance
@@ -198,7 +194,7 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
                  '$\\bf{Which\ swimmers\ hold\ the\ highest\ number\ of\ Olympic\ records?}$||'
                  ' (1912 - 2020)\n'
                  'AnalyticsForPleasure',
-                 [[GRAY1, GRAY4], [GRAY4]],
+                 [[BLUE_3, BLUE_8], [BLUE_7]],
                  spacing=25,
                  ax=ax1,
                  fontsize=14.7)
@@ -227,51 +223,66 @@ def creating_a_bar_chart_from_the_storytelling_book(res):
 
     # survey question
     rainbow_text(87.6, 5.5,
-                 'Several swimmers have ||$\\bf{made\ their\ mark\ in}$\n'
-                 'Olympic history by holding multiple records\n'
-                 'Some notable names include ||$\\bf{Michael\ Phelps}$\n '
-                 'States, who boasts a remarkable 23 Olympic gold medals and.',
-                 [[GRAY4 , GRAY1], # first line
-                  [GRAY4], # second line
+                 'Several swimmers have made their mark in\n'
+                 'Olympic history by holding ||$\\bf{multiple\ records}$\n'
+                 'Some notable names include ||$\\bf{Michael\ Phelps}$\n'
+                 'States, who boasts a remarkable 23 Olympic\n'
+                 'gold medals and numerous records, and Katie Ledecky,',
+                 [[GRAY4], # second line
+                 [GRAY4 , GRAY1], # first line
                   [GRAY4, GRAY1 ], # third line
-                  [GRAY4]], # forth line
+                  [GRAY4],
+                  [GRAY4,GRAY1 ]],# forth line
                  spacing=20,
                  ax=ax1,
                  fontsize=11.5)
 
-
-    # text note with survey result
-    # rainbow_text(87.6, 5.5,
-    #              'Several swimmers have $\\bf{made\ their\ mark\ in}$\n '
-    #              '$\\bf{Olympic\ history\ by\ holding\ multiple\ records.}$\n'
-    #              'Some notable names include Michael Phelps of the United\n'
-    #              #'States, who boasts a remarkable $\\bf{23 Olympic gold medals}$ and\n'
-    #              #'numerous records, and \\bf{Katie Ledecky}$, also from the United\n'
-    #              #'States, who has set numerous world records in freestyle events\n'
-    #              #'Survey shows that ||$\\bf{demonstration}$\n'
-    #              #'$\\bf{of\ results}$|| is the single most\n'
-    #              #'important dimension when\n'
-    #              #'choosing a service provider.',
-    #              [[GRAY4, GRAY1], [GRAY1],
-    #               [GRAY4]],# [GRAY4]],
-    #              spacing=20,
-    #              ax=ax1,
-    #              fontsize=11.5)
+        #  Ian Thorpe of Australia and Kristin Otto of Germany have left their indelible marks on the Olympic swimming record books
 
     # text note with initial hypothesis
-    # rainbow_text(87.6, -0.2,
-    #              '$\\bf{Affordability}$|| and ||$\\bf{experience}$\n'
-    #              '$\\bf{working\ together\ previously}$,\n'
-    #              'which were hypothesized to be\n'
-    #              'very important in the decision\n'
-    #              'making process, were both cited\n'
-    #              'less frequently as important attributes.',
-    #              [[GRAY1, GRAY4, GRAY1], [GRAY1],
-    #               [GRAY4], [GRAY4], [GRAY4], [GRAY4]],
+    rainbow_text(87.6, -0.5,
+                 '$\\bf{Ian\ Thorpe}$|| of Australia and ||$\\bf{ Kristin\ Otto}$ of Germany\n'
+                 '$\\bf{have\ left\ their\ indelible\ marks}$, on the Olympic\n'
+                 'swimming record books.\n'
+                 'very important in the decision\n'
+                 'making process, were both cited\n'
+                 'less frequently as important attributes.',
+                 [[GRAY1, GRAY4, GRAY1],
+                  [GRAY1,GRAY4 ],
+                  [GRAY4],
+                  [GRAY4],
+                  [GRAY4],
+                  [GRAY4]],
+                 spacing=20,
+                 ax=ax1,
+                 fontsize=11.5)
+
+    ax1.text(59, 9.30, '       Number of OR \n ( = Olympic Records)', color=GRAY7, fontsize=9)
+
+
+
+#These extraordinary athletes have become legends in the world of swimming and have set standards that inspire generations to come
+    # rainbow_text(87.6, -0.5,
+    #              #'$\\bf{Ian\ Thorpe}$|| of Australia and ||$\\bf{ Kristin\ Otto}$ of Germany\n'
+    #              #'$\\bf{have\ left\ their\ indelible\ marks}$, on the Olympic\n'
+    #              '$\\bf{These extraordinary athletes have become legends in the world of swimming}$||'
+    #              #'world of swimming and have set standards that inspire generations to come\n'
+    #              #'making process, were both cited\n'
+    #              #'less frequently as important attributes.',
+    #              [GRAY4],
+    #               #[GRAY4]],
+    #               # [GRAY4],
+    #               # [GRAY4],
+    #               # [GRAY4],
+    #               # [GRAY4]],
     #              spacing=20,
     #              ax=ax1,
     #              fontsize=11.5)
 
+
+
+#These extraordinary athletes have become legends in the world of swimming and have
+# set standards that inspire generations to come
     # footnote with the data source
     ax1.text(-60, -2.1,
              'Data source: Kaggle website -  Datasets\n' # 
@@ -304,5 +315,5 @@ if __name__ == '__main__':
     column_headers = list(final_clean_table.columns.values)
 
     res = prepering_the_data_pf_the_swimmers_who_won_a_olymplic_world_record(final_clean_table)
-    creating_a_bar_chart_from_the_storytelling_book(res)
+    creating_a_storytelling_bar_chart(res)
     print('*')
