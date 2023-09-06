@@ -62,7 +62,8 @@ We aim to uncover and celebrate these exceptional athletes and their extraordina
 
 
 
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/6d424591-286c-44e1-91e3-d8bbdf3d0560)
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/23a40ced-6204-4cf7-a715-c3e5b55e9af3)
+
 
 
 
