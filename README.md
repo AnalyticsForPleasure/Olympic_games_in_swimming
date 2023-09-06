@@ -56,7 +56,8 @@ The most thrilling elements of the Olympic games are undoubtedly the World Recor
 
 **Are there any swimmers who have achieved this remarkable feat multiple times over the years?**
 
-![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/785398fd-3bd0-43fb-b523-93de783439ee)
+![image](https://github.com/AnalyticsForPleasure/Olympic_games_in_swimming/assets/28948369/9bf22f1e-ebd4-4cbc-89a6-99230f7f652b)
+
 
 
 We aim to uncover and celebrate these exceptional athletes and their extraordinary achievements in the realm of Olympic swimming.
