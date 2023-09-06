@@ -151,7 +151,7 @@ def creating_a_storytelling_bar_chart(res):
     ax1.barh(range(len(X)),
              Y,
              height=0.65,
-             color=[GRAY1] + [GRAY2]*2 + [GRAY8]*3 + [GRAY2])
+             color=[BLUE_3] + [BLUE_6]*2 + [BLUE_7]*3 + [BLUE_8]* 4) # changing the colors of each bar of the chart
 
     # set the data limits for the y-axis and x-axis
     ax1.set_xlim([0, 80])
@@ -261,23 +261,23 @@ def creating_a_storytelling_bar_chart(res):
 
 
 
-#These extraordinary athletes have become legends in the world of swimming and have set standards that inspire generations to come
-    # rainbow_text(87.6, -0.5,
-    #              #'$\\bf{Ian\ Thorpe}$|| of Australia and ||$\\bf{ Kristin\ Otto}$ of Germany\n'
-    #              #'$\\bf{have\ left\ their\ indelible\ marks}$, on the Olympic\n'
-    #              '$\\bf{These extraordinary athletes have become legends in the world of swimming}$||'
-    #              #'world of swimming and have set standards that inspire generations to come\n'
-    #              #'making process, were both cited\n'
-    #              #'less frequently as important attributes.',
-    #              [GRAY4],
-    #               #[GRAY4]],
-    #               # [GRAY4],
-    #               # [GRAY4],
-    #               # [GRAY4],
-    #               # [GRAY4]],
-    #              spacing=20,
-    #              ax=ax1,
-    #              fontsize=11.5)
+# #These extraordinary athletes have become legends in the world of swimming and have set standards that inspire generations to come
+#     rainbow_text(87.6, -0.5,
+#                  #'$\\bf{Ian\ Thorpe}$|| of Australia and ||$\\bf{ Kristin\ Otto}$ of Germany\n'
+#                  #'$\\bf{have\ left\ their\ indelible\ marks}$, on the Olympic\n'
+#                  #'$\\bf{These\ extraordinary\ athletes\ have become\ legends\ in\ the\ world\ of\ swimming\}$||',
+#                  #'world of swimming and have set standards that inspire generations to come\n'
+#                  'These extraordinary athletes have become legends in\n'
+#                  'less frequently as important attributes.\n',
+#                  [GRAY4],
+#                   [GRAY4],
+#                   # [GRAY4],
+#                   # [GRAY4],
+#                   # [GRAY4],
+#                   # [GRAY4]],
+#                  spacing=20,
+#                  ax=ax1,
+#                  fontsize=11.5)
 
 
 
