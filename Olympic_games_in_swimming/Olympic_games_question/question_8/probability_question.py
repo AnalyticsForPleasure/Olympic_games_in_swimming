@@ -54,6 +54,8 @@ if __name__ == '__main__':
         "Antwerp": "BUL",
         "Rome": "GRE"}
 
+
+
     for key, value in dict_location_city.items():
         print(f'Key: {key}, Value: {value}')
     # Filter the data for the specific country hosting the Games
