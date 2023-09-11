@@ -261,25 +261,6 @@ def creating_a_storytelling_bar_chart(res):
 
 
 
-# #These extraordinary athletes have become legends in the world of swimming and have set standards that inspire generations to come
-#     rainbow_text(87.6, -0.5,
-#                  #'$\\bf{Ian\ Thorpe}$|| of Australia and ||$\\bf{ Kristin\ Otto}$ of Germany\n'
-#                  #'$\\bf{have\ left\ their\ indelible\ marks}$, on the Olympic\n'
-#                  #'$\\bf{These\ extraordinary\ athletes\ have become\ legends\ in\ the\ world\ of\ swimming\}$||',
-#                  #'world of swimming and have set standards that inspire generations to come\n'
-#                  'These extraordinary athletes have become legends in\n'
-#                  'less frequently as important attributes.\n',
-#                  [GRAY4],
-#                   [GRAY4],
-#                   # [GRAY4],
-#                   # [GRAY4],
-#                   # [GRAY4],
-#                   # [GRAY4]],
-#                  spacing=20,
-#                  ax=ax1,
-#                  fontsize=11.5)
-
-
 
 #These extraordinary athletes have become legends in the world of swimming and have
 # set standards that inspire generations to come
