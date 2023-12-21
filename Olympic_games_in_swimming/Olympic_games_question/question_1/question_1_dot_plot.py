@@ -179,12 +179,17 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
     new_names = ['Team Name', 'Game location', 'Year','Athlete Name','Game location', 'Year', 'Athlete Name']
     final_table_style =final_table_style.rename(columns=dict(zip(old_names, new_names)), inplace=False)
     final_table_style = final_table_style.iloc[:, list(range(1, 5)) + list(range(8, 12))]
-    #final_table_style = final_table_style.reset_index(drop=True)
 
 
-    #TODO: ask gil why it's not working
+    #TODO: ask gil why it's not working ( 2 changes )
+
     #df_9 = final_table_style.style.apply(func=relevant_columns_highlighter, subset=['Worst results by the team (In seconds)', 'Best results by the team (In seconds)'])
     #dfi.export(df_9, filename='output_images/highlight_columns.png')
+
+    final_table_style.style.set_properties(subset=['Worst results by the team (In seconds)', 'Best results by the team (In seconds)'],
+                            **{"background-color": "lightblue",
+                               "color": "white",
+                               "border": "0.5px solid white"})
 
 
     #
@@ -196,7 +201,7 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
     # dfi.export(final_table_style, filename='/home/shay_diy/PycharmProjects/Olympic_games_in_swimming/Olympic_games_in_swimming/Olympic_games_question/question_1/best_and_worst_table.png')
     #
     # #df_output = pd.concat([final_table_fastest_results, final_table_slowest_results]).sort_index(kind='merge')
-    # print('*')
+    print('*')
     return final_table
 
 
