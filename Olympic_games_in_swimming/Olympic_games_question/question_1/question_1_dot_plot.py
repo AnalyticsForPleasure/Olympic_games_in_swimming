@@ -5,6 +5,7 @@ from textwrap import wrap
 import dataframe_image as dfi
 import matplotlib.ticker as ticker
 import numpy as np
+import seaborn as sns
 
 
 # **************************************************************************************************************
@@ -22,10 +23,10 @@ def format_percent(x, pos):
 # return value:
 # ****************************************************************************************************************
 def relevant_columns_highlighter(x):
-    my_style = "color: #1E90FF;" \
+    my_style = "background-color: #1E90FF; " \
+               "color: white; " \
                "font-weight: bold;"
     return [my_style] * len(x)
-
 # **************************************************************************************************************
 # Function  name: convert_time_to_seconds ( Examples  '1:59.06' -> 119.06 , '00:01:53.410000' -> 113.41 )
 # input: Define a custom function to convert time in minutes to seconds
@@ -171,31 +172,31 @@ def preparing_the_olympic_data_for_the_dot_plot(mini_df_team):
 
     final_table = pd.merge(final_table_slowest_results, final_table_fastest_results, left_index=True, right_index=True)
     final_table_style = final_table
-
-    # Here below I am working on the table presentation :
+    #
+    # # Here below I am working on the table presentation :
 
     old_names = ['Team_x', 'Location_x', 'Year_x','Athlete_x','Location_y','Year_y', 'Athlete_y']
     new_names = ['Team Name', 'Game location', 'Year','Athlete Name','Game location', 'Year', 'Athlete Name']
     final_table_style =final_table_style.rename(columns=dict(zip(old_names, new_names)), inplace=False)
     final_table_style = final_table_style.iloc[:, list(range(1, 5)) + list(range(8, 12))]
-
-    final_table_style = final_table_style.reset_index(drop=True)
-    print('*')
-
-    # Columns to be colored
-    colored_columns =['Stroke']#['Worst results by the team (In seconds)','Best results by the team (In seconds)'] #['Athlete Name']
-
-    # Apply style to the DataFrame
-    styled_df = final_table_style.style.apply(lambda x: ['background: lightblue' if x.name in colored_columns else '' for i in x])
+    #final_table_style = final_table_style.reset_index(drop=True)
 
 
-    # Save the styled DataFrame as an image using dataframe_image
-    dfi.export(styled_df, filename='/home/shay_diy/PycharmProjects/Olympic_games_in_swimming/Olympic_games_in_swimming/Olympic_games_question/question_1/best_and_worst_table.png')
+    #TODO: ask gil why it's not working
+    #df_9 = final_table_style.style.apply(func=relevant_columns_highlighter, subset=['Worst results by the team (In seconds)', 'Best results by the team (In seconds)'])
+    #dfi.export(df_9, filename='output_images/highlight_columns.png')
 
 
-    print('*')
-    #df_output = pd.concat([final_table_fastest_results, final_table_slowest_results]).sort_index(kind='merge')
-    print('*')
+    #
+    dfi.export(final_table_style, filename='/home/shay_diy/PycharmProjects/Olympic_games_in_swimming/Olympic_games_in_swimming/Olympic_games_question/question_1/best_and_worst_table1.png')
+
+    # print('*')
+    #
+    # # Save the styled DataFrame as an image using dataframe_image
+    # dfi.export(final_table_style, filename='/home/shay_diy/PycharmProjects/Olympic_games_in_swimming/Olympic_games_in_swimming/Olympic_games_question/question_1/best_and_worst_table.png')
+    #
+    # #df_output = pd.concat([final_table_fastest_results, final_table_slowest_results]).sort_index(kind='merge')
+    # print('*')
     return final_table
 
 
