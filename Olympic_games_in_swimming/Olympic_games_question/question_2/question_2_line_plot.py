@@ -41,7 +41,8 @@ def preparing_the_data_for_the_line_plot(df):
 # ****************************************************************************************************************
 def creating_advance_line_chart(table_input):
     print('*')
-    fig, ax = plt.subplots()
+
+    fig, ax = plt.subplots(figsize=(19, 7.5))
     # figure list(res.loc[:, 'player_weight'])
     x_values =list(table_input.loc[:,'Year taken the Olympic Game'])   # 'x_values' line represents X- axis values
     y_values =  list(table_input.loc[:,'Counter Countries'])  #'y_values' line represents y- axis values
