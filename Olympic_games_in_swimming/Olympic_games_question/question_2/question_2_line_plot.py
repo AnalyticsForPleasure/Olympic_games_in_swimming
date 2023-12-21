@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatch
 import numpy as np
+import dataframe_image as dfi
 
 # **************************************************************************************************************
 # Function  name: preparing_the_data_for_the_line_plot
@@ -11,27 +12,41 @@ import numpy as np
 def preparing_the_data_for_the_line_plot(df):
     filter_df_by_team_and_year = df.loc[:, ['Year', 'Team']]
     filter_df_by_team_and_year.sort_values(by='Year', inplace=True, ascending=True)
-    df_starting = {'Year': [],
-                   'Counter Countries': []}
+
+    list_of_country_names_participate =[]
     list_of_countries_each_olympic = []
     list_of_years = filter_df_by_team_and_year['Year'].unique().tolist()
     for olympic_year in list_of_years:
         number_of_countries_in_a_game = filter_df_by_team_and_year[filter_df_by_team_and_year['Year'] == olympic_year]
 
         result = number_of_countries_in_a_game.drop_duplicates()
+        # Group by 'year' and aggregate the unique country names
+        #result = result.groupby('year')['country'].agg(lambda x: ', '.join(set(x))).reset_index()
+        result['countries name which participate in olympics'] = ', '.join(result['Team'])
+        list_result = list(result['countries name which participate in olympics'].drop_duplicates())
         number_of_counties = result.shape[0]
         print('*')
         list_of_countries_each_olympic.append(number_of_counties)
+        list_of_country_names_participate.append(list_result)
+       # list_of_countries_names_participate_each_game.
         print('*')
-        list_of_years
+        #list_of_years
     df_starting = {'Year taken the Olympic Game': list_of_years,
-                   'Counter Countries': list_of_countries_each_olympic}
+                   #'Counter Countries': list_of_countries_each_olympic,
+                   'Countries which participate in olympics swimming events': list_of_country_names_participate }
 
     print('*')
     final_table = pd.DataFrame(df_starting,
-                               columns=['Year taken the Olympic Game', 'Counter Countries'])
+                               columns=['Year taken the Olympic Game',
+                                        #'Counter Countries,'
+                                        'Countries which participate in olympics swimming events'])
     print('*')
-
+    # Set the style to center column titles
+    final_table.style.set_table_styles([{'selector': 'thead th', 'props': [('text-align', 'center')]}])
+    #final_table.style.set_properties(subset=['Countries name which participate in olympics'], **{'width': '600px'})
+    dfi.export(final_table.style.set_properties(subset=['Countries which participate in olympics swimming events'], **{'max-width': '1320px'}), 'table_result.png')
+    #dfi.export(final_table, filename='/home/shay_diy/PycharmProjects/Olympic_games_in_swimming/Olympic_games_in_swimming/Olympic_games_question/question_2/table_result_1.png')
+    print('*')
     return final_table
 
 # **************************************************************************************************************
