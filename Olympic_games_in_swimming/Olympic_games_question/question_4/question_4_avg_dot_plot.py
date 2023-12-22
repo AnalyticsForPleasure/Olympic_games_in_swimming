@@ -38,6 +38,11 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 
     final_table = pd.DataFrame(df_starting,columns=['Olympic_year', 'Amount_of_medals'])
     print('*')
+    # TODO: need to add STD to the chart presentation
+    standard_deviation_for_a_team =  final_table.loc[:,'Amount_of_medals'].std()
+
+
+    print('*')
     return avg_of_the_team_over_the_years , final_table ,  team_name
 
 # **************************************************************************************************************
@@ -47,6 +52,8 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 # ****************************************************************************************************************
 def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table, team_name, color):
 
+
+    #plt.subplots(figsize=(19, 7.5))
     print('*')
     team_name_str = ', '.join(team_name)
     print('*')
@@ -60,7 +67,7 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     fontdict_input2 = {'fontsize': 21, 'weight': 'heavy', 'alpha': 0.9,'fontname':'Franklin Gothic Medium Cond',  'weight':'bold' , 'style':'italic' }
     print('*')
 
-    fig, ax = plt.subplots()
+    #fig, ax = plt.subplots()
 
     # Add the horizontal line ( we have 2 parts )
     plt.hlines(avg_of_the_team_over_the_years,1912,1964,colors="gray", linestyle='dashed', linewidth=3)
