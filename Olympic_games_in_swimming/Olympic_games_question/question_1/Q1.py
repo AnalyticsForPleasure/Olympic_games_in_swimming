@@ -36,6 +36,12 @@ def convert_time_to_seconds(time_str):
 
 def process_df(current_team):
 
+    final_table = pd.DataFrame({'Team': [],
+                                'Stroke': [],
+                                'max_duration_time':[],
+                                'min_duration_time':[],
+                                'Improvement':[]})  # Fastest result , Slowest result
+
     unique_stroke = current_team['Stroke'].unique()
     min_duration_time_for_all_strokes = current_team['Results (In seconds)'].min()
     max_duration_time_for_all_strokes = current_team['Results (In seconds)'].max()
@@ -55,19 +61,18 @@ def process_df(current_team):
     # df = df.set_index("Country").sort_values("2015")
     # df["change"] = df["2015"] / df["1990"] - 1
 
-    array = range(1,unique_stroke)
     plt.figure(figsize=(12,6))
-    y_range = np.arange(1, len(df.index) + 1)
+    y_range = np.arange(1,len(unique_stroke)+1)
     colors = np.where(min_duration_time > max_duration_time, '#d9d9d9', '#d57883')
-    plt.hlines(y=y_range, xmin=max_duration_time, xmax=min_duration_time,
-               color=colors, lw=10)
-    plt.scatter(max_duration_time, y_range, color='#0096d7', s=200, label='1990', zorder=3)
-    plt.scatter(min_duration_time, y_range, color='#003953', s=200 , label='2015', zorder=3)
+    plt.hlines(y=y_range, xmin=min_duration_time, xmax=max_duration_time, color=colors, lw=10)
+    plt.scatter(min_duration_time, y_range, color='#0096d7', s=200, label='1990', zorder=3)
+    plt.scatter(max_duration_time, y_range, color='#003953', s=200 , label='2015', zorder=3)
 
-    # Adding the annotation over the chart
-    for (_, row), y in zip(df.iterrows(), y_range):
-        plt.annotate(f"{improvement:+.0%}", (max(max_duration_time, min_duration_time) + 4, y - 0.25))
-    plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
+    # Adding the annotation for the improvement values
+    for (_, row), y in zip(final_fastest_slowest_table.iterrows(), y_range):
+        plt.annotate(f"{row['Improvement %']:+.0%}",
+                     (max(row["Slowest_percentage"] - 0.05,
+                          row["Fastest_percentage"]) + 1, y - 0.05))
 
     plt.yticks(y_range, df.index)
     plt.title("Energy productivity in selected countries and regions, 1990 and 2015\nBillion dollars GDP per quadrillion BTU", loc='left')
