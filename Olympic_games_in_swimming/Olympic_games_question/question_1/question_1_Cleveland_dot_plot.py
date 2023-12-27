@@ -64,7 +64,7 @@ def process_df(current_team):
 
     return data, min_duration_time_for_all_strokes, max_duration_time_for_all_strokes
 # **************************************************************************************************************
-# Function  name: process_df
+# Function  name: creating_Cleveland_dot_plot
 # input:
 # return value:
 # ****************************************************************************************************************
