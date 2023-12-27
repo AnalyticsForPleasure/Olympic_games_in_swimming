@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 #import seaborn as sys
 
-
 # **************************************************************************************************************
 # Function  name: convert_time_to_seconds ( Examples  '1:59.06' -> 119.06 , '00:01:53.410000' -> 113.41 )
 # input: Define a custom function to convert time in minutes to seconds
@@ -69,10 +68,10 @@ def process_df(current_team):
 # input:
 # return value:
 # ****************************************************************************************************************
-def creating_Cleveland_dot_plot(df, total_min_duration, total_max_duration, country_name,font_prop):
+def creating_Cleveland_dot_plot(df, total_min_duration, total_max_duration, country_name,font_prop_title, font_prop_x_y_yticks):
     strokes = df['Stroke']
     #plt.style.use('seaborn')
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(22, 10))
 
     y_range = np.arange(1, len(strokes) + 1)
     colors = np.where(df['max_duration_time'] > df['min_duration_time'], '#d9d9d9', '#d57883')
@@ -80,28 +79,32 @@ def creating_Cleveland_dot_plot(df, total_min_duration, total_max_duration, coun
     plt.scatter(df['min_duration_time'], y_range, color='#0096d7', s=200, label='1990', zorder=3)
     plt.scatter(df['max_duration_time'], y_range, color='#003953', s=200, label='2015', zorder=3)
 
-    # Adding the annotation for the improvement values
+
+    small_left_shifting =2
+    # Adding 3 annotations for the improvement value + min_duration_time + max_duration_time
     for (idx_row, row), y in zip(df.iterrows(), y_range):
-        plt.annotate(text=f"I"
-                          f"mprovement \n     {row['Improvement']:.2f}%",
-                     xy=((row['min_duration_time'] + row['max_duration_time']) / 2, y + 0.05)) # positioning "improvement" labels.
+        plt.annotate(text=f"Improvement \n     {row['Improvement']:.2f}%",
+                     xy=(((row['min_duration_time'] + row['max_duration_time']) / 2) - small_left_shifting, y + 0.05)) # positioning "improvement" labels.
 
         plt.annotate(text=f"{row['min_duration_time']:.2f}", xy=(row['min_duration_time'], y - 0.12))
         plt.annotate(text=f"{row['max_duration_time']:.2f}", xy=(row['max_duration_time'], y - 0.12))
 
-        # plt.yticks(y_range, df.index)
-    # , fontdict=fontdict_input_title, pad=50
     plt.title(f"The improvement of the {country_name} team in each Olympic swimming events - Men's 200m",
               loc='center',
-              fontdict=font_prop ,
-              fontname=font_prop['fontname'],
-              pad=25)
-    plt.xlabel('Time duration in seconds',fontname='Franklin Gothic Medium Cond',style='italic', fontsize=17,weight='bold')
-    plt.yticks(ticks=y_range ,  labels = strokes, fontdict=font_prop)
+              fontdict=font_prop_title ,
+              fontname=font_prop_title['fontname'],
+              pad=35)
+
+    plt.legend(labels=["Best score by the team", "Worst score by the team"],loc=(0, 1.01)  ,ncol=2)  # loc=(0, 1.07), ncol=2) # loc="upper right"
+    plt.xlabel('Time duration in seconds',font_prop_x_y_yticks)
+    plt.yticks(ticks=y_range ,labels = strokes, fontdict=font_prop_x_y_yticks)
     #plt.ylabel('Stroke')
     plt.xlim(total_min_duration - 5, total_max_duration + 5)
     plt.gcf().subplots_adjust(left=0.35)
     plt.tight_layout()
+
+    plt.savefig(f'Cleveland_dot_plot_{country_name}.jpg', dpi=250, bbox_inches='tight')
+
     plt.show()
 
 
@@ -126,15 +129,20 @@ if __name__ == '__main__':
     final_clean_table = final_clean_table.loc[
         (final_clean_table["Distance (in meters)"] == '200m') & (final_clean_table['Gender'] == 'Men')]
 
-    font_properties = {'fontsize': 22,
+    font_properties_x_y_yticks = {'fontsize': 20,
                        'weight': 'heavy',
-                       'ha': 'center',
+                       'ha': 'right',
                        'alpha': 0.9,
                        'color': 'Gray',
                        'fontname': 'Franklin Gothic Medium Cond'
                        }
-
-
+    font_properties_title = {'fontsize': 24,
+                             'weight': 'heavy',
+                             'ha': 'right',
+                             'alpha': 0.9,
+                             'color': 'navy',
+                             'fontname': 'Franklin Gothic Medium Cond'
+                            }
     # I have added the list of years hard coded because we want to select only 8 teams q countries
     list_of_country_teams = ['USA', 'AUS', 'GBR', 'JPN', 'GER', 'CAN', 'GDR', 'HUN']
 
@@ -142,4 +150,4 @@ if __name__ == '__main__':
         mini_df_team = final_clean_table[final_clean_table['Team'] == country_name]
         print('#' * 25 + country_name + '#' * 25)
         df, min_duration, max_duration = process_df(mini_df_team)
-        creating_Cleveland_dot_plot(df, min_duration, max_duration, country_name,font_properties)
+        creating_Cleveland_dot_plot(df, min_duration, max_duration, country_name,font_properties_title,font_properties_x_y_yticks)
