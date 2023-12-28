@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import matplotlib
 
 # **************************************************************************************************************
 # Function  name: preparing_the_data_for_the_dot_plot
@@ -38,8 +39,7 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 
     final_table = pd.DataFrame(df_starting,columns=['Olympic_year', 'Amount_of_medals'])
     print('*')
-    # TODO: need to add STD to the chart presentation
-    standard_deviation_for_a_team =  final_table.loc[:,'Amount_of_medals'].std()
+
 
 
     print('*')
@@ -52,38 +52,29 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 # ****************************************************************************************************************
 def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table, team_name, color):
 
+    sns.set_style("dark")
+    plt.figure(figsize=(19, 7.5))
 
-    #plt.subplots(figsize=(19, 7.5))
-    print('*')
     team_name_str = ', '.join(team_name)
-    print('*')
     x_axis = final_table['Olympic_year'].to_numpy()
     y_axis = final_table['Amount_of_medals'].to_numpy()
-    print('*')
 
-    plt.style.use('seaborn')
+
     # Assign colors based on the y-values
     colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver',color ) #'deepskyblue'
     fontdict_input2 = {'fontsize': 21, 'weight': 'heavy', 'alpha': 0.9,'fontname':'Franklin Gothic Medium Cond',  'weight':'bold' , 'style':'italic' }
-    print('*')
 
-    #fig, ax = plt.subplots()
-
-    # Add the horizontal line ( we have 2 parts )
+    # Add the horizontal line ( we have 2 parts ) which present the avg line
     plt.hlines(avg_of_the_team_over_the_years,1912,1964,colors="gray", linestyle='dashed', linewidth=3)
     plt.hlines(avg_of_the_team_over_the_years,1972,2020,colors="gray", linestyle='dashed',  linewidth=3)
 
     rounded_number = round(avg_of_the_team_over_the_years, 2)
 
-
-    # Annotation for the avg value at the center
-    plt.text(x=1964, y=avg_of_the_team_over_the_years - avg_of_the_team_over_the_years * 0.08, s=f'Avg   {rounded_number}', ha='left', va='bottom', color = color ,fontdict=fontdict_input2)
-
-
+    # Annotation for the avg value at the center - horizontal line
+    plt.text(x=1964, y=avg_of_the_team_over_the_years - avg_of_the_team_over_the_years * 0.07, s=f'Avg   {rounded_number}', ha='left', va='bottom', color = color ,fontdict=fontdict_input2)
 
 # Create the dot plot
     plt.scatter(x_axis, y_axis, s= 100,  c=colors)
-
     plt.xticks(np.arange(1912, 2020, step=8))
 
     #np.arange(1, 30,step = 5)
@@ -96,6 +87,18 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
 
     fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
     plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=20) # }
+
+    # TODO: need to add STD to the chart presentation
+    standard_deviation_for_a_team =  round(final_table.loc[:,'Amount_of_medals'].std(),2)# + '%'
+    #max_madals = float(final_table.loc[:,'Amount_of_medals']*0.2)
+
+    plt.annotate(text=f'Standard \n Deviation = {standard_deviation_for_a_team}',
+                 xy=(2008,6),  # Point on the plot where the arrow points to
+                 xytext=(2009, 7),  # Starting point of the text
+                 arrowprops=dict(facecolor='black', arrowstyle='->'),
+                 color=color,
+                 size=22,
+                 fontproperties='Franklin Gothic Medium Cond')
 
     plt.savefig(f'dot_plot_with_avg_line_of_{team_name_str}.jpg', dpi=250, bbox_inches='tight')
 
