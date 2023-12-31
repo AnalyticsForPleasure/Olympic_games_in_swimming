@@ -15,7 +15,6 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
     first_3_places = [1, 2, 3]
     final_medals_table = mini_df_team[mini_df_team['Rank'].isin(first_3_places)]
     final_medals_table.reset_index(inplace=True)
-    print('*')
     list_of_number_of_medals_for_the_team = []
     grouping_by_year = final_medals_table.groupby('Year')
     for year_olympic, mini_df_year in grouping_by_year:
@@ -23,8 +22,6 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
         print(mini_df_year)
         medals_specific_year = mini_df_year.shape[0]
         print('*')
-
-
         list_of_number_of_medals_for_the_team.append(medals_specific_year)
 
     print('*')
@@ -33,16 +30,12 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
     list_of_years = list_of_years[::-1]
 
     team_name = final_medals_table['Team'].unique()
-    print('*')
+
     df_starting = {'Olympic_year': list_of_years,
                    'Amount_of_medals': list_of_number_of_medals_for_the_team}
 
     final_table = pd.DataFrame(df_starting,columns=['Olympic_year', 'Amount_of_medals'])
-    print('*')
 
-
-
-    print('*')
     return avg_of_the_team_over_the_years , final_table ,  team_name
 
 # **************************************************************************************************************
@@ -52,9 +45,11 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
 # ****************************************************************************************************************
 def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_table, team_name, color):
 
+    print('*')
     sns.set_style("dark")
     plt.figure(figsize=(19, 7.5))
 
+    max_medals_over_a_game = final_table.loc[:,'Amount_of_medals'].max()
     team_name_str = ', '.join(team_name)
     x_axis = final_table['Olympic_year'].to_numpy()
     y_axis = final_table['Amount_of_medals'].to_numpy()
@@ -77,10 +72,6 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     plt.scatter(x_axis, y_axis, s= 100,  c=colors)
     plt.xticks(np.arange(1912, 2020, step=8))
 
-    #np.arange(1, 30,step = 5)
-
-    #xticks(np.arange(0, 1, step=0.2))
-
     # Customize the plot
     plt.xlabel('Olympic Years',fontsize= 17,  color= 'Gray',fontname='Franklin Gothic Medium Cond')
     plt.ylabel(f'Amount of medals for the {team_name_str} team',fontsize= 17,  color= 'Gray',fontname='Franklin Gothic Medium Cond')
@@ -88,13 +79,12 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     fontdict_input_title = {'fontsize': 23, 'weight': 'heavy', 'alpha': 0.9, 'color': 'Navy','fontname':'Franklin Gothic Medium Cond'}
     plt.title(f"Number of time the {team_name_str} team got medals over the years", loc='left',fontdict=fontdict_input_title,  pad=20) # }
 
-    # TODO: need to add STD to the chart presentation
-    standard_deviation_for_a_team =  round(final_table.loc[:,'Amount_of_medals'].std(),2)# + '%'
-    #max_madals = float(final_table.loc[:,'Amount_of_medals']*0.2)
+    standard_deviation_for_a_team = round(final_table.loc[:,'Amount_of_medals'].std(),2)
 
+    position_Y_annotation = max_medals_over_a_game * 0.1
     plt.annotate(text=f'Standard \n Deviation = {standard_deviation_for_a_team}',
-                 xy=(2008,6),  # Point on the plot where the arrow points to
-                 xytext=(2009, 7),  # Starting point of the text
+                 xy=(2008,position_Y_annotation),  # Point on the plot where the arrow points to
+                 xytext=(2009, position_Y_annotation +1),  # Starting point of the text
                  arrowprops=dict(facecolor='black', arrowstyle='->'),
                  color=color,
                  size=22,
@@ -104,6 +94,7 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
 
 # Show the plot
     plt.show()
+
 
 
 if __name__ == '__main__':
