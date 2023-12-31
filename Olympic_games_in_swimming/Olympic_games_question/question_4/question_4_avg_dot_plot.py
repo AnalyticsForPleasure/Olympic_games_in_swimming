@@ -9,7 +9,6 @@ import matplotlib
 # input:
 # return value:
 # ****************************************************************************************************************
-
 def preparing_the_data_for_the_dot_plot(mini_df_team):
     # Retrieving -  3 first place
     first_3_places = [1, 2, 3]
@@ -37,7 +36,6 @@ def preparing_the_data_for_the_dot_plot(mini_df_team):
     final_table = pd.DataFrame(df_starting,columns=['Olympic_year', 'Amount_of_medals'])
 
     return avg_of_the_team_over_the_years , final_table ,  team_name
-
 # **************************************************************************************************************
 # Function  name: creating_the_plot_chart_of_each_teams
 # input:
@@ -49,11 +47,10 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     sns.set_style("dark")
     plt.figure(figsize=(19, 7.5))
 
-    max_medals_over_a_game = final_table.loc[:,'Amount_of_medals'].max()
+
     team_name_str = ', '.join(team_name)
     x_axis = final_table['Olympic_year'].to_numpy()
     y_axis = final_table['Amount_of_medals'].to_numpy()
-
 
     # Assign colors based on the y-values
     colors = np.where(y_axis <= avg_of_the_team_over_the_years, 'silver',color ) #'deepskyblue'
@@ -68,7 +65,7 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
     # Annotation for the avg value at the center - horizontal line
     plt.text(x=1964, y=avg_of_the_team_over_the_years - avg_of_the_team_over_the_years * 0.07, s=f'Avg   {rounded_number}', ha='left', va='bottom', color = color ,fontdict=fontdict_input2)
 
-# Create the dot plot
+    # Create the dot plot
     plt.scatter(x_axis, y_axis, s= 100,  c=colors)
     plt.xticks(np.arange(1912, 2020, step=8))
 
@@ -81,6 +78,8 @@ def creating_the_dot_chart_of_each_teams(avg_of_the_team_over_the_years,final_ta
 
     standard_deviation_for_a_team = round(final_table.loc[:,'Amount_of_medals'].std(),2)
 
+    # Adding Annotation for the standard deviation
+    max_medals_over_a_game = final_table.loc[:,'Amount_of_medals'].max()
     position_Y_annotation = max_medals_over_a_game * 0.1
     plt.annotate(text=f'Standard \n Deviation = {standard_deviation_for_a_team}',
                  xy=(2008,position_Y_annotation),  # Point on the plot where the arrow points to
