@@ -34,10 +34,13 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
     unique_list_of_number_of_medals = list(final_table_counter["Number_of_madels"].unique())
     unique_list_of_number_of_medals = unique_list_of_number_of_medals[::-1]
 
-    for number_of_ned in unique_list_of_number_of_medals: # TODO: need to countinue from here
-        filtered_df = final_table_counter.loc[final_table_counter['Number_of_madals'] == number_of_ned, :]
-        print(filtered_df)
-        print('*')
+    # TODO: need to continue from here
+    #for number_of_ned in unique_list_of_number_of_medals:
+    #    filtered_df_name_athletes = final_table_counter.loc[final_table_counter['Number_of_madels'] == number_of_ned, :]['Athlete_Name']
+    #    print(list(filtered_df_name_athletes))
+
+    filtered_df_name_athletes =['Kosuke Hagino', 'Danyon Joseph Loader', 'George Thomas Breen', 'Mike Burton', 'Norbert Rozsa', 'Pablo Morales'],
+
 
 
     result_table = final_table_counter["Number_of_madels"].value_counts().reset_index()
@@ -63,6 +66,8 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
         plt.annotate(f'{number_of_athletes_with_the_same_num_of_medals[i]} Swimmers',
                      (i, number_of_athletes_with_the_same_num_of_medals[i] + j), weight='bold', color='slategray',
                      size=22, fontproperties='Franklin Gothic Medium Cond')
+
+
 
     # Remove spines (top, right, bottom, and left) - remover the entire frame
     sns.despine(left=True)
