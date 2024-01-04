@@ -29,7 +29,16 @@ def preparing_the_data(final_table):
 # ***************************************************************************************************************
 def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks, font_prop_title):
     # Create a figure and axis
-    fig, ax = plt.subplots(figsize=(16, 7))
+    fig, ax = plt.subplots(figsize=(18, 7))
+
+    unique_list_of_number_of_medals = list(final_table_counter["Number_of_madels"].unique())
+    unique_list_of_number_of_medals = unique_list_of_number_of_medals[::-1]
+
+    for number_of_ned in unique_list_of_number_of_medals: # TODO: need to countinue from here
+        filtered_df = final_table_counter.loc[final_table_counter['Number_of_madals'] == number_of_ned, :]
+        print(filtered_df)
+        print('*')
+
 
     result_table = final_table_counter["Number_of_madels"].value_counts().reset_index()
 
