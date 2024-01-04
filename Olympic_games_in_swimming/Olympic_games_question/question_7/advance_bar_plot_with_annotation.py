@@ -23,12 +23,12 @@ def adding_advance_bar_plot(final_table_counter):
     result_table = final_table_counter["Number_of_madels"].value_counts().reset_index()
     result_table= result_table.iloc[2:7]
 
-    #rank = result_table.argsort().argsort()
+    rank = result_table.argsort().argsort() # TODO: need to check it out in order to have a  gradient chart
     number_of_athletes_with_the_same_num_of_medals = list(result_table.loc[:,'count'])
     number_of_madels = list(result_table.loc[:,'Number_of_madels'])
 
     print('*')
-    #pal = sns.color_palette("Greens_d", len(number_of_madels))
+    pal = sns.color_palette("Greens_d", len(number_of_madels))
 
     plt.bar(number_of_madels, number_of_athletes_with_the_same_num_of_medals, width=0.9, align='center', color='cyan', edgecolor='black')
     #sns.barplot(x=number_of_madels, y=number_of_athletes_with_the_same_num_of_medals, palette=np.array(pal[::-1])[rank])
