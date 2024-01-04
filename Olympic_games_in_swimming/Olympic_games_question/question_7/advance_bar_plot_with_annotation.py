@@ -17,7 +17,9 @@ def preparing_the_data(final_table):
     final_table_counter = final_table['Athlete'].value_counts()
     final_table_counter = final_table_counter.reset_index()
     final_table_counter.rename(columns={"Athlete": 'Athlete_Name', "count": 'Number_of_madels'}, inplace=True)
-    return final_table_counter
+    result = final_table_counter.loc[final_table_counter['Number_of_madels'] > 2, :]  ## we are intresting at the swimmers who won more than 2 medals
+    print('*')
+    return result
 
 
 # **************************************************************************************************************
@@ -30,7 +32,6 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
     fig, ax = plt.subplots(figsize=(16, 7))
 
     result_table = final_table_counter["Number_of_madels"].value_counts().reset_index()
-    result_table = result_table.iloc[2:7]  # Adjust the indices if needed
 
     number_of_athletes_with_the_same_num_of_medals = list(result_table.loc[:, 'count'])
     number_of_madels = list(result_table.loc[:, 'Number_of_madels'])
@@ -45,11 +46,12 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
         else:
             color = sns.color_palette("flare", n_colors=len(number_of_athletes_with_the_same_num_of_medals))[i]
         sns.barplot(x=[number_of_madels[i]], y=[number_of_athletes_with_the_same_num_of_medals[i]], color=color, ax=ax)
-    i = 0.5
+
+    i = -0.5
     j = 0.3
     # Annotating the bar plot with the values (total death count)
     for i in range(len(number_of_madels)):
-        plt.annotate(number_of_athletes_with_the_same_num_of_medals[i],
+        plt.annotate(f'{number_of_athletes_with_the_same_num_of_medals[i]} Swimmers',
                      (i, number_of_athletes_with_the_same_num_of_medals[i] + j), weight='bold', color='slategray',
                      size=22, fontproperties='Franklin Gothic Medium Cond')
 
@@ -57,9 +59,11 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
     sns.despine(left=True)
     ax.yaxis.set_ticks([])
 
-    plt.title(f"Amount of Medals won by {Gender_Athlete}'s swimmers", loc='center', fontdict=font_prop_title,
-              pad=30)  # }
+    plt.title(f"Amount of Medals won by {Gender_Athlete}'s swimmers", loc='center',
+              fontproperties='Franklin Gothic Medium Cond', size=40,
+              color='slategray', pad=30)  # }
 
+    # plt.xlabel(number_of_madels, fontsize=17, color='Gray', fontname='Franklin Gothic Medium Cond')
     plt.savefig(f'gradient_bar_plot_{Gender_Athlete}.jpg', dpi=250, bbox_inches='tight')
     plt.show()
 
