@@ -29,27 +29,40 @@ def preparing_the_data(final_table):
 # ***************************************************************************************************************
 def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks, font_prop_title):
     # Create a figure and axis
-    fig, ax = plt.subplots(figsize=(18, 7))
+    fig, ax = plt.subplots(figsize=(19, 7))
 
     unique_list_of_number_of_medals = list(final_table_counter["Number_of_madels"].unique())
     unique_list_of_number_of_medals = unique_list_of_number_of_medals[::-1]
 
     # TODO: need to continue from here
-    #for number_of_ned in unique_list_of_number_of_medals:
-    #    filtered_df_name_athletes = final_table_counter.loc[final_table_counter['Number_of_madels'] == number_of_ned, :]['Athlete_Name']
-    #    print(list(filtered_df_name_athletes))
-
-    filtered_df_name_athletes =['Kosuke Hagino', 'Danyon Joseph Loader', 'George Thomas Breen', 'Mike Burton', 'Norbert Rozsa', 'Pablo Morales'],
-
+    for number_of_ned in unique_list_of_number_of_medals:
+        filtered_df_name_athletes = final_table_counter.loc[final_table_counter['Number_of_madels'] == number_of_ned, :]['Athlete_Name']
+        list_of_swimmers_on_one_bar= list(filtered_df_name_athletes)
+        print('*')
+    list_of_swimmers_on_one_bar = ['Kosuke Hagino', 'Danyon Joseph Loader', 'George Thomas Breen', 'Mike Burton', 'Norbert Rozsa',
+                     'Pablo Morales', 'Duke Paoa Kahanamoku', 'Charlie Hickcox', 'John Phillips Naber', 'Nathan Adrian',
+                     'Cesar Cielo Filho', 'Vladimir Salnikov', 'Tsuyoshi Yamanaka', 'Evgeny Rylov', 'Tom Dolan',
+                     'Gustavo Borges', 'Gary Jr. Hall', 'Curtis Allen Myden', 'Caeleb Dressel',
+                     'Alexander Timothy Mckee', 'Daniel Kowalski', 'Donald Arthur Schollander', 'David Andrew Wilkie',
+                     'Florent Manaudou', 'Massimiliano Rosolino', 'Hakan Malmrot', 'Anders Holmertz']
+    for i, swimmer in enumerate(list_of_swimmers_on_one_bar, 1):
+        ax.annotate(
+            swimmer, #f'* {swimmer}'
+            xy=(-0.35, len(list_of_swimmers_on_one_bar) - i +0.5),
+            xytext=(-0.35, len(list_of_swimmers_on_one_bar) - i+0.5),  # Adjust the vertical position
+            arrowprops=dict(facecolor='white', shrink=0.2),
+            fontsize=10, weight='bold', color='white',
+            ha='left', va='center'
+        )
 
 
     result_table = final_table_counter["Number_of_madels"].value_counts().reset_index()
 
     number_of_athletes_with_the_same_num_of_medals = list(result_table.loc[:, 'count'])
-    number_of_madels = list(result_table.loc[:, 'Number_of_madels'])
+    number_of_medals = list(result_table.loc[:, 'Number_of_madels'])
 
     # Using a list comprehension to concatenate " Madals" to each element
-    number_of_madels = [str(item) + " Madals" for item in number_of_madels]
+    number_of_medals = [str(item) + " Madals" for item in number_of_medals]
 
     # Iterate through each category and assign a gradient color to each bar
     for i, value in enumerate(number_of_athletes_with_the_same_num_of_medals):
@@ -57,12 +70,12 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
             color = sns.color_palette("Blues", n_colors=len(number_of_athletes_with_the_same_num_of_medals))[i]
         else:
             color = sns.color_palette("flare", n_colors=len(number_of_athletes_with_the_same_num_of_medals))[i]
-        sns.barplot(x=[number_of_madels[i]], y=[number_of_athletes_with_the_same_num_of_medals[i]], color=color, ax=ax)
+        sns.barplot(x=[number_of_medals[i]], y=[number_of_athletes_with_the_same_num_of_medals[i]], color=color, ax=ax)
 
     i = -0.5
     j = 0.3
-    # Annotating the bar plot with the values (total death count)
-    for i in range(len(number_of_madels)):
+    # Annotating the bar plot with the values (number_of_athletes_with_the_same_num_of_medals)
+    for i in range(len(number_of_medals)):
         plt.annotate(f'{number_of_athletes_with_the_same_num_of_medals[i]} Swimmers',
                      (i, number_of_athletes_with_the_same_num_of_medals[i] + j), weight='bold', color='slategray',
                      size=22, fontproperties='Franklin Gothic Medium Cond')
@@ -77,7 +90,7 @@ def adding_advance_bar_plot(final_table_counter, Gender_Athlete, font_prop_ticks
               fontproperties='Franklin Gothic Medium Cond', size=40,
               color='slategray', pad=30)  # }
 
-    # plt.xlabel(number_of_madels, fontsize=17, color='Gray', fontname='Franklin Gothic Medium Cond')
+    # plt.xlabel(number_of_medals, fontsize=17, color='Gray', fontname='Franklin Gothic Medium Cond')
     plt.savefig(f'gradient_bar_plot_{Gender_Athlete}.jpg', dpi=250, bbox_inches='tight')
     plt.show()
 
